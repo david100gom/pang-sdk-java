@@ -75,8 +75,10 @@ prever.period = 10
 #Naver Top application reserved properties
 navertop.devicename=naver_top
 ```
-PreverProperties API provides getter method to get your properties.
-
+PreverProperties API provides getter method to get your properties. Below code is to get the properties **navertop.devicename**.
+```bash
+final String devicename = (String) PreverProperties.getProperty("navertop.devicename");
+```
 ### Getting Started Samples
 We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that your want play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/prever-apps/" target="_blank">Prever applications</a>.
 
