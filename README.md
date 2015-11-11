@@ -61,7 +61,7 @@ public class PreverSDKExample {
 ```
 
 ### Properties(prever.properties)
-Prever SDK uses prever.properties in classpath. This file contains username and user key to authenticate Prever.io.
+Prever SDK uses **prever.properties** in classpath. This file contains username and user key to authenticate Prever.io.
 
 You can declare your own properties in that file. 
 ```bash
