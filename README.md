@@ -63,7 +63,7 @@ public class PreverSDKExample {
 ```
 
 ### Getting Started Samples
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that your want play with it. Please visit and install it then you will find out what Prever.io is[Prever-apps](https://github.com/prever-apps).
+We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that your want play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/prever-apps/>Prever applications</a>.
 
 ## Need some help?
 Please send us your issues and problems using our feedback in Prever.io.
