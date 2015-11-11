@@ -1,6 +1,6 @@
 #Prever.io SDK for Java
 
-This project provides a client library in Java that makes it easy to connect Prever.io web cloud services. For documentation please see the <a href="http://prever.io/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="(https://github.com/prever/prever-sdk-java/wiki/Prever-SDK-for-Java-Features" target="_blank">Prever SDK for Java Features Wiki page</a>.
+This project provides a client library in Java that makes it easy to connect Prever.io web cloud services. For documentation please see the <a href="http://prever.io/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/prever/prever-sdk-java/wiki/Prever-SDK-for-Java-Features" target="_blank">Prever SDK for Java Features Wiki page</a>.
 
 #Getting Started
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
