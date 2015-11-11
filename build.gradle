@@ -41,7 +41,6 @@ dependencies {
 	
 	testCompile 'junit:junit:4.11'
 	testCompile 'com.pi4j:pi4j-core:1.0'
-	testCompile 'org.jsoup:jsoup:1.8.2'
 }
 
 version = '1.0.0-SNAPSHOT'
