@@ -57,8 +57,8 @@ Prever SDK uses **prever.properties** in classpath. This file contains username 
 You can declare your own properties in that file. 
 ```bash
 #Prever.io reserved properties
-prever.username=josh
-prever.userkey=akm93k
+prever.username=your user name in prever.io
+prever.userkey=your user key in prever.io
 prever.url=http://192.168.0.3:9191
 # Search schedule period(seconds)
 prever.period = 10
