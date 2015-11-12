@@ -23,7 +23,7 @@ package io.prever.sdk.util;
 import java.util.Properties;
 
 public class PreverProperties {
-  private static final int _DEFAULT_PERIOD = 10;
+  private static final int _DEFAULT_PERIOD = 10000;
   private static Properties props;
   
   public static void setProperties(Properties props) {
@@ -48,7 +48,7 @@ public class PreverProperties {
     if(lPeriod <= 0) {
       return _DEFAULT_PERIOD; // ten seconds
     }
-    return lPeriod;
+    return lPeriod * 1000;
   }
 
   private static void checkNull() {
