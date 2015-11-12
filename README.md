@@ -2,7 +2,10 @@
 
 This project provides a client library in Java that makes it easy to connect Prever.io web cloud services. For documentation please see the <a href="http://prever.io/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/prever/prever-sdk-java/wiki/Prever-SDK-for-Java-Features" target="_blank">Prever SDK for Java Features Wiki page</a>.
 
-#Getting Started
+### Getting Started with Prever applications
+We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/prever-apps/" target="_blank">Prever applications</a>.
+
+#Prerequisites
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
 
 ##Via Git
@@ -70,8 +73,6 @@ PreverProperties API provides getter method to get your properties. Below code i
 ```bash
 final String devicename = (String) PreverProperties.getProperty("navertop.devicename");
 ```
-### Getting Started Samples
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that your want play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/prever-apps/" target="_blank">Prever applications</a>.
 
 ## Need some help?
 Please send us your issues and problems using our feedback in Prever.io.
