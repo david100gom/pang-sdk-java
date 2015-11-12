@@ -59,14 +59,14 @@ You can declare your own properties in that file.
 #Prever.io reserved properties
 prever.username=your user name in prever.io
 prever.userkey=your user key in prever.io
-prever.url=http://192.168.0.3:9191
+
 # Search schedule period(seconds)
 prever.period = 10
 
 #Naver Top application reserved properties
 navertop.devicename=naver_top
 ```
-PreverProperties API provides getter method to get your properties. Below code is to get the properties **navertop.devicename**.
+PreverProperties API provides getter method to get your properties. Below code is to get the properties 
 ```bash
 final String devicename = (String) PreverProperties.getProperty("navertop.devicename");
 ```
