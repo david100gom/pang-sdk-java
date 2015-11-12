@@ -30,12 +30,14 @@ import io.prever.sdk.http.AbstractPreverHttp;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.client.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 abstract class MqttDelegatedAbstractHttpClient extends AbstractPreverHttp {
   private static final Logger logger = LoggerFactory.getLogger(MqttDelegatedAbstractHttpClient.class);
 
+  protected HttpClient httpClient;
   protected Prever brokerClient;
   
   protected DataSharingCallback dataSharingCallback;

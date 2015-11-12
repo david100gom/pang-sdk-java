@@ -29,7 +29,10 @@ import io.prever.sdk.util.PreverProperties;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.http.HttpResponse;
@@ -47,7 +50,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractPreverHttp extends AbstractPrever {
   private static final Logger logger = LoggerFactory.getLogger(AbstractPreverHttp.class);
 
-  protected HttpClient httpClient;
+  protected Map<Long, HttpClient> httpClients = new HashMap<Long, HttpClient>();
   protected String url = "prever.io";
   protected String username;
   protected String userkey;
@@ -119,16 +122,16 @@ public abstract class AbstractPreverHttp extends AbstractPrever {
     logger.debug("Send data to server {}", fullurl);
     HttpResponse response = null;
     try {
-      if (httpClient == null) {
+      if (httpClients.get(Thread.currentThread().getId()) == null) {
         HttpParams myParams = new BasicHttpParams();
         HttpConnectionParams.setSoTimeout(myParams, 10000);
         HttpConnectionParams.setConnectionTimeout(myParams, 10000); // Timeout
         
-        httpClient = new DefaultHttpClient();
-        httpClient.getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);
+        httpClients.put(Thread.currentThread().getId(), new DefaultHttpClient());
+        httpClients.get(Thread.currentThread().getId()).getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);
       }
       
-      response = httpClient.execute(request);
+      response = httpClients.get(Thread.currentThread().getId()).execute(request);
       String result = EntityUtils.toString(response.getEntity(), "UTF-8");
       if (response.getStatusLine().getStatusCode() != 200) {
         logger.error("HTTP error: {}", result);
@@ -156,8 +159,11 @@ public abstract class AbstractPreverHttp extends AbstractPrever {
   public void disconnect() {
     logger.info("Closing connections");
     try {
-      if (httpClient != null) {
-        httpClient.getConnectionManager().shutdown();
+      if (httpClients.size() > 0) {
+        Iterator<Entry<Long, HttpClient>> iterator = httpClients.entrySet().iterator();
+        while(iterator.hasNext()) {
+          iterator.next().getValue().getConnectionManager().shutdown();
+        }
       }
     } catch (Exception e) {
       logger.error("Error", e);
