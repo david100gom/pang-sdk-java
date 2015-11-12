@@ -66,7 +66,7 @@ prever.period = 10
 #Naver Top application reserved properties
 navertop.devicename=naver_top
 ```
-PreverProperties API provides getter method to get your properties. Below code is to get the properties **navertop.devicename**.
+PreverProperties API provides getter method to get your properties. Below code is to get the properties 
 ```bash
 final String devicename = (String) PreverProperties.getProperty("navertop.devicename");
 ```
