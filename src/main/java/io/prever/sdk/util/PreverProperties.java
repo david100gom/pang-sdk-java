@@ -44,7 +44,7 @@ public class PreverProperties {
     if(period == null) {
       return _DEFAULT_PERIOD; // ten seconds
     }
-    long lPeriod = Long.valueOf(period);
+    long lPeriod = Long.valueOf(period.trim());
     if(lPeriod <= 0) {
       return _DEFAULT_PERIOD; // ten seconds
     }
