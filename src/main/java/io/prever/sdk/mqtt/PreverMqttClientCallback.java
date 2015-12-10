@@ -89,7 +89,9 @@ public class PreverMqttClientCallback implements MqttCallback {
     if (topics[0] != null) {
       topic = topics[0];
     }
-
+    if(topic == null) {
+      throw new IllegalArgumentException("topic is null");
+    }
     if (TopicUtils.isControlRequsetTopic(topic)) {
       key = TopicUtils.getControlKey(topic, userId);
       ControlCallback controlCallback = controlCallbackMap.get(key);
