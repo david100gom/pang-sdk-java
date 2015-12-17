@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.MqttTopics;
@@ -77,7 +77,7 @@ public class MqttClientDataSharingTests {
     final Queue<String> reciverDataQueue = new ConcurrentLinkedQueue<String>();
     CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    Pangdata receivingClient =
+    Pang receivingClient =
         new PDefaultMqttClient("derek", "userkey");
     MqttClient sendingClient = null;
 

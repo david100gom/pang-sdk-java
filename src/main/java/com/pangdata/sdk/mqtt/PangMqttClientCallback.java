@@ -32,7 +32,7 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.PangdataException;
+import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
@@ -166,6 +166,6 @@ public class PangMqttClientCallback implements MqttCallback {
 
   private void handleUnknownTopic(String topic) {
     logger.warn("data type : unknown, topic : {}", topic);
-    throw new PangdataException(new IllegalStateException("Illgal topic message arrived."));
+    throw new PangException(new IllegalStateException("Illgal topic message arrived."));
   }
 }

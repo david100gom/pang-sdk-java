@@ -8,13 +8,13 @@ import org.junit.Test;
 
 import com.pangdata.client.callback.StopConditionCallback;
 import com.pangdata.client.callback.TestInfiniteDataSendingCallback;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
 
 public class MqttClientStateTests {
 
-  private Pangdata client;
+  private Pang client;
   CountDownLatch latch;
 
   @Before

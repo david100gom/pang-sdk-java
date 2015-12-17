@@ -5,7 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.InfiniteDataSendingCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
@@ -13,7 +13,7 @@ import com.pangdata.sdk.util.JsonUtils;
 
 public class PangClientFailoverTests {
 
-  static private Pangdata client;
+  static private Pang client;
 
   static CountDownLatch latch = new CountDownLatch(1);
 

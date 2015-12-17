@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import com.pangdata.client.callback.StopConditionCallback;
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.mqtt.MqttTopics;
@@ -27,7 +27,7 @@ import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttClientDataSendingTests {
 
-  private Pangdata sendingDataClient;
+  private Pang sendingDataClient;
 
   private MqttClient reciveMqttClient;
 

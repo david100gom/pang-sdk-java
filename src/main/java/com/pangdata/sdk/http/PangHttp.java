@@ -33,18 +33,18 @@ import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 
-public class PangdataHttp extends AbstractHttp {
-  private static final Logger logger = LoggerFactory.getLogger(PangdataHttp.class);
+public class PangHttp extends AbstractHttp {
+  private static final Logger logger = LoggerFactory.getLogger(PangHttp.class);
 
-  public PangdataHttp() {
+  public PangHttp() {
     super();
   }
   
-  public PangdataHttp(String username, String userkey) {
+  public PangHttp(String username, String userkey) {
     this(username, userkey, null);
   }
 
-  public PangdataHttp(String username, String userkey, String uri) {
+  public PangHttp(String username, String userkey, String uri) {
     super(username, userkey, uri);
   }
 

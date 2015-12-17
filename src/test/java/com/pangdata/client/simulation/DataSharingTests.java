@@ -5,7 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
 
@@ -17,7 +17,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pangdata client =
+        Pang client =
             new PDefaultMqttClient("james", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1883");
@@ -49,7 +49,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pangdata client = new PDefaultMqttClient("john", "james-key-" + System.currentTimeMillis());
+        Pang client = new PDefaultMqttClient("john", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1884");
         } catch (Exception e1) {
@@ -78,7 +78,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pangdata client =
+        Pang client =
             new PDefaultMqttClient("james", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1884");

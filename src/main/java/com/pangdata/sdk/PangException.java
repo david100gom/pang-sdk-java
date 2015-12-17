@@ -21,15 +21,15 @@
 package com.pangdata.sdk;
 
 
-public class PangdataException extends RuntimeException {
+public class PangException extends RuntimeException {
 
   private static final long serialVersionUID = 1185911520195086924L;
 
-  public PangdataException(Throwable e) {
+  public PangException(Throwable e) {
     super(e);
   }
 
-  public PangdataException(String message) {
+  public PangException(String message) {
     super(new Throwable(message));
   }
 

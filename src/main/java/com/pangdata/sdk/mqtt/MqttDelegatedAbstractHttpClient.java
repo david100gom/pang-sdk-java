@@ -26,7 +26,7 @@ import org.apache.http.client.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.DataCallback;
@@ -38,7 +38,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   private static final Logger logger = LoggerFactory.getLogger(MqttDelegatedAbstractHttpClient.class);
 
   protected HttpClient httpClient;
-  protected Pangdata brokerClient;
+  protected Pang brokerClient;
   
   protected DataSharingCallback dataSharingCallback;
 

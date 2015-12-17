@@ -8,13 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
 
 public class SimpleDataSendingTests {
 
-  private Pangdata sendingDataClient;
+  private Pang sendingDataClient;
 
   Sensor sensor = new Sensor();
   

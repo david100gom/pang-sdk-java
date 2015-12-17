@@ -5,7 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.MqttFailoverHttpClient;
 
@@ -17,7 +17,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pangdata client =
+        Pang client =
             new MqttFailoverHttpClient("james", "james-key-" + System.currentTimeMillis(), null, new DataSharingCallback() {
               
               public void onSharedDataArrived(String sharedData) {
@@ -56,7 +56,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pangdata client = new MqttFailoverHttpClient("john", "james-key-" + System.currentTimeMillis(), null, new DataSharingCallback() {
+        Pang client = new MqttFailoverHttpClient("john", "james-key-" + System.currentTimeMillis(), null, new DataSharingCallback() {
           
           public void onSharedDataArrived(String sharedData) {
             logger.info("Shared data arrvied for james({})", sharedData);

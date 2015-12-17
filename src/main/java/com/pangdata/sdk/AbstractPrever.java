@@ -27,7 +27,7 @@ import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.timer.TimerDataSender;
 import com.pangdata.sdk.timer.TimerTask;
 
-public abstract class AbstractPrever implements Pangdata {
+public abstract class AbstractPrever implements Pang {
   private TimerDataSender timerDataSender;
   
   public AbstractPrever() {

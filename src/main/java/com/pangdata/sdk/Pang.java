@@ -30,7 +30,7 @@ import com.pangdata.sdk.callback.MultipleDataCallback;
 
 
 
-public interface Pangdata {
+public interface Pang {
 
   public void connect(String address) throws Exception;
 

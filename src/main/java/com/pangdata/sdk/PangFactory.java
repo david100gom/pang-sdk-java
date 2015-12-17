@@ -20,41 +20,41 @@
  */
 package com.pangdata.sdk;
 
-import com.pangdata.sdk.http.PangdataHttp;
+import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.mqtt.MqttFailoverHttpClient;
 import com.pangdata.sdk.mqtt.MqttReassignableHttpClient;
 
 
-public class PangdataFactory {
+public class PangFactory {
 
   private static final String uri = "http://pangdata.com";
   
-  public static Pangdata createHttpClient(String username, String userkey) throws Exception {
+  public static Pang createHttpClient(String username, String userkey) throws Exception {
     return createHttpClient(username, userkey, uri);
   }
   
-  public static Pangdata createHttpClient(String username, String userkey, String uri) throws Exception {
-    PangdataHttp client = new PangdataHttp(username, userkey, uri);
+  public static Pang createHttpClient(String username, String userkey, String uri) throws Exception {
+    PangHttp client = new PangHttp(username, userkey, uri);
     client.connect(uri);
     return client;
   }
   
-  public static Pangdata createReassignableMqttClient(String username, String userkey) throws Exception {
+  public static Pang createReassignableMqttClient(String username, String userkey) throws Exception {
     return createReassignableMqttClient(username, userkey, uri);
   }
   
-  public static Pangdata createReassignableMqttClient(String username, String userkey, String uri) throws Exception {
-    Pangdata client = new MqttReassignableHttpClient(username, userkey, uri);
+  public static Pang createReassignableMqttClient(String username, String userkey, String uri) throws Exception {
+    Pang client = new MqttReassignableHttpClient(username, userkey, uri);
     client.connect(uri);
     return client;
   }
   
-  public static Pangdata createFailoverMqttClient(String username, String userkey) throws Exception {
+  public static Pang createFailoverMqttClient(String username, String userkey) throws Exception {
     return createFailoverMqttClient(username, userkey, uri);
   }
   
-  public static Pangdata createFailoverMqttClient(String username, String userkey, String uri) throws Exception {
-    Pangdata client = new MqttFailoverHttpClient(username, userkey, uri);
+  public static Pang createFailoverMqttClient(String username, String userkey, String uri) throws Exception {
+    Pang client = new MqttFailoverHttpClient(username, userkey, uri);
     client.connect(uri);
     return client;
   }

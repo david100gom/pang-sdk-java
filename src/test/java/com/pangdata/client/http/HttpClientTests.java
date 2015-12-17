@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
-import com.pangdata.sdk.PangdataFactory;
+import com.pangdata.sdk.Pang;
+import com.pangdata.sdk.PangFactory;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.callback.SingleDataCallback;
 
@@ -18,7 +18,7 @@ public class HttpClientTests {
   
   @Test
   public void senddata() throws Exception {
-    Pangdata httpClient = PangdataFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
     
     httpClient.sendData("temperature", "12");
     
@@ -27,7 +27,7 @@ public class HttpClientTests {
   
   @Test
   public void sendMultipledata() throws Exception {
-    Pangdata httpClient = PangdataFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
     
     sensor.setHumidity((int) (Math.random() * 30 + 30));
     sensor.setTemperature((int) (Math.random() * 20 + 20));
@@ -42,7 +42,7 @@ public class HttpClientTests {
   public void sendByTimerTask() throws Exception {
     final Random r = new Random();
     
-    Pangdata httpClient = PangdataFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createHttpClient("josh", "abc2fk", "http://localhost:9191");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       
@@ -69,7 +69,7 @@ public class HttpClientTests {
   @Test
   public void sendMultipleDataByTimerTask() throws Exception {
     
-    Pangdata httpClient = PangdataFactory.createHttpClient("josh", "abc2fk");
+    Pang httpClient = PangFactory.createHttpClient("josh", "abc2fk");
     httpClient.connect("http://localhost:9191");
     
     httpClient.startTimerTask(new MultipleDataCallback() {     

@@ -8,14 +8,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.SingleDataCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
 
 public class MqttClientConnectionTests {
 
-  private Pangdata client;
+  private Pang client;
 
   CountDownLatch latch = new CountDownLatch(1);
   

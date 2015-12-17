@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.mqtt.MqttTopics;
@@ -28,7 +28,7 @@ public class MqttClientControlTests {
 
   private MqttClient sendingClient;
 
-  private Pangdata receivingClient;
+  private Pang receivingClient;
 
   Sensor sensor = new Sensor();
 

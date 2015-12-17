@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.SingleDataCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
@@ -21,7 +21,7 @@ public class DataPublisherTests {
 
   private static final String ADDR = "tcp://mini.prever.co.kr:1883";
 
-  private Pangdata client;
+  private Pang client;
 
   Sensor sensor = new Sensor();
 

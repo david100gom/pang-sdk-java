@@ -5,17 +5,17 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.pangdata.sdk.Pangdata;
-import com.pangdata.sdk.PangdataFactory;
+import com.pangdata.sdk.Pang;
+import com.pangdata.sdk.PangFactory;
 
 public class AnomalyData {
   static String lastValue = null;
 
   public static void main(String[] args) throws Exception {
 
-    final Pangdata httpClient =
+    final Pang httpClient =
 //        PreverClientFactory.createHttpClient("demo", "Fj8QBK", "http://192.168.56.101:9191");
-        PangdataFactory.createHttpClient("demo", "Fj8QBK", "http://192.168.0.4:9191");
+        PangFactory.createHttpClient("demo", "Fj8QBK", "http://192.168.0.4:9191");
     final Random generator = new Random();
     //2pi = 6.28....
     final double period = 1000;

@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.pangdata.sdk.Pangdata;
-import com.pangdata.sdk.PangdataFactory;
+import com.pangdata.sdk.Pang;
+import com.pangdata.sdk.PangFactory;
 
 public class PangDemoScenario1 extends PangPropertyLoder {
   static double value2 = 100; 
@@ -17,8 +17,8 @@ public class PangDemoScenario1 extends PangPropertyLoder {
     app.load("pang.properties");
     final Map<String, Number> dataMap = new HashMap<String, Number>();
 
-    final Pangdata httpClient =
-        PangdataFactory.createHttpClient(app.getProperty("username"), app.getProperty("userKey"), app.getProperty("serverUri", "http://prever.io"));
+    final Pang httpClient =
+        PangFactory.createHttpClient(app.getProperty("username"), app.getProperty("userKey"), app.getProperty("serverUri", "http://pangdata.com"));
 
 
     final Random generator = new Random();

@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 import com.pangdata.client.domain.Sensor;
-import com.pangdata.sdk.Pangdata;
-import com.pangdata.sdk.PangdataFactory;
+import com.pangdata.sdk.Pang;
+import com.pangdata.sdk.PangFactory;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.SingleDataCallback;
 
@@ -20,7 +20,7 @@ public class FailoverHttpClientTests {
   @Test
   public void senddata() throws Exception {
     final CountDownLatch latch = new CountDownLatch(1);
-    Pangdata httpClient = PangdataFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
     
     httpClient.setConnectionCallback(new ConnectionCallback() {
 
@@ -42,7 +42,7 @@ public class FailoverHttpClientTests {
   
   @Test
   public void sendMultipledata() throws Exception {
-    Pangdata httpClient = PangdataFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
 //    PreverClient httpClient = PreverClientFactory.createReassignableMqttClient("demo", "nGVR-y", "http://192.168.0.21");
     
     sensor.setHumidity((int) (Math.random() * 30 + 30));
@@ -58,7 +58,7 @@ public class FailoverHttpClientTests {
   public void sendByTimerTask() throws Exception {
     final Random r = new Random();
     
-    Pangdata httpClient = PangdataFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       
@@ -85,7 +85,7 @@ public class FailoverHttpClientTests {
   public void sendByTimerTaskUsingFailover() throws Exception {
     final Random r = new Random();
     
-    Pangdata httpClient = PangdataFactory.createFailoverMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createFailoverMqttClient("josh", "abc2fk", "http://localhost:9191");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       

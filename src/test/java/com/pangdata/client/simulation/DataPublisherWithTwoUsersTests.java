@@ -4,14 +4,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import com.pangdata.client.callback.TestInfiniteDataSendingCallback;
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.mqtt.PDefaultMqttClient;
 
 public class DataPublisherWithTwoUsersTests {
 
-  static private Pangdata client;
-  static private Pangdata client2;
+  static private Pang client;
+  static private Pang client2;
 
   static CountDownLatch latch = new CountDownLatch(1);
   static CountDownLatch latch2 = new CountDownLatch(1);

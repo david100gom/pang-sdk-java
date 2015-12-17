@@ -40,7 +40,7 @@ public class PangProperties {
    */
   public static long getPeriod() {
     checkNull();
-    String period = (String) props.get("prever.period");
+    String period = (String) props.get("pang.period");
     if(period == null) {
       return _DEFAULT_PERIOD; // ten seconds
     }
@@ -53,7 +53,7 @@ public class PangProperties {
 
   private static void checkNull() {
     if(props == null) {
-      throw new IllegalStateException("Properties object must not be null. This class must be used after initialized the class PreverHttp.");
+      throw new IllegalStateException("Properties object must not be null. This class must be used after initialized the class PangdataHttp.");
     }
   }
 

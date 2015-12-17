@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.AbstractPrever;
-import com.pangdata.sdk.PangdataException;
+import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
@@ -75,15 +75,15 @@ public class PDefaultMqttClient extends AbstractPrever{
 
   private PangMqttClientCallback mqttCallback;
 
-  public PDefaultMqttClient(String username, String userkey) throws PangdataException {
+  public PDefaultMqttClient(String username, String userkey) throws PangException {
     this(username, userkey, "default", Long.toString(System.currentTimeMillis()));
   }
   
-  public PDefaultMqttClient(String username, String userkey, String threadName, String clientId) throws PangdataException {
+  public PDefaultMqttClient(String username, String userkey, String threadName, String clientId) throws PangException {
     this(username, userkey, new BrokerFailoverConnector(threadName, clientId));
   }
   
-  public PDefaultMqttClient(String username, String userkey, BrokerConnector failoverConnector) throws PangdataException {
+  public PDefaultMqttClient(String username, String userkey, BrokerConnector failoverConnector) throws PangException {
     super();
     this.failoverConnector = failoverConnector;
     this.username = username;
@@ -127,7 +127,7 @@ public class PDefaultMqttClient extends AbstractPrever{
         try {
           failoverConnector.publish(topic, message);
         } catch (Exception e) {
-          throw new PangdataException(e);
+          throw new PangException(e);
         }
       }
     });
@@ -147,7 +147,7 @@ public class PDefaultMqttClient extends AbstractPrever{
     });
 	}
 
-  public void connect(String address) throws PangdataException {
+  public void connect(String address) throws PangException {
     createConnector(address);
     logger.info(String.format("Client(%s) is connecting to Broker(%s)", failoverConnector.getClientId(), serverURI));
 
@@ -268,7 +268,7 @@ public class PDefaultMqttClient extends AbstractPrever{
       }
     } catch (MqttException e) {
       logger.error("subscribeSharingData MqttException", e);
-      throw new PangdataException(e);
+      throw new PangException(e);
     }
   }
 
@@ -279,7 +279,7 @@ public class PDefaultMqttClient extends AbstractPrever{
       logger.info("Unsubscribed a topic(topic: {})", topic);
     } catch (MqttException e) {
       logger.error("subscribeSharingData MqttException", e);
-      throw new PangdataException(e);
+      throw new PangException(e);
     }
   }
 

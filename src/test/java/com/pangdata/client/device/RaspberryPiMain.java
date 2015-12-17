@@ -2,7 +2,7 @@ package com.pangdata.client.device;
 
 import java.util.concurrent.TimeUnit;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataCallback;
 import com.pangdata.sdk.mqtt.MqttFailoverHttpClient;
 import com.pi4j.io.gpio.GpioController;
@@ -40,7 +40,7 @@ public class RaspberryPiMain {
 
 	private static boolean go = true;
 
-	private static Pangdata client;
+	private static Pang client;
 
 	public static void main(String[] args) throws Exception {
 		// 1. set userId, userKey, dataKey

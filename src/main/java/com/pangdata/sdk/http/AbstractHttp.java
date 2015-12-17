@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.AbstractPrever;
-import com.pangdata.sdk.PangdataException;
+import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
@@ -68,23 +68,23 @@ public abstract class AbstractHttp extends AbstractPrever {
       is.close();
       
       PangProperties.setProperties(props);
-      String username = (String) props.get("prever.username");
+      String username = (String) props.get("pang.username");
       if(username != null && username.trim().length() > 0) {
         this.username = username;
       } else {
-        throw new PangdataException(new IllegalStateException("prever.username not found in prever.properties"));
+        throw new PangException(new IllegalStateException("pang.username not found in pang.properties"));
       }
-      String userkey = (String) props.get("prever.userkey");
+      String userkey = (String) props.get("pang.userkey");
       if(userkey != null && userkey.trim().length() > 0) {
         this.userkey = userkey;
       } else {
-        throw new PangdataException(new IllegalStateException("prever.userkey not found in prever.properties"));
+        throw new PangException(new IllegalStateException("pang.userkey not found in pang.properties"));
       }
-      String url = (String) props.get("prever.url");
+      String url = (String) props.get("pang.url");
       if(url != null && url.trim().length() > 0) {
         this.url = url;
       } else {
-        String strssl = (String) props.get("prever.ssl");
+        String strssl = (String) props.get("pang.ssl");
         boolean ssl = Boolean.valueOf(strssl);
         if(ssl) {
           this.url = "https://"+this.url;
@@ -94,7 +94,7 @@ public abstract class AbstractHttp extends AbstractPrever {
       }
       
     } catch (IOException e) {
-      throw new PangdataException(new FileNotFoundException("prever.properties"));
+      throw new PangException(new FileNotFoundException("pang.properties"));
     }
   }
   
@@ -152,7 +152,7 @@ public abstract class AbstractHttp extends AbstractPrever {
       return true;
     } catch (Exception e) {
 //      CUtils.failed(logger, "Sending data has an error", e);
-      throw new PangdataException(e);
+      throw new PangException(e);
     }
   }
 
