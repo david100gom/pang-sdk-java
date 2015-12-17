@@ -19,7 +19,7 @@ cd ./pang-sdk-java/
 ```bash
 package com.pangdata.apps.monitor;
 
-import com.pangdata.sdk.Pangdata;
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.util.PangProperties;
