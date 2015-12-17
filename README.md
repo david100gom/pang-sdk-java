@@ -12,7 +12,7 @@ You will need Java **v1.5+**. If you would like to develop on the SDK, you will 
 If using package management is not your thing, then you can grab the sdk directly from source using git. To get the source code of the SDK via git just type:
 ```bash
 git clone https://github.com/pangdata/pang-sdk-java.git
-cd ./pang-sdk-for-java/
+cd ./pang-sdk-java/
 ```
 
 ## Example
