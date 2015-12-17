@@ -57,7 +57,7 @@ public abstract class AbstractHttp extends AbstractPrever {
 
   protected String fullurl;
   
-  public AbstractHttp() {
+  public AbstractHttp(boolean mustinvoke) {
     Properties props = new Properties();
     try {
       InputStream is = this.getClass().getResourceAsStream("/pang.properties");
@@ -92,8 +92,12 @@ public abstract class AbstractHttp extends AbstractPrever {
           this.url = "http://"+this.url;
         }
       }
-      
+    
+    } catch (PangException e) {
+      logger.error("Property error", e);
+      throw e;
     } catch (IOException e) {
+      logger.error("Could not find a pang.properties in classpath", e);
       throw new PangException(new FileNotFoundException("pang.properties"));
     }
   }

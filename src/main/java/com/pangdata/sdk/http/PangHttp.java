@@ -25,8 +25,6 @@ import java.io.UnsupportedEncodingException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
@@ -34,10 +32,9 @@ import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class PangHttp extends AbstractHttp {
-  private static final Logger logger = LoggerFactory.getLogger(PangHttp.class);
 
   public PangHttp() {
-    super();
+    super(true);
   }
   
   public PangHttp(String username, String userkey) {
