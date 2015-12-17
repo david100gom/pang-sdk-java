@@ -51,7 +51,7 @@ public abstract class AbstractHttp extends AbstractPrever {
   private static final Logger logger = LoggerFactory.getLogger(AbstractHttp.class);
 
   protected Map<Long, HttpClient> httpClients = new HashMap<Long, HttpClient>();
-  protected String url = "pangdata.io";
+  protected String url = "pangdata.com";
   protected String username;
   protected String userkey;
 
