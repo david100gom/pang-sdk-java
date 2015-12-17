@@ -2,8 +2,8 @@
 
 This project provides a client library in Java that makes it easy to connect Pang Data web cloud services. For documentation please see the <a href="http://pangdata.com/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 
-### Getting Started with Prever applications
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/pang-apps/" target="_blank">Prever applications</a>.
+### Getting Started with Pang Data applications
+We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
 
 #Prerequisites
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
@@ -54,7 +54,7 @@ public class PangSDKExample {
 ```
 
 ### Properties(pang.properties)
-Prever SDK uses **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
+Pang Data SDK uses **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
 
 You can declare your own properties in that file. 
 ```bash
