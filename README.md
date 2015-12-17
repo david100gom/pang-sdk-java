@@ -15,7 +15,7 @@ git clone https://github.com/pangdata/pang-sdk-java.git
 cd ./pang-sdk-java/
 ```
 
-## Example
+## Example by Pang's task timer
 ```bash
 package com.pangdata.apps.monitor;
 
