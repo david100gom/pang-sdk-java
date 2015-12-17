@@ -3,7 +3,7 @@
 This project provides a client library in Java that makes it easy to connect Prever.io web cloud services. For documentation please see the <a href="http://prever.io/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/prever/prever-sdk-java/wiki/Prever-SDK-for-Java-Features" target="_blank">Prever SDK for Java Features Wiki page</a>.
 
 ### Getting Started with Prever applications
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/prever-apps/" target="_blank">Prever applications</a>.
+We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Prever.io is at <a href="https://github.com/pang-apps/" target="_blank">Prever applications</a>.
 
 #Prerequisites
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
@@ -11,8 +11,8 @@ You will need Java **v1.5+**. If you would like to develop on the SDK, you will 
 ##Via Git
 If using package management is not your thing, then you can grab the sdk directly from source using git. To get the source code of the SDK via git just type:
 ```bash
-git clone https://github.com/prever/prever-sdk-java.git
-cd ./prever-sdk-for-java/
+git clone https://github.com/pangdata/pang-sdk-java.git
+cd ./pang-sdk-for-java/
 ```
 
 ## Example
