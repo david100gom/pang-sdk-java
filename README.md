@@ -8,6 +8,52 @@ We have a collection of getting started samples which will show you how to devel
 #Prerequisites
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
 
+# Get SDK
+### Using Maven
+```
+...
+<repositories>
+    ...
+    <repository>
+        <id>pang-data-repo</id>
+        <name>pang-data-repo</name>
+        <url>http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/</url>
+    </repository>
+</repositories>
+...
+<dependencies>
+    ...
+    <dependency>
+        <groupId>com.pangdata</groupId>
+        <artifactId>pang-sdk-java</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+    ...
+}
+```
+### Using Gradle
+```
+...
+apply plugin: 'maven'
+...
+repositories {
+    ...
+    maven{
+        url "http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/"
+    }
+    ...
+}
+dependencies {
+    ...
+    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-SNAPSHOT'
+    ...
+}
+```
+
+### Download jar & code
+https://github.com/pangdata/pang-sdk-java/releases/latest
+
 ##Via Git
 If using package management is not your thing, then you can grab the sdk directly from source using git. To get the source code of the SDK via git just type:
 ```bash
