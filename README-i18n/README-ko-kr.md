@@ -1,11 +1,6 @@
 #Pang Data SDK for Java
 
-This project provides a client library in Java that makes it easy to connect Pang Data web cloud services. For documentation please see the <a href="http://pangdata.com/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
-
-# Translations
-
-- [Korean](https://github.com/pangdata/pang-sdk-java/blob/master/README-i18n/README-ko-kr.md)
-- [Chinese](https://github.com/pangdata/pang-sdk-java/blob/master/README-i18n/README-zh-cn.md)
+이 프로젝트는 팡 데이터 웹 클라우드 서비스를 쉽게 연결할수 있는 자바 클라이언트 라이브러리를 제공합니다. For documentation please see the <a href="http://pangdata.com/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 
 ### Getting Started with Pang Data applications
 We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
