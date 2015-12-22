@@ -14,7 +14,7 @@ This project provides a client library in Java that makes it easy to connect Pan
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
 
 ## Step 1 : Get SDK
-### Using Maven
+#### Using Maven
 If you want to include Pang sdk to your project, add your **pom.xml** as follows:
 ```
 ...
@@ -38,7 +38,7 @@ If you want to include Pang sdk to your project, add your **pom.xml** as follows
     ...
 }
 ```
-### Using Gradle
+#### Using Gradle
 If you want to include Pang sdk to your project, add your **build.gradle** as follows:
 ```
 ...
@@ -57,7 +57,7 @@ dependencies {
     ...
 }
 ```
-### Using Git
+#### Using Git
 If using package management is not your thing, then you can grab the sdk directly from source using git. To get the source code of the SDK via git just type:
 ```bash
 git clone https://github.com/pangdata/pang-sdk-java.git
@@ -67,7 +67,7 @@ cd ./pang-sdk-java/
 If you want to download this sdk source code, go to the below link and download the zip file.
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
 ## Step 2 : Write Example
-### Example 1 : Sending random number using Pang's task timer
+#### Example 1 : Sending random number using Pang's task timer
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
@@ -121,7 +121,7 @@ public class PangTaskTimerExample {
 }
 ```
 
-### Example 2 : Sending random number Using JDK Timer class
+#### Example 2 : Sending random number Using JDK Timer class
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
@@ -178,7 +178,7 @@ Please sign up pangdata.com through the link below.
 <a href="http://pangdata.com/pa/signUp" target="_blank">go to signup</a>
 
 ## Step 4 : Setup
-### Properties(pang.properties)
+#### Properties(pang.properties)
 Pang Data SDK requires **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
 
 You can declare your own properties in that file. 
@@ -194,14 +194,18 @@ PangProperties API provides getter method to get your properties. Below code is 
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
+#### Run example
+TBD
+
 ## Step 5 : See your data
 
 Finally, it's time to see our example data with real-time dashboard of pangdata.com.
-Log in pangdata.com.
-
+#### Log in pangdata.com
 <a href="http://pangdata.com/pa/login" target="_blank">go to login</a>
 
-Select the "Devices" menu on the left side menu list. And click the green badge with the numbers on the top right of the screen.
+#### Register Device
+
+After login, you can see The overview. The overview shows the overall status of your account. click the "Total" count in "Unregistered Device".
 This screen is a new device list. You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
 Pangdata automatically detect the data sent by the Pangdata client(example). 
 
@@ -209,11 +213,13 @@ Click the "+ button" to the right of the "randomInteger" in the list. "New devic
 Check "do you wnat to add a widget?" and press "OK" button in the bottom right corner.
 "randomInteger" is registered to the device of Pangdata.
 
+#### Create Widget
 Immediately the "Add a Widget" window opens.
 Enter "randIntWidget" in the title input. To create a widget, you have to select a dashboard. Click and select "select dashboard" you want to add a widget.
 First-time users will not have a dashboard. To create a new dashboard, input "samples" in "select dashboard" and click the + button on right.
 Finally click "OK" button. You can see dashboard named "samples" and widget named "randIntWidget".
 
+#### See real-time update chart
 let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If "pang.period" in "pang.properties" is set to 10)
 You can also register another data(randomFloat, randomString, randomBooean) to device and widget with the same steps.
 Pangdata provides a variety of widget type in addition to the line chart. Let's try another type widget.
