@@ -1,4 +1,4 @@
-#Pang Data SDK for Java
+# Pang Data SDK for Java
 
 This project provides a client library in Java that makes it easy to connect Pang Data web cloud services. For documentation please see the <a href="http://pangdata.com/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 
@@ -7,15 +7,13 @@ This project provides a client library in Java that makes it easy to connect Pan
 - [Korean](https://github.com/pangdata/pang-sdk-java/blob/master/README-i18n/README-ko-kr.md)
 - [Chinese](https://github.com/pangdata/pang-sdk-java/blob/master/README-i18n/README-zh-cn.md)
 
-### Getting Started with Pang Data applications
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
 
 # Getting Start SDK
 
-# Step 0 : Check prerequisites
+## Step 0 : Check prerequisites
 You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
 
-# Step 1 : Get SDK
+## Step 1 : Get SDK
 ### Using Maven
 If you want to include Pang sdk to your project, add your **pom.xml** as follows:
 ```
@@ -69,8 +67,8 @@ cd ./pang-sdk-java/
 If you want to download this sdk source code, go to the below link and download the zip file.
 https://github.com/pangdata/pang-sdk-java/releases/latest
 
-# Step 2 : Write Example
-## Example 1 : Sending random number using Pang's task timer
+## Step 2 : Write Example
+### Example 1 : Sending random number using Pang's task timer
 src link : https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/PangTaskTimerExample.java
 ```java
 package com.pangdata.client.example;
@@ -124,7 +122,7 @@ public class PangTaskTimerExample {
 }
 ```
 
-## Example 2 : Sending random number Using JDK Timer class
+### Example 2 : Sending random number Using JDK Timer class
 src link : https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/JavaUtilTimerExample.java
 ```java
 package com.pangdata.client.example;
@@ -174,13 +172,13 @@ public class JavaUtilTimerExample {
 }
 ```
 
-# Step 3 : Sign up pangdata.com account
+## Step 3 : Sign up pangdata.com account
 For running example, you need the account and user key of pangdata.com.
 Please sign up pangdata.com through the link below.
 
 http://pangdata.com/pa/signUp
 
-# Step 4 : Setup
+## Step 4 : Setup
 ### Properties(pang.properties)
 Pang Data SDK requires **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
 
@@ -197,9 +195,13 @@ PangProperties API provides getter method to get your properties. Below code is 
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
-# Step 5 : See your data
+## Step 5 : See your data
 
-## Need some help?
+## Next Step : Do you need another Pang Data applications?
+We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
+
+
+# Need some help?
 Please send us your issues and problems using our feedback in Pangdata.com.
 
 #Contribute Code
