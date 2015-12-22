@@ -65,11 +65,10 @@ cd ./pang-sdk-java/
 ```
 ### Download jar & code
 If you want to download this sdk source code, go to the below link and download the zip file.
-https://github.com/pangdata/pang-sdk-java/releases/latest
-
+<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
 ## Step 2 : Write Example
 ### Example 1 : Sending random number using Pang's task timer
-src link : https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/PangTaskTimerExample.java
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
 
@@ -123,7 +122,7 @@ public class PangTaskTimerExample {
 ```
 
 ### Example 2 : Sending random number Using JDK Timer class
-src link : https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/JavaUtilTimerExample.java
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
 
@@ -176,7 +175,7 @@ public class JavaUtilTimerExample {
 For running example, you need the account and user key of pangdata.com.
 Please sign up pangdata.com through the link below.
 
-http://pangdata.com/pa/signUp
+<a href="http://pangdata.com/pa/signUp" target="_blank">go to signup</a>
 
 ## Step 4 : Setup
 ### Properties(pang.properties)
@@ -196,6 +195,28 @@ PangProperties API provides getter method to get your properties. Below code is 
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
 ## Step 5 : See your data
+
+Finally, it's time to see our example data with real-time dashboard of pangdata.com.
+Log in pangdata.com.
+
+<a href="http://pangdata.com/pa/login" target="_blank">go to login</a>
+
+Select the "Devices" menu on the left side menu list. And click the green badge with the numbers on the top right of the screen.
+This screen is a new device list. You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
+Pangdata automatically detect the data sent by the Pangdata client(example). 
+
+Click the "+ button" to the right of the "randomInteger" in the list. "New device" window opens.
+Check "do you wnat to add a widget?" and press "OK" button in the bottom right corner.
+"randomInteger" is registered to the device of Pangdata.
+
+Immediately the "Add a Widget" window opens.
+Enter "randIntWidget" in the title input. To create a widget, you have to select a dashboard. Click and select "select dashboard" you want to add a widget.
+First-time users will not have a dashboard. To create a new dashboard, input "samples" in "select dashboard" and click the + button on right.
+Finally click "OK" button. You can see dashboard named "samples" and widget named "randIntWidget".
+
+let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If "pang.period" in "pang.properties" is set to 10)
+You can also register another data(randomFloat, randomString, randomBooean) to device and widget with the same steps.
+Pangdata provides a variety of widget type in addition to the line chart. Let's try another type widget.
 
 ## Next Step : Do you need another Pang Data applications?
 We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
