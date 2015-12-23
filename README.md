@@ -179,7 +179,7 @@ Please sign up pangdata.com through the link below.
 
 ## Step 4 : Configuration & Run
 Let's run pang example. We provides a sample application in the form of an executable.
-Download **java-sdk-example.zip/tar** via below link.
+Download **pang-sdk-example.zip/tar** via below link.
 
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">download link</a>
 
