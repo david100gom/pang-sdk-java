@@ -232,15 +232,15 @@ After login, you can see The overview. The overview shows the overall status of 
 This screen is a new device list. You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
 Pangdata automatically detect the data sent by the Pangdata client(example). 
 
-Click the **+ button** to the right of the **randomInteger** in the list. "New device" window opens.
-Check "do you wnat to add a widget?" and press **OK button** in the bottom right corner.
-**randomInteger** is registered to the device of Pangdata.
+Click the **+ button** to the right of the **"randomInteger"** in the list. **New device** window opens.
+Check **do you wnat to add a widget?** and press **OK button** in the bottom right corner.
+**"randomInteger"** is registered to the device of Pangdata.
 
 #### Create Widget
 Immediately the **Add a Widget** window opens.
-Enter **randIntWidget** in the title input. To create a widget, you have to select a dashboard. Click and select **select dashboard** you want to add a widget.
-First-time users will not have a dashboard. To create a new dashboard, input **samples** in **select dashboard** and click the + button on right.
-Finally click "OK" button. You can see dashboard named **samples** and widget named **randIntWidget**.
+Enter **"randIntWidget"** in the title input. To create a widget, you have to select a dashboard. Click and select **select dashboard** you want to add a widget.
+First-time users will not have a dashboard. To create a new dashboard, input **"samples"** in **select dashboard** and click the + button on right.
+Finally click "OK" button. You can see dashboard named **"samples"** and widget named **"randIntWidget"**.
 
 #### See real-time update chart
 let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If **pang.period** is set to 10 in **pang.properties**)
