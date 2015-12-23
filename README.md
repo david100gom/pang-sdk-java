@@ -179,7 +179,7 @@ Please sign up pangdata.com through the link below.
 
 ## Step 4 : Configuration & Run
 Let's run pang example. We provides a sample application in the form of an executable.
-Download **pang-sdk-example.zip/tar** via below link.
+Download **pang-sdk-java.zip/pang-sdk-java.tar** via below link.
 
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">download link</a>
 
@@ -246,6 +246,9 @@ Finally click "OK" button. You can see dashboard named **"samples"** and widget 
 let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If **pang.period** is set to 10 in **pang.properties**)
 You can also register another data(randomFloat, randomString, randomBooean) to device and widget with the same steps.
 Pangdata provides a variety of widget type in addition to the line chart. Let's try another type widget.
+
+#### Screen Shot
+![dashboard](https://cloud.githubusercontent.com/assets/6437353/11971225/02a7cf64-a97d-11e5-962c-cbf8b116663d.JPG)
 
 ## Next Step : Do you need another Pang Data applications?
 We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
