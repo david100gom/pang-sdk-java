@@ -246,9 +246,13 @@ Finally click "OK" button. You can see dashboard named **"samples"** and widget 
 let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If **pang.period** is set to 10 in **pang.properties**)
 You can also register another data(randomFloat, randomString, randomBooean) to device and widget with the same steps.
 Pangdata provides a variety of widget type in addition to the line chart. Let's try another type widget.
-
-#### Screen Shot
 ![dashboard](https://cloud.githubusercontent.com/assets/6437353/11971225/02a7cf64-a97d-11e5-962c-cbf8b116663d.JPG)
+
+## Screen Shots
+![dashboard_screenshot](https://cloud.githubusercontent.com/assets/6437353/11971398/817053b8-a980-11e5-91b1-38f62e745ed3.JPG)
+![device_screenshot](https://cloud.githubusercontent.com/assets/6437353/11971399/81706c4a-a980-11e5-9ec1-3fe3e6715df1.JPG)
+![analytics_screenshot](https://cloud.githubusercontent.com/assets/6437353/11971400/8172f0b4-a980-11e5-95b5-2f3012bc6326.JPG)
+
 
 ## Next Step : Do you need another Pang Data applications?
 We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
