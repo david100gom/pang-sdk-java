@@ -177,11 +177,19 @@ Please sign up pangdata.com through the link below.
 
 <a href="http://pangdata.com/pa/signUp" target="_blank">go to signup</a>
 
-## Step 4 : Setup
-#### Properties(pang.properties)
-Pang Data SDK requires **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
+## Step 4 : Configuration & Run
+Let's run pang example. We provides a sample application in the form of an executable.
+Download **java-sdk-example.zip/tar** via below link.
 
-You can declare your own properties in that file. 
+<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">download link</a>
+
+Unzip this file, config pang.properties and run this example. 
+#### Config **pang.properties** file
+Pang Data SDK requires **pang.properties** in classpath. This file contains username and user key to authenticate Pangdata.com.
+###### How to find your user key.
+1. login pangdata.com
+2. go to Settings > Profile
+3. copy user key to paste on 'pang.userkey'
 ```
 #Pang Data reserved properties
 pang.username=[[your user name in pangdata.com]]
@@ -190,12 +198,27 @@ pang.userkey=[[your user key in pangdata.com]]
 # Search schedule period(seconds)
 pang.period = 10
 ```
+You can declare your own properties in that file.
 PangProperties API provides getter method to get your properties. Below code is to get the properties 
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
-#### Run example
-TBD
+#### Running example
+Run the following command in this example directory.
+###### windows
+```
+pang.bat
+```
+###### linux
+```bash
+./pang.sh
+```
+This example application is running successfully if following log is written.
+```log
+10:54:48.991 [main] TimerDataSender is started.
+10:54:49.205 [pool-1-thread-1] Send data to server http://pangdata.com/api/data/put/XbuDm0/example
+10:54:49.678 [pool-1-thread-1] Response: {"Data":"{\"randomInteger\":71,\"randomBoolean\":false,\"randomString\":\"GOOD\",\"randomFloat\":62.508314100247794}","Message":"Ok!","Success":true}
+```
 
 ## Step 5 : See your data
 
