@@ -51,7 +51,7 @@ dependencies {
     ...
 }
 ```
-#### Using Git
+#### git 을 이용
 패키지 관리를 사용하지 않는 경우에는 git을 통해 직접 소스를 받는 것이 가능합니다. 
 아래와 같이 git 명령을 통해 소스를 받으세요.
 ```bash
@@ -60,10 +60,10 @@ cd ./pang-sdk-java/
 ```
 ### Download jar & code
 SDK 소스 코드를 직접 다운로드하고 싶다면 아래 링크로 이동하시고 zip/tar 파일을 다운로드 받으세요.
-If you want to download this sdk source code, go to the below link and download the zip file.
-<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
+
+<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">최신 버전으로 다운로드</a>
 ## Step 2 : Write Example
-#### Example 1 : Pang task timer를 이용한 렌덤 데이터 전송 예제
+#### Example 1 : Pang task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
@@ -117,7 +117,7 @@ public class PangTaskTimerExample {
 }
 ```
 
-#### Example 2 : JDK task timer를 이용한 렌덤 데이터 전송 예제
+#### Example 2 : JDK task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
@@ -171,7 +171,7 @@ public class JavaUtilTimerExample {
 예제를 실행하기 위해서는 pangdata.com의 계정과 유저키가 필요합니다. 
 아래 링크를 통해 pangdata.com 에 가입하세요.
 
-<a href="http://pangdata.com/pa/signUp" target="_blank">go to signup</a>
+<a href="http://pangdata.com/pa/signUp" target="_blank">가입하러 가기</a>
 
 ## Step 4 : Configuration & Run
 위의 예제를 실행시켜 봅시다. 우리는 위의 예제를 실행가능한 형태로 제공하고 있습니다.
@@ -195,7 +195,7 @@ pang.userkey=[[your user key in pangdata.com]]
 pang.period = 10
 ```
 당신은 자신이 고유한 property를 이 파일에 설정할 수 있습니다.
-PangProperties API에 당신의 property를 읽어올 수 있는 getter메소드가 있습니다. 아래 코드를 참조하세요.
+PangProperties API에 당신의 property를 읽어올 수 있는 getter 메소드가 있습니다. 아래 코드를 참고하세요.
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
@@ -209,7 +209,7 @@ pang.bat
 ```bash
 ./pang.sh
 ```
-만약 로그가 아래와 같이 보인다면 예제가 성공적으로 작동하는 것입니다.
+만약 로그가 아래와 같이 출력된다면 성공적으로 작동하는 것입니다.
 ```log
 10:54:48.991 [main] TimerDataSender is started.
 10:54:49.205 [pool-1-thread-1] Send data to server http://pangdata.com/api/data/put/XbuDm0/example
@@ -246,9 +246,9 @@ Immediately the **Add a Widget** window opens. **title**항목에 **"Line chart"
 ![analytics_screenshot](https://raw.githubusercontent.com/pangdata/pang-sdk-java/master/screenshots/analytics.JPG)
 
 ## Next Step : Do you need another Pang Data applications?
-팡 데이터에는 
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
+우리는 당신의 IoT디바이스나 어플리케이션에서 어떻게 개발해야 하는지 예제가 되는 어플리케이션 모음을 제공합니다. 아래 링크를 방문하고 어플리케이션을 설치하여 pangdata.com 에서 확인해보세요.
 
+<a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
 
 # Need some help?
 당신의 문의사항이나 문제점이 있을 경우에 Pangdata.com 의 피드백으로 보내주세요.
