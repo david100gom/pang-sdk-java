@@ -31,7 +31,7 @@ import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.util.PangProperties;
 
 public class JavaUtilTimerExample {
-  private static Random random = new Random();;
+  private static Random random = new Random();
   private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {

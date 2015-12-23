@@ -1,1 +1,1 @@
-java -cp ./libs/*;./conf com.example.YourApplication
+java -cp ./libs/*;./conf com.pangdata.client.example.PangTaskTimerExample

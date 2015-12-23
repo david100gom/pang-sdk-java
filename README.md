@@ -68,7 +68,7 @@ If you want to download this sdk source code, go to the below link and download 
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
 ## Step 2 : Write Example
 #### Example 1 : Sending random number using Pang's task timer
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
 
@@ -83,7 +83,7 @@ import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.util.PangProperties;
 
 public class PangTaskTimerExample {
-  private static Random random = new Random();;
+  private static Random random = new Random();
   private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {
@@ -122,7 +122,7 @@ public class PangTaskTimerExample {
 ```
 
 #### Example 2 : Sending random number Using JDK Timer class
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/examples/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package com.pangdata.client.example;
 
@@ -137,7 +137,7 @@ import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.util.PangProperties;
 
 public class JavaUtilTimerExample {
-  private static Random random = new Random();;
+  private static Random random = new Random();
   private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {

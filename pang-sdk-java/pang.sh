@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-nohup java -cp ./libs/*:./conf com.example.YourApplication > /dev/null 2>&1&
+nohup java -cp ./libs/*:./conf com.pangdata.client.example.PangTaskTimerExample > /dev/null 2>&1&
