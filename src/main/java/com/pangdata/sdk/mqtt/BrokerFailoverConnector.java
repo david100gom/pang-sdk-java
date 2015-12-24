@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
@@ -35,10 +36,20 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
 
   protected List<SubscriberListener> subscribeListeners = new ArrayList<SubscriberListener>();
 
+  private String username;
+
+  private String passwd;
+
   public BrokerFailoverConnector(String threadName, String clientId) {
+    this(threadName, null, null, clientId);
+  }
+  
+  public BrokerFailoverConnector(String threadName, String username, String passwd, String clientId) {
     super(threadName + "-fo-conn");
     setDaemon(true);
     this.clientId = clientId;
+    this.username = username;
+    this.passwd = passwd;
   }
 
   private void init(String addresses) {
@@ -83,7 +94,14 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
       try {
         logger.info("Trying to connect({}@{})",
             clients[active].getClientId(), clients[active].getServerURI());
-        clients[active].connect();
+        if(username != null && passwd != null) {
+          MqttConnectOptions opt = new MqttConnectOptions();
+          opt.setUserName(username);
+          opt.setPassword(passwd.toCharArray());
+          clients[active].connect(opt);
+        } else {
+          clients[active].connect();
+        }
         logger.info("Connected to broker({}@{})",
             clients[active].getClientId(), clients[active].getServerURI());
         subscribe();
