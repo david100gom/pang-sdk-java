@@ -35,7 +35,7 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.AbstractPrever;
+import com.pangdata.sdk.AbstractPang;
 import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
@@ -43,7 +43,7 @@ import com.pangdata.sdk.callback.ControlResponseCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 
-public class PDefaultMqttClient extends AbstractPrever{
+public class PDefaultMqttClient extends AbstractPang{
 
   private static final Logger logger = LoggerFactory.getLogger(PDefaultMqttClient.class);
 

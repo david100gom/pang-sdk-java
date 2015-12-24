@@ -41,13 +41,13 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pangdata.sdk.AbstractPrever;
+import com.pangdata.sdk.AbstractPang;
 import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
 
-public abstract class AbstractHttp extends AbstractPrever {
+public abstract class AbstractHttp extends AbstractPang {
   private static final Logger logger = LoggerFactory.getLogger(AbstractHttp.class);
 
   protected Map<Long, HttpClient> httpClients = new HashMap<Long, HttpClient>();
