@@ -85,7 +85,7 @@ public class BrokerReassignFailoverConnector extends BrokerParentConnector{
   }
   
   public void connect(String address) {
-    connect(address, this.anonymous);
+    connect(address, isAnonymous());
   }
     
   public void connect(String address, boolean anonymous) {
@@ -95,7 +95,7 @@ public class BrokerReassignFailoverConnector extends BrokerParentConnector{
     
     init(address);
     alive = true;
-    this.anonymous = anonymous;
+    setAnonymous(anonymous);
     super.start();
     try {
       TimeUnit.SECONDS.sleep(1);

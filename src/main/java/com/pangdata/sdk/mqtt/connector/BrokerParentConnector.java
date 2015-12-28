@@ -26,7 +26,7 @@ public abstract class BrokerParentConnector extends Thread implements BrokerConn
 
   protected String passwd;
 
-  protected boolean anonymous;
+  private boolean anonymous = true;
 
   protected MqttCallback mqttCallback;
 
@@ -55,8 +55,16 @@ public abstract class BrokerParentConnector extends Thread implements BrokerConn
     return opt;
   }
 
+  public void setAnonymous(boolean anonymous) {
+    this.anonymous = anonymous;
+  }
+  
+  public boolean isAnonymous() {
+    return anonymous;
+  }
+
   public boolean isAuth() {
-    return !anonymous;
+    return username != null && passwd != null;
   }
   
   protected void onFailure(Throwable e) {

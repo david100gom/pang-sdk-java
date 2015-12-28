@@ -140,7 +140,7 @@ public class BrokerFailoverConnector extends BrokerParentConnector {
   public void connect(String address, boolean anonymous) {
     init(address);
     alive = true;
-    this.anonymous = anonymous;
+    setAnonymous(anonymous);
     start();
     try {
       TimeUnit.SECONDS.sleep(1);
