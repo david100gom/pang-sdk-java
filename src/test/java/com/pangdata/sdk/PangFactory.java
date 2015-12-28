@@ -22,7 +22,7 @@ package com.pangdata.sdk;
 
 import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.mqtt.MqttFailoverHttpClient;
-import com.pangdata.sdk.mqtt.MqttReassignableHttpClient;
+import com.pangdata.sdk.mqtt.PangMqtt;
 
 
 public class PangFactory {
@@ -44,7 +44,7 @@ public class PangFactory {
   }
   
   public static Pang createReassignableMqttClient(String username, String userkey, String uri) throws Exception {
-    Pang client = new MqttReassignableHttpClient(username, userkey, uri);
+    Pang client = new PangMqtt(username, userkey, uri);
     client.connect(uri);
     return client;
   }

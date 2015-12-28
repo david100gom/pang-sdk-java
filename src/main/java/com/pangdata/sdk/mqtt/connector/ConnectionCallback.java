@@ -1,4 +1,4 @@
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.connector;
 
 
 public interface ConnectionCallback {

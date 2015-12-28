@@ -20,6 +20,7 @@
  */
 package com.pangdata.sdk.mqtt;
 
+import java.io.UnsupportedEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,31 +42,42 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.callback.DataSharingCallback;
+import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnector;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.SdkUtils;
 
-public class MqttReassignableHttpClient extends MqttDelegatedAbstractHttpClient {
-  private static final Logger logger = LoggerFactory.getLogger(MqttReassignableHttpClient.class);
+public class PangMqtt extends MqttDelegatedAbstractHttpClient {
+  private static final Logger logger = LoggerFactory.getLogger(PangMqtt.class);
 
   class DefaultReassignableBrokerProvider implements ReassignableBrokerProvider {
 
-    public String getAddress() throws Exception {
+    public PangOption getAddress() throws Exception {
       return getNewAddress();
     }
   };
 
 
-  public MqttReassignableHttpClient(String username, String userkey, String uri) {
+  public PangMqtt(String username, String userkey, String uri) throws Exception {
     this(username, userkey, uri, null);
   }
 
-  public MqttReassignableHttpClient(String username, String userkey, String uri,
-      DataSharingCallback dataSharingCallback) {
+  public PangMqtt(String username, String userkey, String uri,
+      DataSharingCallback dataSharingCallback) throws Exception {
     super(username, userkey, uri, dataSharingCallback);
+    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
     setBrokerConnector(new BrokerReassignFailoverConnector("fo-connector",
-        username + "-" + userkey, new DefaultReassignableBrokerProvider()));
+        username, userkey, id, new DefaultReassignableBrokerProvider()));
   }
 
-  private String getNewAddress() throws Exception {
+  public PangMqtt() throws Exception {
+    super(true);
+    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
+    setBrokerConnector(new BrokerReassignFailoverConnector("fo-connector",username, userkey, id, 
+        new DefaultReassignableBrokerProvider()));
+    connect(url);
+  }
+
+  private PangOption getNewAddress() throws Exception {
     HttpPost httpPost = null;
 
     HttpResponse response = null;
@@ -112,8 +124,12 @@ public class MqttReassignableHttpClient extends MqttDelegatedAbstractHttpClient 
             responseMap.get("Success"), responseMap.get("Message")));
       }
       Map data = (Map) responseMap.get("Data");
-      String brokers = (String) data.get("BROKERS");
-      return brokers;
+      String brokers = (String) data.get("MDS");
+      if(brokers == null || brokers.length() == 0) {
+        throw new IllegalStateException("No available MDS");
+      }
+      String anonymous = (String) data.get("ALLOW_ANONYMOUS");
+      return new PangOption(brokers, Boolean.valueOf(anonymous));
     } catch (Exception e) {
       logger.error("User profile request error", e);
       throw e;
@@ -123,8 +139,12 @@ public class MqttReassignableHttpClient extends MqttDelegatedAbstractHttpClient 
   @Override
   public void connect(String uri) throws Exception {
     super.connect(uri);
-    String address = getNewAddress();
-    brokerClient.connect(address);
+    PangOption newAddress = getNewAddress();
+    pang.connect(newAddress.getAddresss(), newAddress.isAnonymous());
   }
 
+  public void connect(String addresses, boolean anonymous) throws Exception {
+    throw new UnsupportedEncodingException();
+  }
+  
 }

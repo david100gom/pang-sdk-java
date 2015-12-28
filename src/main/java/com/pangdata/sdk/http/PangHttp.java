@@ -93,5 +93,4 @@ public class PangHttp extends AbstractHttp {
 
     return sendData(httpPost);
   }
-
 }

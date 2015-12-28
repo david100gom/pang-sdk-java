@@ -14,7 +14,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.domain.Sensor;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 
 public class MqttClientMultipleDataSendingTests {
 
@@ -24,7 +24,7 @@ public class MqttClientMultipleDataSendingTests {
 
   @Before
   public void init() throws Exception {
-    sendingDataClient = new PDefaultMqttClient("josh", "mykey");
+    sendingDataClient = new PangMqttClient("josh", "mykey");
     final CountDownLatch latch = new CountDownLatch(1);
     sendingDataClient.setConnectionCallback(new ConnectionCallback() {
 

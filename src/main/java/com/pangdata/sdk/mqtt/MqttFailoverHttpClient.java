@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.callback.DataSharingCallback;
+import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnector;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
@@ -107,11 +108,15 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
         for (String thing : split) {
           String[] split2 = thing.split("\\/");
 //          subscribeDataSharing(split2[0], split2[1], dataSharingCallback);
-          brokerClient.subscribeDataSharing(split2[0], split2[1], dataSharingCallback);
+          pang.subscribeDataSharing(split2[0], split2[1], dataSharingCallback);
         }
       }
     }
     String brokers = (String) profile.get("BROKERS");
-    brokerClient.connect(brokers);
+    pang.connect(brokers);
+  }
+
+  public void connect(String addresses, boolean anonymous) throws Exception {
+    throw new UnsupportedOperationException();
   }
 }

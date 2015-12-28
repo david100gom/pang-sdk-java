@@ -33,15 +33,20 @@ import com.pangdata.sdk.callback.DataCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.http.AbstractHttp;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.connector.BrokerConnector;
 
 abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   private static final Logger logger = LoggerFactory.getLogger(MqttDelegatedAbstractHttpClient.class);
 
   protected HttpClient httpClient;
-  protected Pang brokerClient;
+  protected Pang pang;
   
   protected DataSharingCallback dataSharingCallback;
 
+  public MqttDelegatedAbstractHttpClient(boolean mustinvoke) {
+    super(mustinvoke);
+  }
   public MqttDelegatedAbstractHttpClient(String username, String userkey, String uri, DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri);
     
@@ -51,36 +56,36 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
   
   public void setBrokerConnector(BrokerConnector connector) {
-    brokerClient = new PDefaultMqttClient(username, userkey, connector);
+    pang = new PangMqttClient(username, connector);
   }
 
   public boolean isConnected() {
-    return brokerClient.isConnected();
+    return pang.isConnected();
   }
 
   public boolean sendData(String devicename, String data) {
-    return brokerClient.sendData(devicename, data);
+    return pang.sendData(devicename, data);
   }
   
   public boolean sendData(Object data) {
-    return brokerClient.sendData(data);
+    return pang.sendData(data);
   }
 
   public void startTimerTask(String devicename, DataCallback dataCallback, long period,
       TimeUnit timeUnit) {
-    brokerClient.startTimerTask(devicename, dataCallback, period, timeUnit);
+    pang.startTimerTask(devicename, dataCallback, period, timeUnit);
   }
 
   public void waitTimerTask() {
-    brokerClient.waitTimerTask();
+    pang.waitTimerTask();
   }
 
   public void waitTimerTask(long timeout, TimeUnit unit) {
-    brokerClient.waitTimerTask(timeout, unit);
+    pang.waitTimerTask(timeout, unit);
   }
 
   public void stopTimerTask() {
-    brokerClient.stopTimerTask();
+    pang.stopTimerTask();
   }
 
   public void subscribeDataSharing(String giverUserId, String devicename,
@@ -89,28 +94,28 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
 
   public void unsubscribeDataSharing(String giverUserId, String devicename) {
-    brokerClient.unsubscribeDataSharing(giverUserId, devicename);
+    pang.unsubscribeDataSharing(giverUserId, devicename);
   }
 
   public void subscribeControl(String devicename, ControlCallback controlCallback) {
-    brokerClient.subscribeControl(devicename, controlCallback);
+    pang.subscribeControl(devicename, controlCallback);
   }
 
   public void unsubscribeControl(String devicename) {
-    brokerClient.unsubscribeControl(devicename);
+    pang.unsubscribeControl(devicename);
   }
 
   public void disconnect() {
-    brokerClient.disconnect();
+    pang.disconnect();
   }
 
   public void setConnectionCallback(ConnectionCallback connectionCallback) {
-    brokerClient.setConnectionCallback(connectionCallback);
+    pang.setConnectionCallback(connectionCallback);
   }
 
   public void startTimerTask(MultipleDataCallback multipleDataCallback, long period,
       TimeUnit timeUnit) {
-    brokerClient.startTimerTask(multipleDataCallback, period, timeUnit);    
+    pang.startTimerTask(multipleDataCallback, period, timeUnit);    
   }
   
 }

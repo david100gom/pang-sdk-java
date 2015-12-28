@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +37,8 @@ import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
+import com.pangdata.sdk.mqtt.MqttTopics;
+import com.pangdata.sdk.mqtt.TopicUtils;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class PangMqttClientCallback implements MqttCallback {

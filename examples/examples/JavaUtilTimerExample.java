@@ -26,16 +26,21 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.pangdata.sdk.Pang;
-import com.pangdata.sdk.http.PangHttp;
+import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
 
 public class JavaUtilTimerExample {
+  private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
+  
   private static Random random = new Random();
   private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {
-    final Pang pang = new PangHttp();
+    final Pang pang = new PangMqtt();
 
     long period = PangProperties.getPeriod(); //seconds
     Timer timer = new Timer();
@@ -57,7 +62,8 @@ public class JavaUtilTimerExample {
         boolean nextBoolean = random.nextBoolean();
         data.put("randomBoolean", nextBoolean);
         
-        pang.sendData(data);
+        boolean result = pang.sendData(data);
+        logger.info("Message delivery sucess: {}", result);
       }
     }, 0, period);
 

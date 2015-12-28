@@ -21,7 +21,7 @@ import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.domain.Sensor;
 import com.pangdata.sdk.mqtt.MqttTopics;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttClientControlTests {
@@ -39,7 +39,7 @@ public class MqttClientControlTests {
     } catch (MqttException e) {
       e.printStackTrace();
     }
-    receivingClient = new PDefaultMqttClient("derek", "userkey");
+    receivingClient = new PangMqttClient("derek", "userkey");
   }
 
 

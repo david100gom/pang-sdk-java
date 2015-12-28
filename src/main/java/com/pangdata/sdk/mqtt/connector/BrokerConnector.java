@@ -1,9 +1,11 @@
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.connector;
 
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+
+import com.pangdata.sdk.mqtt.SubscriberListener;
 
 public interface BrokerConnector {
   String getClientId();
@@ -17,6 +19,8 @@ public interface BrokerConnector {
   void subscribe(String topic, int qos) throws MqttException;
 
   void connect(String address);
+  
+  void connect(String address, boolean anonymous);
 
   boolean isAvailable();
 

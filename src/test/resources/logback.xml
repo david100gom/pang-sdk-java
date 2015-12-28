@@ -19,7 +19,11 @@
 	    </encoder>
   	</appender>
 
-	<root level="DEBUG">
+	<logger name="com.pangdata" level="debug" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	
+	<root level="info">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE" />
 	</root>

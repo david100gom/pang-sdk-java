@@ -1,4 +1,4 @@
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.connector;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,11 +10,18 @@ import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.pangdata.sdk.mqtt.SubscriberListener;
+
 public class BrokerDualConnector extends BrokerFailoverConnector {
   private final static Logger logger = LoggerFactory.getLogger(BrokerDualConnector.class);
 
   public BrokerDualConnector(String threadName, String clientId, MqttCallback callback) {
     super(threadName, clientId);
+    setMqttCallback(callback);
+  }
+  
+  public BrokerDualConnector(String threadName, String username, String password, String clientId, MqttCallback callback) {
+    super(threadName, username, password, clientId);
     setMqttCallback(callback);
   }
 
@@ -23,16 +30,13 @@ public class BrokerDualConnector extends BrokerFailoverConnector {
       for (MqttClient client : clients) {
         if (!client.isConnected()) {
           try {
-            logger.info("Trying to connect ({}@{})",
-                client.getClientId(), client.getServerURI());
-            client.connect();
-            logger.info("Connected ({}@{})",
-                client.getClientId(), client.getServerURI());
+            logConnecting(client);
+            client.connect(getOption());
+            logConnected(client);
             subscribe(client);
             onConnectionSuccess();
           } catch (Throwable e) {
-            logger.error("Connection error({}@{})",
-                client.getClientId(), client.getServerURI());
+            logConnectionFailed(client, e);
             onFailure(e);
           }
         }

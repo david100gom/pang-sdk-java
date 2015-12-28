@@ -1,7 +1,5 @@
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.connector;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -14,12 +12,12 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BrokerReassignFailoverConnector extends Thread implements BrokerConnector {
+import com.pangdata.sdk.mqtt.PangOption;
+import com.pangdata.sdk.mqtt.ReassignableBrokerProvider;
+import com.pangdata.sdk.mqtt.SubscriberListener;
+
+public class BrokerReassignFailoverConnector extends BrokerParentConnector{
   private final static Logger logger = LoggerFactory.getLogger(BrokerReassignFailoverConnector.class);
-
-  private String clientId;
-
-  private MqttCallback mqttCallback;
 
   protected MqttClient client;
 
@@ -27,43 +25,17 @@ public class BrokerReassignFailoverConnector extends Thread implements BrokerCon
 
   private Object waitor = new Object();
   
-  protected List<ConnectionCallback> connectionCallbacks = new ArrayList<ConnectionCallback>();
-
-  protected List<SubscriberListener> subscribeListeners = new ArrayList<SubscriberListener>();
-
   private ReassignableBrokerProvider provier;
 
-  public BrokerReassignFailoverConnector(String threadName, String clientId, ReassignableBrokerProvider provier) {
-    super(threadName);
-    setDaemon(true);
-    this.clientId = clientId;
+  public BrokerReassignFailoverConnector(String threadName, String username, String passwd, String clientId, ReassignableBrokerProvider provier) {
+    super(threadName, username, passwd, clientId);
     this.provier = provier;
-  }
-
-  protected void onFailure(Throwable e) {
-    for (ConnectionCallback callback : connectionCallbacks) {
-      callback.onFailure(e);
-    }
-  }
-
-  protected void onConnectionSuccess() {
-    for (ConnectionCallback callback : connectionCallbacks) {
-      callback.onSuccess();
-    }
   }
 
   private void subscribe() {
     for (SubscriberListener listener : subscribeListeners) {
       listener.subscribeTo(client);
     }
-  }
-
-  public void addConnectionCallback(ConnectionCallback connectionCallback) {
-    this.connectionCallbacks.add(connectionCallback);
-  }
-
-  public void addSubscribListener(SubscriberListener subscriberListener) {
-    subscribeListeners.add(subscriberListener);
   }
 
   public boolean isAvailable() {
@@ -76,18 +48,17 @@ public class BrokerReassignFailoverConnector extends Thread implements BrokerCon
     while (alive) {
       try {        
         if(!first) {
-          String address = provier.getAddress();
-          logger.info("Reassigned new address: {}", address);
-          init(address);
+          PangOption option = provier.getAddress();
+          logger.info("Reassigned new address: {}", option.getAddresss());
+          init(option.getAddresss());
         }
         
         first = false;
-        logger.info("Trying to connect({}@{})",
-            client.getClientId(), client.getServerURI());
-        client.connect();
+        logConnecting(client);
         
-        logger.info("Connected to broker({}@{})",
-            client.getClientId(), client.getServerURI());
+        client.connect(getOption());
+        
+        logConnected(client);
         subscribe();
         onConnectionSuccess();
 
@@ -103,8 +74,7 @@ public class BrokerReassignFailoverConnector extends Thread implements BrokerCon
         logger.info("Closing failover connector");
         return;
       } catch (Throwable e) {
-        logger.error("Failed to connect({}@{})",
-            client.getClientId(), client.getServerURI());
+        logConnectionFailed(client, e);
         onFailure(e);
         try {
           TimeUnit.SECONDS.sleep(3);
@@ -115,13 +85,23 @@ public class BrokerReassignFailoverConnector extends Thread implements BrokerCon
   }
   
   public void connect(String address) {
+    connect(address, this.anonymous);
+  }
+    
+  public void connect(String address, boolean anonymous) {
     if (mqttCallback == null) {
       throw new IllegalArgumentException("MqttCallback must not be null");
     }
     
     init(address);
     alive = true;
+    this.anonymous = anonymous;
     super.start();
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
   
   private void init(String address) {    
@@ -204,7 +184,4 @@ public class BrokerReassignFailoverConnector extends Thread implements BrokerCon
     return clientId;
   }
 
-  public void setMqttCallback(MqttCallback callback) {
-    this.mqttCallback = callback;
-  }
 }

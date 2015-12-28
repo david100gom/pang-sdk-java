@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.TestInfiniteDataSendingCallback;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 
 public class DataPublisherWithTwoUsersTests {
 
@@ -17,7 +17,7 @@ public class DataPublisherWithTwoUsersTests {
   static CountDownLatch latch2 = new CountDownLatch(1);
 
   public static void init() {
-    client = new PDefaultMqttClient("josh", "josh-key1");
+    client = new PangMqttClient("josh", "josh-key1");
     client.setConnectionCallback(new ConnectionCallback() {
 
       public void onConnectionSuccess() {
@@ -28,7 +28,7 @@ public class DataPublisherWithTwoUsersTests {
 
       public void onConnectionFailure(Throwable cause) {}
     });
-    client2 = new PDefaultMqttClient("derek", "derek-key1");
+    client2 = new PangMqttClient("derek", "derek-key1");
     client2.setConnectionCallback(new ConnectionCallback() {
 
       public void onConnectionSuccess() {

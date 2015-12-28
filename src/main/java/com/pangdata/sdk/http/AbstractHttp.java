@@ -60,6 +60,7 @@ public abstract class AbstractHttp extends AbstractPang {
   public AbstractHttp(boolean mustinvoke) {
     Properties props = new Properties();
     try {
+      logger.info("Loading pang.properties in your classpath");
       InputStream is = this.getClass().getResourceAsStream("/pang.properties");
       if(is == null) {
         throw new IOException();
@@ -120,6 +121,10 @@ public abstract class AbstractHttp extends AbstractPang {
       throw new IllegalArgumentException("uri must not be null");
     }
     this.url = uri;
+  }
+  
+  public void connect(String uri, boolean anonymous) throws Exception {
+   throw new UnsupportedOperationException();
   }
 
   protected boolean sendData(HttpRequestBase request) {

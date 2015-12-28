@@ -8,7 +8,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.InfiniteDataSendingCallback;
 import com.pangdata.sdk.domain.Sensor;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class PangClientFailoverTests {
@@ -18,7 +18,7 @@ public class PangClientFailoverTests {
   static CountDownLatch latch = new CountDownLatch(1);
 
   public static void init() {
-    client = new PDefaultMqttClient("josh", "josh-key1");
+    client = new PangMqttClient("josh", "josh-key1");
     client.setConnectionCallback(new ConnectionCallback() {
 
       public void onConnectionSuccess() {

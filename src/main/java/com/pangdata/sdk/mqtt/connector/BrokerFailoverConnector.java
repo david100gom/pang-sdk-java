@@ -1,13 +1,10 @@
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.connector;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
@@ -15,41 +12,25 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BrokerFailoverConnector extends Thread implements BrokerConnector {
-  private final static Logger logger = LoggerFactory.getLogger(BrokerFailoverConnector.class);
+import com.pangdata.sdk.mqtt.SubscriberListener;
 
+public class BrokerFailoverConnector extends BrokerParentConnector {
+  private final static Logger logger = LoggerFactory.getLogger(BrokerFailoverConnector.class);
+  
   private Object waitor = new Object();
 
   private int active = 0;
 
   private String[] brokerAddresses;
 
-  private String clientId;
-
-  private MqttCallback mqttCallback;
-
   protected MqttClient[] clients;
-
-  protected boolean alive;
-
-  protected List<ConnectionCallback> connectionCallbacks = new ArrayList<ConnectionCallback>();
-
-  protected List<SubscriberListener> subscribeListeners = new ArrayList<SubscriberListener>();
-
-  private String username;
-
-  private String passwd;
 
   public BrokerFailoverConnector(String threadName, String clientId) {
     this(threadName, null, null, clientId);
   }
   
   public BrokerFailoverConnector(String threadName, String username, String passwd, String clientId) {
-    super(threadName + "-fo-conn");
-    setDaemon(true);
-    this.clientId = clientId;
-    this.username = username;
-    this.passwd = passwd;
+    super(threadName + "-fo-conn", username, passwd, clientId);
   }
 
   private void init(String addresses) {
@@ -91,24 +72,16 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
 
   public void run() {
     while (alive) {
+      MqttClient mc = clients[active];
       try {
-        logger.info("Trying to connect({}@{})",
-            clients[active].getClientId(), clients[active].getServerURI());
-        if(username != null && passwd != null) {
-          MqttConnectOptions opt = new MqttConnectOptions();
-          opt.setUserName(username);
-          opt.setPassword(passwd.toCharArray());
-          clients[active].connect(opt);
-        } else {
-          clients[active].connect();
-        }
-        logger.info("Connected to broker({}@{})",
-            clients[active].getClientId(), clients[active].getServerURI());
+        logConnecting(mc);
+        mc.connect(getOption());
+        logConnected(mc);
         subscribe();
         onConnectionSuccess();
 
         synchronized (waitor) {
-          if (!clients[active].isConnected()) {
+          if (!mc.isConnected()) {
             logger.error("Connection closed. try again({}@{})",
                 clients[active].getClientId(), clients[active].getServerURI());
             continue;
@@ -124,8 +97,7 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
         logger.info("Closing failover connector");
         return;
       } catch (Throwable e) {
-        logger.error("Failed to connect({}@{})",
-            clients[active].getClientId(), clients[active].getServerURI());
+        logConnectionFailed(mc, e);
         onFailure(e);
         switchTargetBroker();
         try {
@@ -143,30 +115,10 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
     active = active == 0 ? 1 : 0;
   }
 
-  protected void onFailure(Throwable e) {
-    for (ConnectionCallback callback : connectionCallbacks) {
-      callback.onFailure(e);
-    }
-  }
-
-  protected void onConnectionSuccess() {
-    for (ConnectionCallback callback : connectionCallbacks) {
-      callback.onSuccess();
-    }
-  }
-
   private void subscribe() {
     for (SubscriberListener listener : subscribeListeners) {
       listener.subscribeTo(getActive());
     }
-  }
-
-  public void addConnectionCallback(ConnectionCallback connectionCallback) {
-    this.connectionCallbacks.add(connectionCallback);
-  }
-
-  public void addSubscribListener(SubscriberListener subscriberListener) {
-    subscribeListeners.add(subscriberListener);
   }
 
   private MqttClient getActive() {
@@ -178,9 +130,23 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
   }
 
   public void connect(String address) {
+    if(isAuth()) {
+      connect(address, false);
+    } else {
+      connect(address, true);
+    }
+  }
+  
+  public void connect(String address, boolean anonymous) {
     init(address);
     alive = true;
-    super.start();
+    this.anonymous = anonymous;
+    start();
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 
   protected boolean isRunning() {
@@ -231,13 +197,5 @@ public class BrokerFailoverConnector extends Thread implements BrokerConnector {
         }
       }
     }
-  }
-
-  public String getClientId() {
-    return clientId;
-  }
-
-  public void setMqttCallback(MqttCallback callback) {
-    this.mqttCallback = callback;
   }
 }

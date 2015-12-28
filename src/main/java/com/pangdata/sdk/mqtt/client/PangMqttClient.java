@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.pangdata.sdk.mqtt;
+package com.pangdata.sdk.mqtt.client;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -28,6 +28,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -41,11 +43,16 @@ import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
+import com.pangdata.sdk.mqtt.MqttTopics;
+import com.pangdata.sdk.mqtt.SubscriberListener;
+import com.pangdata.sdk.mqtt.TopicUtils;
+import com.pangdata.sdk.mqtt.connector.BrokerConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnector;
 import com.pangdata.sdk.util.JsonUtils;
 
-public class PDefaultMqttClient extends AbstractPang{
+public class PangMqttClient extends AbstractPang{
 
-  private static final Logger logger = LoggerFactory.getLogger(PDefaultMqttClient.class);
+  private static final Logger logger = LoggerFactory.getLogger(PangMqttClient.class);
 
   private static final int DEFAULT_CONTROL_QOS = 2;
 
@@ -72,18 +79,38 @@ public class PDefaultMqttClient extends AbstractPang{
   private Map<String, Integer> subscribers = new HashMap<String, Integer>();
 
   private String username;
-
+  
   private PangMqttClientCallback mqttCallback;
 
-  public PDefaultMqttClient(String username, String userkey) throws PangException {
-    this(username, userkey, "default", Long.toString(System.currentTimeMillis()));
+  public PangMqttClient(String username) throws PangException {
+    this(username, "default", Long.toString(System.currentTimeMillis()));
+  }
+
+  public PangMqttClient(String username, String userkey) throws PangException {
+    this(username, "default", Long.toString(System.currentTimeMillis()));
+  }
+
+    
+  public PangMqttClient(String username, String threadName, String clientId) throws PangException {
+    this(username, new BrokerFailoverConnector(threadName, clientId));
   }
   
-  public PDefaultMqttClient(String username, String userkey, String threadName, String clientId) throws PangException {
-    this(username, userkey, new BrokerFailoverConnector(threadName, clientId));
+  public PangMqttClient(String username, BrokerConnector failoverConnector) throws PangException {
+    super();
+    this.failoverConnector = failoverConnector;
+    this.username = username;
+    
+    dataPublishRootTopic = MqttTopics.DataPublisher.getTopic() + username;
+    
+    controlRequestTopic =
+        MqttTopics.ControlRequestPublisher.getTopic() + username
+        + MqttTopic.MULTI_LEVEL_WILDCARD_PATTERN;
+    
+    mqttCallback = new PangMqttClientCallback(username, controlCallbackMap, dataSharingCallbacks);
+    failoverConnector.setMqttCallback(mqttCallback);
   }
   
-  public PDefaultMqttClient(String username, String userkey, BrokerConnector failoverConnector) throws PangException {
+  public PangMqttClient(String username, String userkey, BrokerConnector failoverConnector, boolean anonymous) throws PangException {
     super();
     this.failoverConnector = failoverConnector;
     this.username = username;
@@ -132,7 +159,7 @@ public class PDefaultMqttClient extends AbstractPang{
       }
     });
 
-    failoverConnector.addConnectionCallback(new com.pangdata.sdk.mqtt.ConnectionCallback() {
+    failoverConnector.addConnectionCallback(new com.pangdata.sdk.mqtt.connector.ConnectionCallback() {
       public void onSuccess() {
         if (connectionCallback != null) {
           connectionCallback.onConnectionSuccess();
@@ -147,7 +174,7 @@ public class PDefaultMqttClient extends AbstractPang{
     });
 	}
 
-  public void connect(String address) throws PangException {
+  public void connect(String address, boolean anonymous) throws PangException {
     createConnector(address);
     logger.info(String.format("Client(%s) is connecting to Broker(%s)", failoverConnector.getClientId(), serverURI));
 
@@ -182,7 +209,8 @@ public class PDefaultMqttClient extends AbstractPang{
       }
     });
 
-    failoverConnector.connect(address);
+    
+    failoverConnector.connect(address, anonymous);
 
     /*
      * MqttConnectOptions options = null; try { if (userId != null && clientKey != null) { options =
@@ -217,7 +245,7 @@ public class PDefaultMqttClient extends AbstractPang{
       if (failoverConnector != null && failoverConnector.isAvailable()) {
         failoverConnector.publish(sendDataTopic, message);
       } else {
-        logger.error("BrokerConnnector is not connected, data sending failed.");
+        logger.warn("MDS is not connected, data sending failed.");
         return false;
       }
     } catch (Exception e) {
@@ -228,8 +256,9 @@ public class PDefaultMqttClient extends AbstractPang{
   
   
   public boolean sendData(Object obj) {
-    MqttMessage message = new MqttMessage();
     String strValues = JsonUtils.convertObjToJsonStr(obj);
+    
+    MqttMessage message = new MqttMessage();
     message.setPayload(strValues.getBytes(Charset.forName(charset)));
     message.setQos(DEFAULT_DATA_QOS);
     
@@ -239,7 +268,7 @@ public class PDefaultMqttClient extends AbstractPang{
       if (failoverConnector != null && failoverConnector.isAvailable()) {
         failoverConnector.publish(sendDataTopic, message);
       } else {
-        logger.error("BrokerConnnector is not connected, data sending failed.");
+        logger.warn("BrokerConnnector is not connected, data sending failed.");
         return false;
       }
     } catch (Exception e) {
@@ -310,6 +339,10 @@ public class PDefaultMqttClient extends AbstractPang{
     String topic = TopicUtils.getSubscribeControlTopic(username, thingId);
     unsubscribe(topic);
     controlCallbackMap.remove(thingId);
+  }
+
+  public void connect(String addresses) throws Exception {
+    connect(addresses, true);
   }
 
 }

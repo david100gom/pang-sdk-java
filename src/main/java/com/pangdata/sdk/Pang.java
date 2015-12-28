@@ -32,7 +32,9 @@ import com.pangdata.sdk.callback.MultipleDataCallback;
 
 public interface Pang {
 
-  public void connect(String address) throws Exception;
+  public void connect(String addresses) throws Exception;
+  
+  public void connect(String addresses, boolean anonymous) throws Exception;
 
   public boolean isConnected();
 

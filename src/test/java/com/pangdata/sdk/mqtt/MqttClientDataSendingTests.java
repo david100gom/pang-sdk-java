@@ -22,7 +22,7 @@ import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.callback.StopConditionCallback;
 import com.pangdata.sdk.domain.Sensor;
 import com.pangdata.sdk.mqtt.MqttTopics;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttClientDataSendingTests {
@@ -35,7 +35,7 @@ public class MqttClientDataSendingTests {
 
   @Before
   public void init() throws Exception {
-    sendingDataClient = new PDefaultMqttClient("leon0517", "ThingA");
+    sendingDataClient = new PangMqttClient("leon0517", "ThingA");
     final CountDownLatch latch = new CountDownLatch(1);
     sendingDataClient.setConnectionCallback(new ConnectionCallback() {
 

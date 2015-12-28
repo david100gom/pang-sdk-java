@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.domain.Sensor;
-import com.pangdata.sdk.mqtt.PDefaultMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClient;
 
 public class SimpleDataSendingTests {
 
@@ -20,7 +20,7 @@ public class SimpleDataSendingTests {
   
   @Before
   public void init() throws Exception {
-    sendingDataClient = new PDefaultMqttClient("demo", "test1");
+    sendingDataClient = new PangMqttClient("demo", "test1");
     final CountDownLatch latch = new CountDownLatch(1);
     sendingDataClient.setConnectionCallback(new ConnectionCallback() {
 
