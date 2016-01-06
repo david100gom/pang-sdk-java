@@ -64,7 +64,7 @@ public abstract class BrokerParentConnector extends Thread implements BrokerConn
   }
 
   public boolean isAuth() {
-    return username != null && passwd != null;
+    return !anonymous;
   }
   
   protected void onFailure(Throwable e) {
