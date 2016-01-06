@@ -47,7 +47,7 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
 
   public MqttFailoverHttpClient(String username, String userkey, String uri, DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri, dataSharingCallback);
-    setBrokerConnector(new BrokerFailoverConnector("fo-connector", username + "-" + userkey));
+    createConnector(new BrokerFailoverConnector("fo-connector", username + "-" + userkey));
   }
 
   @Override

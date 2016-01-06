@@ -28,8 +28,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -87,12 +85,16 @@ public class PangMqttClient extends AbstractPang{
   }
 
   public PangMqttClient(String username, String userkey) throws PangException {
-    this(username, "default", Long.toString(System.currentTimeMillis()));
+    this(username, userkey, "default", Long.toString(System.currentTimeMillis()));
   }
 
     
   public PangMqttClient(String username, String threadName, String clientId) throws PangException {
     this(username, new BrokerFailoverConnector(threadName, clientId));
+  }
+  
+  public PangMqttClient(String username, String passwd, String threadName, String clientId) throws PangException {
+    this(username, new BrokerFailoverConnector(threadName, username, passwd, clientId));
   }
   
   public PangMqttClient(String username, BrokerConnector failoverConnector) throws PangException {
@@ -110,21 +112,6 @@ public class PangMqttClient extends AbstractPang{
     failoverConnector.setMqttCallback(mqttCallback);
   }
   
-  public PangMqttClient(String username, String userkey, BrokerConnector failoverConnector, boolean anonymous) throws PangException {
-    super();
-    this.failoverConnector = failoverConnector;
-    this.username = username;
-    
-    dataPublishRootTopic = MqttTopics.DataPublisher.getTopic() + username;
-    
-    controlRequestTopic =
-        MqttTopics.ControlRequestPublisher.getTopic() + username
-        + MqttTopic.MULTI_LEVEL_WILDCARD_PATTERN;
-    
-    mqttCallback = new PangMqttClientCallback(username, controlCallbackMap, dataSharingCallbacks);
-    failoverConnector.setMqttCallback(mqttCallback);
-  }
-
   public void setConnectionCallback(ConnectionCallback connectionCallback) {
     this.connectionCallback = connectionCallback;
     mqttCallback.setConnectionCallback(connectionCallback);
@@ -174,7 +161,7 @@ public class PangMqttClient extends AbstractPang{
     });
 	}
 
-  public void connect(String address, boolean anonymous) throws PangException {
+  public void connect(String address) throws PangException {
     createConnector(address);
     logger.info(String.format("Client(%s) is connecting to Broker(%s)", failoverConnector.getClientId(), serverURI));
 
@@ -210,7 +197,7 @@ public class PangMqttClient extends AbstractPang{
     });
 
     
-    failoverConnector.connect(address, anonymous);
+    failoverConnector.connect(address);
 
     /*
      * MqttConnectOptions options = null; try { if (userId != null && clientKey != null) { options =
@@ -339,10 +326,6 @@ public class PangMqttClient extends AbstractPang{
     String topic = TopicUtils.getSubscribeControlTopic(username, thingId);
     unsubscribe(topic);
     controlCallbackMap.remove(thingId);
-  }
-
-  public void connect(String addresses) throws Exception {
-    connect(addresses, true);
   }
 
 }

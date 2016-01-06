@@ -20,7 +20,6 @@
  */
 package com.pangdata.sdk.mqtt;
 
-import java.io.UnsupportedEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,16 +63,10 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
   public PangMqtt(String username, String userkey, String uri,
       DataSharingCallback dataSharingCallback) throws Exception {
     super(username, userkey, uri, dataSharingCallback);
-    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
-    setBrokerConnector(new BrokerReassignFailoverConnector("fo-connector",
-        username, userkey, id, new DefaultReassignableBrokerProvider()));
   }
 
   public PangMqtt() throws Exception {
     super(true);
-    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
-    setBrokerConnector(new BrokerReassignFailoverConnector("fo-connector",username, userkey, id, 
-        new DefaultReassignableBrokerProvider()));
     connect(url);
   }
 
@@ -140,11 +133,14 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
   public void connect(String uri) throws Exception {
     super.connect(uri);
     PangOption newAddress = getNewAddress();
-    pang.connect(newAddress.getAddresss(), newAddress.isAnonymous());
-  }
+    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
 
-  public void connect(String addresses, boolean anonymous) throws Exception {
-    throw new UnsupportedEncodingException();
+    String passwd = null;
+    if(!newAddress.isAnonymous()) {
+      passwd = userkey;
+    }
+    createConnector(new BrokerReassignFailoverConnector(newAddress.getAddresss(),
+        username, passwd, id, new DefaultReassignableBrokerProvider()));
+    pang.connect(newAddress.getAddresss());
   }
-  
 }

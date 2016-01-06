@@ -85,17 +85,12 @@ public class BrokerReassignFailoverConnector extends BrokerParentConnector{
   }
   
   public void connect(String address) {
-    connect(address, isAnonymous());
-  }
-    
-  public void connect(String address, boolean anonymous) {
     if (mqttCallback == null) {
       throw new IllegalArgumentException("MqttCallback must not be null");
     }
     
     init(address);
     alive = true;
-    setAnonymous(anonymous);
     super.start();
     try {
       TimeUnit.SECONDS.sleep(1);

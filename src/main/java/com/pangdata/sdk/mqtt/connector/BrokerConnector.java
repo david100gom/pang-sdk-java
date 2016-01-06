@@ -20,8 +20,6 @@ public interface BrokerConnector {
 
   void connect(String address);
   
-  void connect(String address, boolean anonymous);
-
   boolean isAvailable();
 
   void close();

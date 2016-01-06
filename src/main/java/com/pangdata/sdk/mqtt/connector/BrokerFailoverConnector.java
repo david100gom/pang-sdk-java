@@ -30,7 +30,7 @@ public class BrokerFailoverConnector extends BrokerParentConnector {
   }
   
   public BrokerFailoverConnector(String threadName, String username, String passwd, String clientId) {
-    super(threadName + "-fo-conn", username, passwd, clientId);
+    super(threadName, username, passwd, clientId);
   }
 
   private void init(String addresses) {
@@ -130,17 +130,8 @@ public class BrokerFailoverConnector extends BrokerParentConnector {
   }
 
   public void connect(String address) {
-    if(isAuth()) {
-      connect(address, false);
-    } else {
-      connect(address, true);
-    }
-  }
-  
-  public void connect(String address, boolean anonymous) {
     init(address);
     alive = true;
-    setAnonymous(anonymous);
     start();
     try {
       TimeUnit.SECONDS.sleep(1);

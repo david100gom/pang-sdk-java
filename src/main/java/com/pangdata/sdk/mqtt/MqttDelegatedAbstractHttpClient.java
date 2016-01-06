@@ -37,25 +37,26 @@ import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
 
 abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
-  private static final Logger logger = LoggerFactory.getLogger(MqttDelegatedAbstractHttpClient.class);
+  private static final Logger logger = LoggerFactory
+      .getLogger(MqttDelegatedAbstractHttpClient.class);
 
   protected HttpClient httpClient;
   protected Pang pang;
-  
+
   protected DataSharingCallback dataSharingCallback;
 
   public MqttDelegatedAbstractHttpClient(boolean mustinvoke) {
     super(mustinvoke);
   }
-  public MqttDelegatedAbstractHttpClient(String username, String userkey, String uri, DataSharingCallback dataSharingCallback) {
+
+  public MqttDelegatedAbstractHttpClient(String username, String userkey, String uri,
+      DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri);
-    
+
     this.dataSharingCallback = dataSharingCallback;
-    
-//    brokerClient = new PDefaultMqttClient(username, userkey, connector);
   }
-  
-  public void setBrokerConnector(BrokerConnector connector) {
+
+  protected void createConnector(BrokerConnector connector) {
     pang = new PangMqttClient(username, connector);
   }
 
@@ -66,7 +67,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   public boolean sendData(String devicename, String data) {
     return pang.sendData(devicename, data);
   }
-  
+
   public boolean sendData(Object data) {
     return pang.sendData(data);
   }
@@ -115,7 +116,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
 
   public void startTimerTask(MultipleDataCallback multipleDataCallback, long period,
       TimeUnit timeUnit) {
-    pang.startTimerTask(multipleDataCallback, period, timeUnit);    
+    pang.startTimerTask(multipleDataCallback, period, timeUnit);
   }
-  
+
 }
