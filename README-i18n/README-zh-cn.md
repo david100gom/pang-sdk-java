@@ -62,31 +62,38 @@ If you want to download this sdk source code, go to the below link and download 
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
 ## Step 2 : Write Example
 #### Example 1 : Sending random number using Pang's task timer
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/PangTaskTimerExample.java" target="_blank">link to source</a>
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
-package com.pangdata.client.example;
+package examples;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.MultipleDataCallback;
-import com.pangdata.sdk.http.PangHttp;
+import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
 
 public class PangTaskTimerExample {
+  private static final Logger logger = LoggerFactory.getLogger(PangTaskTimerExample.class);
+
   private static Random random = new Random();
-  private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
+  private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {
-    final Pang pang = new PangHttp();
-    
-    long period = PangProperties.getPeriod(); //seconds
+    final Pang pang = new PangMqtt();
+
+    long period = PangProperties.getPeriod(); // Milli seconds
     pang.startTimerTask(new MultipleDataCallback() {
 
-      public void onSuccess(Object sent) {}
+      public void onSuccess(Object sent) {
+        logger.info("Sent: {}", sent);
+      }
 
       public boolean isRunning(int sentCount) {
         return true;
@@ -94,31 +101,30 @@ public class PangTaskTimerExample {
 
       public Object getData() {
         Map<String, Object> data = new HashMap<String, Object>();
-        
+
         int nextInt = random.nextInt(100);
         data.put("randomInteger", nextInt);
-        
+
         double nextFloat = random.nextGaussian() * 8.0f + 50;
         data.put("randomFloat", nextFloat);
-        
+
         int index = random.nextInt(3);
         data.put("randomString", status[index]);
-        
+
         boolean nextBoolean = random.nextBoolean();
         data.put("randomBoolean", nextBoolean);
-        
         return data;
       }
-      
+
     }, period, TimeUnit.MILLISECONDS);
   }
 }
 ```
 
 #### Example 2 : Sending random number Using JDK Timer class
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/src/main/java/com/pangdata/client/example/JavaUtilTimerExample.java" target="_blank">link to source</a>
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
-package com.pangdata.client.example;
+package examples;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,16 +132,21 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.pangdata.sdk.Pang;
-import com.pangdata.sdk.http.PangHttp;
+import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
 
 public class JavaUtilTimerExample {
+  private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
+  
   private static Random random = new Random();
   private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {
-    final Pang pang = new PangHttp();
+    final Pang pang = new PangMqtt();
 
     long period = PangProperties.getPeriod(); //seconds
     Timer timer = new Timer();
@@ -157,7 +168,8 @@ public class JavaUtilTimerExample {
         boolean nextBoolean = random.nextBoolean();
         data.put("randomBoolean", nextBoolean);
         
-        pang.sendData(data);
+        boolean result = pang.sendData(data);
+        logger.info("Message delivery sucess: {}", result);
       }
     }, 0, period);
 
