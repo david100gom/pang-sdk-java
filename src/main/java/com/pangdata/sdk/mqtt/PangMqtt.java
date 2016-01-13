@@ -24,6 +24,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -43,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnector;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
 public class PangMqtt extends MqttDelegatedAbstractHttpClient {
@@ -90,6 +92,9 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
           httpClient = new DefaultHttpClient(ccm);
         } else {
           httpClient = new DefaultHttpClient();
+          if(!url.toLowerCase().startsWith("http")) {
+            url = "http://" + url;
+          }
         }
       }
 
@@ -132,13 +137,20 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
   @Override
   public void connect(String uri) throws Exception {
     super.connect(uri);
+//    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
+    String id = username + "-" + UUID.randomUUID();
     PangOption newAddress = getNewAddress();
-    String id = username + "-" + SdkUtils.getMacAddress() + "-" + System.currentTimeMillis();
 
     String passwd = null;
     if(!newAddress.isAnonymous()) {
       passwd = userkey;
     }
+    
+    String preferAddress = (String)PangProperties.getProperty("pang.preferAddress");
+    if(preferAddress != null) {
+      newAddress.setAddresss(preferAddress);
+    }
+    
     createConnector(new BrokerReassignFailoverConnector(newAddress.getAddresss(),
         username, passwd, id, new DefaultReassignableBrokerProvider()));
     pang.connect(newAddress.getAddresss());

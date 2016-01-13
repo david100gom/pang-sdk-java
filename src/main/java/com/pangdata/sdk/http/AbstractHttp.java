@@ -46,6 +46,7 @@ import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
+import com.pangdata.sdk.util.SdkUtils;
 
 public abstract class AbstractHttp extends AbstractPang {
   private static final Logger logger = LoggerFactory.getLogger(AbstractHttp.class);
@@ -58,17 +59,9 @@ public abstract class AbstractHttp extends AbstractPang {
   protected String fullurl;
   
   public AbstractHttp(boolean mustinvoke) {
-    Properties props = new Properties();
     try {
-      logger.info("Loading pang.properties in your classpath");
-      InputStream is = this.getClass().getResourceAsStream("/pang.properties");
-      if(is == null) {
-        throw new IOException();
-      }
-      props.load(is);
-      is.close();
+      Properties props = SdkUtils.loadPangProperties();
       
-      PangProperties.setProperties(props);
       String username = (String) props.get("pang.username");
       if(username != null && username.trim().length() > 0) {
         this.username = username;
