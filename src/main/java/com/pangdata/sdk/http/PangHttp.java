@@ -21,8 +21,9 @@
 package com.pangdata.sdk.http;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 
@@ -72,10 +73,9 @@ public class PangHttp extends AbstractHttp {
   }
 
   public boolean sendData(String devicename, String data) {
-    HttpGet get =
-        new HttpGet(String.format("%s/api/data/put/%s/%s/%s/%s", url, userkey, username,
-            devicename, data));
-    return sendData(get);
+    Map<String, String> dataMap = new HashMap<String, String>();
+    dataMap.put(devicename, data);
+    return sendData(dataMap);
   }
 
   public boolean sendData(Object obj) {
