@@ -6,9 +6,17 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,5 +74,29 @@ public class SdkUtils {
     
     PangProperties.setProperties(props);
     return props;
+  }
+
+  public static DefaultHttpClient createHttpClient(String url) throws Exception {
+    DefaultHttpClient httpClient = null;
+    if(url.toLowerCase().startsWith("https")) {
+        TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
+          public boolean isTrusted(X509Certificate[] certificate, String authType) {
+            return true;
+          }
+        };
+        SSLSocketFactory sf =
+            new SSLSocketFactory(acceptingTrustStrategy, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        SchemeRegistry registry = new SchemeRegistry();
+        registry.register(new Scheme("https", 443, sf));
+        ClientConnectionManager ccm = new SingleClientConnManager(registry);
+        httpClient = new DefaultHttpClient(ccm);
+      } else {
+          httpClient = new DefaultHttpClient();
+          if(!url.toLowerCase().startsWith("http")) {
+            url = "http://" + url;
+          }
+      }
+    
+    return httpClient;
   }
 }

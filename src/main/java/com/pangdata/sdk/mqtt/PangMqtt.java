@@ -78,24 +78,7 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
     HttpResponse response = null;
     try {
       if (httpClient == null) {
-        if(url.toLowerCase().startsWith("https")) {
-          TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
-            public boolean isTrusted(X509Certificate[] certificate, String authType) {
-              return true;
-            }
-          };
-          SSLSocketFactory sf =
-              new SSLSocketFactory(acceptingTrustStrategy, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-          SchemeRegistry registry = new SchemeRegistry();
-          registry.register(new Scheme("https", 443, sf));
-          ClientConnectionManager ccm = new SingleClientConnManager(registry);
-          httpClient = new DefaultHttpClient(ccm);
-        } else {
-          httpClient = new DefaultHttpClient();
-          if(!url.toLowerCase().startsWith("http")) {
-            url = "http://" + url;
-          }
-        }
+        httpClient = SdkUtils.createHttpClient(url);
       }
 
       httpPost = new HttpPost(url + "/pa/user/profile/" + userkey + "/" + username);
