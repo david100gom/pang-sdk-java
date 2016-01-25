@@ -22,8 +22,6 @@ package com.pangdata.sdk.http;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,13 +32,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -52,7 +44,6 @@ import com.pangdata.sdk.AbstractPang;
 import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
-import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
 public abstract class AbstractHttp extends AbstractPang {
@@ -127,7 +118,7 @@ public abstract class AbstractHttp extends AbstractPang {
         HttpConnectionParams.setSoTimeout(myParams, 10000);
         HttpConnectionParams.setConnectionTimeout(myParams, 10000); // Timeout
         
-        DefaultHttpClient httpClient = SdkUtils.createHttpClient(url);
+        DefaultHttpClient httpClient = SdkUtils.createHttpClient(url, myParams);
         
         httpClients.put(Thread.currentThread().getId(), httpClient);
         httpClients.get(Thread.currentThread().getId()).getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);

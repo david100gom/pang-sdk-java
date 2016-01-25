@@ -17,6 +17,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +78,10 @@ public class SdkUtils {
   }
 
   public static DefaultHttpClient createHttpClient(String url) throws Exception {
+    return createHttpClient(url, null);
+  }
+  
+  public static DefaultHttpClient createHttpClient(String url, HttpParams myParams) throws Exception {
     DefaultHttpClient httpClient = null;
     if(url.toLowerCase().startsWith("https")) {
         TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
@@ -89,7 +94,7 @@ public class SdkUtils {
         SchemeRegistry registry = new SchemeRegistry();
         registry.register(new Scheme("https", 443, sf));
         ClientConnectionManager ccm = new SingleClientConnManager(registry);
-        httpClient = new DefaultHttpClient(ccm);
+        httpClient = new DefaultHttpClient(ccm, myParams);
       } else {
           httpClient = new DefaultHttpClient();
           if(!url.toLowerCase().startsWith("http")) {
