@@ -124,6 +124,10 @@ public abstract class AbstractHttp extends AbstractPang {
         httpClients.get(Thread.currentThread().getId()).getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);
       }
       
+      if(!url.toLowerCase().startsWith("http")) {
+        url = "http://" + url;
+      }
+      
       response = httpClients.get(Thread.currentThread().getId()).execute(request);
       String result = EntityUtils.toString(response.getEntity(), "UTF-8");
       if (response.getStatusLine().getStatusCode() != 200) {

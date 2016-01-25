@@ -96,10 +96,7 @@ public class SdkUtils {
         ClientConnectionManager ccm = new SingleClientConnManager(registry);
         httpClient = new DefaultHttpClient(ccm, myParams);
       } else {
-          httpClient = new DefaultHttpClient();
-          if(!url.toLowerCase().startsWith("http")) {
-            url = "http://" + url;
-          }
+          httpClient = new DefaultHttpClient(myParams);
       }
     
     return httpClient;
