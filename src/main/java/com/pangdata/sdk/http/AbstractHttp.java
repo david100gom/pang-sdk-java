@@ -32,7 +32,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -112,23 +111,24 @@ public abstract class AbstractHttp extends AbstractPang {
   protected boolean sendData(HttpRequestBase request) {
     logger.debug("Send data to server {}", fullurl);
     HttpResponse response = null;
+    HttpClient httpClient = httpClients.get(Thread.currentThread().getId());
     try {
-      if (httpClients.get(Thread.currentThread().getId()) == null) {
+      if (httpClient == null) {
         HttpParams myParams = new BasicHttpParams();
-        HttpConnectionParams.setSoTimeout(myParams, 10000);
-        HttpConnectionParams.setConnectionTimeout(myParams, 10000); // Timeout
+        HttpConnectionParams.setSoTimeout(myParams, 100000);
+        HttpConnectionParams.setConnectionTimeout(myParams, 100000); // Timeout
         
-        DefaultHttpClient httpClient = SdkUtils.createHttpClient(url, myParams);
+        httpClient = SdkUtils.createHttpClient(url, myParams);
         
         httpClients.put(Thread.currentThread().getId(), httpClient);
-        httpClients.get(Thread.currentThread().getId()).getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);
+        httpClient.getParams().setParameter(ClientPNames.HANDLE_AUTHENTICATION, false);
       }
       
       if(!url.toLowerCase().startsWith("http")) {
         url = "http://" + url;
       }
       
-      response = httpClients.get(Thread.currentThread().getId()).execute(request);
+      response = httpClient.execute(request);
       String result = EntityUtils.toString(response.getEntity(), "UTF-8");
       if (response.getStatusLine().getStatusCode() != 200) {
         logger.error("HTTP error: {}", result);
@@ -136,7 +136,7 @@ public abstract class AbstractHttp extends AbstractPang {
           logger.error("UNAUTHORIZED ERROR. Process will be shutdown. Verify your username and userkey");
           System.exit(1);
         }
-        throw new RuntimeException(String.format("HTTP error code : %s, Error message: %s", response
+        throw new IllegalStateException(String.format("HTTP error code : %s, Error message: %s", response
             .getStatusLine().getStatusCode(), result));
       }
 
@@ -144,11 +144,10 @@ public abstract class AbstractHttp extends AbstractPang {
 
       Map<String, Object> responseMap = (Map<String, Object>) JsonUtils.toObject(result, Map.class);
       if (!(Boolean) responseMap.get("Success")) {
-        throw new RuntimeException(String.format("Error message: %s", responseMap.get("Message")));
+        throw new IllegalStateException(String.format("Error message: %s", responseMap.get("Message")));
       }
       return true;
     } catch (Exception e) {
-//      CUtils.failed(logger, "Sending data has an error", e);
       throw new PangException(e);
     }
   }

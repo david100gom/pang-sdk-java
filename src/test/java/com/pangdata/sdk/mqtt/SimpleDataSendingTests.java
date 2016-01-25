@@ -1,5 +1,8 @@
 package com.pangdata.sdk.mqtt;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +35,7 @@ public class SimpleDataSendingTests {
 
       public void onConnectionFailure(Throwable cause) {}
     });
-    sendingDataClient.connect("tcp://192.168.0.21:1884");
+    sendingDataClient.connect("tcp://192.168.0.3");
     latch.await(3, TimeUnit.SECONDS);
   }
   
@@ -50,6 +53,17 @@ public class SimpleDataSendingTests {
   public void sendone() throws Exception {
     Random r = new Random();
      sendingDataClient.sendData("test1", ""+95);
+  }
+  
+  @Test
+  public void sendMultiple() throws Exception {
+    Random r = new Random();
+    Map<String, Object> data = new HashMap<String, Object> ();
+    data.put("humidity", (int) 0);
+    data.put("temperature", (int) (Math.random() * 20 + 20));
+    data.put("timeStamp", new Date().getTime());
+    data.put("key", "123"); 
+    sendingDataClient.sendData(data);
   }
 
 }
