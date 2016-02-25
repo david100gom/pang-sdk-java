@@ -21,7 +21,7 @@ Pang java SDK를 당신의 프로젝트에 추가하고자 한다면 다음과 �
     <repository>
         <id>pang-data-repo</id>
         <name>pang-data-repo</name>
-        <url>http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/</url>
+        <url>http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/</url>
     </repository>
 </repositories>
 ...
@@ -45,7 +45,7 @@ apply plugin: 'maven'
 repositories {
     ...
     maven{
-        url "http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/"
+        url "http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/"
     }
     ...
 }
