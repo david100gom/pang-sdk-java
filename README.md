@@ -23,7 +23,7 @@ If you want to include Pang sdk to your project, add your **pom.xml** as follows
     <repository>
         <id>pang-data-repo</id>
         <name>pang-data-repo</name>
-        <url>http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/</url>
+        <url>http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/</url>
     </repository>
 </repositories>
 ...
@@ -47,7 +47,7 @@ apply plugin: 'maven'
 repositories {
     ...
     maven{
-        url "http://mini.prever.co.kr:8081/nexus/content/groups/prever-io-public-repository/"
+        url "http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/"
     }
     ...
 }
