@@ -30,7 +30,7 @@ Pang java SDK를 당신의 프로젝트에 추가하고자 한다면 다음과 �
     <dependency>
         <groupId>com.pangdata</groupId>
         <artifactId>pang-sdk-java</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </dependency>
 </dependencies>
     ...
@@ -51,7 +51,7 @@ repositories {
 }
 dependencies {
     ...
-    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-SNAPSHOT'
+    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-RELEASE'
     ...
 }
 ```
