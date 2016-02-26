@@ -53,7 +53,7 @@ repositories {
 }
 dependencies {
     ...
-    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-SNAPSHOT'
+    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-RELEASE'
     ...
 }
 ```
