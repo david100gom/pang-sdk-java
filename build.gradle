@@ -12,10 +12,6 @@ eclipse {
 	}
 }
 
-ext {
-	pangVersion='1.0.0-SNAPSHOT'
-}
-
 sourceSets {
     main {
         java {
@@ -40,7 +36,7 @@ repositories {
    mavenLocal()
    mavenCentral()
    maven{
-   	url "http://mini.prever.co.kr:8081/nexus/content/groups/public/"
+   	url "http://mini.prever.io:8081/nexus/content/groups/public/"
    }
 }
 
@@ -59,8 +55,13 @@ dependencies {
 	testCompile 'com.pi4j:pi4j-core:1.0'
 }
 
-version = '1.0.0-SNAPSHOT'
+if (System.getProperty("target") == 'qa') {
+	version = '1.0.0-RELEASE'
+} else {
+	version = '1.0.0-SNAPSHOT'
+}
 
 jar {
     manifest.attributes provider: 'pangdata.com'
 }
+
