@@ -26,7 +26,7 @@ If you want to include Pang sdk to your project, add your **pom.xml** as follows
     <dependency>
         <groupId>com.pangdata</groupId>
         <artifactId>pang-sdk-java</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RELEASE</version>
     </dependency>
 </dependencies>
     ...
@@ -47,7 +47,7 @@ repositories {
 }
 dependencies {
     ...
-    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-SNAPSHOT'
+    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-RELEASE'
     ...
 }
 ```
