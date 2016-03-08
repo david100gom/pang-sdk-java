@@ -49,7 +49,7 @@ dependencies {
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
 	
 	compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
-	compile 'org.apache.httpcomponents:httpclient:4.1.1'	
+	compile 'org.apache.httpcomponents:httpclient:4.3.6'	
 	
 	testCompile 'junit:junit:4.11'
 	testCompile 'com.pi4j:pi4j-core:1.0'
