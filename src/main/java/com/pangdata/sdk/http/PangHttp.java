@@ -81,15 +81,10 @@ public class PangHttp extends AbstractHttp {
   public boolean sendData(Object obj) {
     HttpPost httpPost =
         new HttpPost(getUrl());
-    try {
-      String data = JsonUtils.convertObjToJsonStr(obj);
-      StringEntity params = new StringEntity(data, "UTF-8");
-      httpPost.setEntity(params);
-      httpPost.addHeader("content-type", "application/json");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-      return false;
-    }
+    String data = JsonUtils.convertObjToJsonStr(obj);
+    StringEntity params = new StringEntity(data, "UTF-8");
+    httpPost.setEntity(params);
+    httpPost.addHeader("content-type", "application/json");
 
     return sendData(httpPost);
   }
