@@ -20,7 +20,12 @@
  */
 package com.pangdata.sdk.util;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class PangProperties {
   private static final int _DEFAULT_PERIOD = 10000;
@@ -62,4 +67,31 @@ public class PangProperties {
     return props.get(key);
   }
 
+  public static Map<Integer, Map<String, String>> extractPrefixedMultipleProperties(String prefix) {
+		Set<Entry<Object, Object>> entrySet = props.entrySet();
+		Iterator<Entry<Object, Object>> iterator = entrySet.iterator();
+
+		Map<Integer, Map<String, String>> prefxiedProperties = new HashMap<Integer, Map<String, String>>();
+
+		while (iterator.hasNext()) {
+			Entry<Object, Object> next = iterator.next();
+			String key = (String) next.getKey();
+			if (key.startsWith(prefix)) {
+				String sub1 = key.substring(key.indexOf(".") + 1);
+				int indexOf = sub1.indexOf(".");
+				String number = sub1.substring(0, indexOf);
+				Map<String, String> property = prefxiedProperties.get(Integer
+						.valueOf(number));
+				if (property == null) {
+					property = new HashMap<String, String>();
+					prefxiedProperties.put(Integer.valueOf(number), property);
+				}
+
+				property.put(sub1.substring(sub1.lastIndexOf(".") + 1).trim(),
+						(String) next.getValue());
+			}
+		}
+
+		return prefxiedProperties;
+	}
 }
