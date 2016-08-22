@@ -39,6 +39,13 @@ public class PangProperties {
     return props;
   }
 
+  public static boolean isEnabledToSend() {
+	  String enabled = (String) props.get("pang.enabled");
+	    if(enabled != null && enabled.equalsIgnoreCase("false")) {
+	      return false;
+	    }
+	  return true;
+  }
   /**
    * Time unit is seconds.
    * @return period of schedule
