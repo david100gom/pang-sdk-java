@@ -70,6 +70,7 @@ SDK 소스 코드를 직접 다운로드하고 싶다면 아래 링크로 이동
 ## 2 단계 : 예제 작성
 #### 예제 1 : PangMqtt API 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">소스코드로 링크</a>
+아래 예제는 pang.properties 설정 없이 직접 사용할 수 있습니다.
 ```java
 Pang pang = new PangMqtt("username", "userkey");
 	    
