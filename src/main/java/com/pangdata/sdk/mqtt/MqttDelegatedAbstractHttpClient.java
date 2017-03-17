@@ -45,6 +45,8 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
 
   protected DataSharingCallback dataSharingCallback;
 
+  private ConnectionCallback connectionCallback;
+
   public MqttDelegatedAbstractHttpClient(boolean mustinvoke) {
     super(mustinvoke);
   }
@@ -58,6 +60,9 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
 
   protected void createConnector(BrokerConnector connector) {
     pang = new PangMqttClient(username, connector);
+    if(connectionCallback != null) {
+    	pang.setConnectionCallback(connectionCallback);
+    }
   }
 
   public boolean isConnected() {
@@ -111,7 +116,11 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
 
   public void setConnectionCallback(ConnectionCallback connectionCallback) {
-    pang.setConnectionCallback(connectionCallback);
+	  if(pang == null) {
+		  this.connectionCallback = connectionCallback;
+	  } else {
+		  pang.setConnectionCallback(connectionCallback);
+	  }
   }
 
   public void startTimerTask(MultipleDataCallback multipleDataCallback, long period,
