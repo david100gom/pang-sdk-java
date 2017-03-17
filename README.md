@@ -70,6 +70,8 @@ If you want to download this sdk source code, go to the below link and download 
 
 #### Example 1 : Sending random number using PangMqtt API
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">link to source</a>
+
+This example does not use the pang.properties file. You can use it directly without any configuration.
 ```java
 Pang pang = new PangMqtt("username", "userkey");
 	    
