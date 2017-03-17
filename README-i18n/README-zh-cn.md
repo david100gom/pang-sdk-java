@@ -61,7 +61,16 @@ cd ./pang-sdk-java/
 If you want to download this sdk source code, go to the below link and download the zip file.
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
 ## Step 2 : Write Example
-#### Example 1 : Sending random number using Pang's task timer
+#### Example 2 : Sending random number using PangMqtt API
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">link to source</a>
+```java
+Pang pang = new PangMqtt("username", "userkey");
+	    
+Random r = new Random();    
+pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
+```
+
+#### Example 2 : Sending random number using Pang's task timer
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">link to source</a>
 ```java
 package examples;
@@ -121,7 +130,7 @@ public class PangTaskTimerExample {
 }
 ```
 
-#### Example 2 : Sending random number Using JDK Timer class
+#### Example 3 : Sending random number Using JDK Timer class
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package examples;
