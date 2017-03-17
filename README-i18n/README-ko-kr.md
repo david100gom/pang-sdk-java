@@ -69,7 +69,7 @@ SDK 소스 코드를 직접 다운로드하고 싶다면 아래 링크로 이동
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">최신 버전으로 다운로드</a>
 ## 2 단계 : 예제 작성
 #### 예제 1 : PangMqtt API 이용한 렌덤한 데이터 전송 예제
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">link to source</a>
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">소스코드로 링크</a>
 #### 예제 2 : Pang task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">소스코드로 링크</a>
 ```java
