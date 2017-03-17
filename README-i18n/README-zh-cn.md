@@ -1,6 +1,6 @@
 # Pang Data SDK for Java
 
-该项目提供了一个Java的客户端库，可以很容易连接庞答蹋网络云服务. For documentation please see the <a href="http://pangdata.com/public/pa/sdk.html" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
+该项目提供了一个Java的客户端库，可以很容易连接庞答蹋网络云服务. For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 
 # Getting Start SDK
 
