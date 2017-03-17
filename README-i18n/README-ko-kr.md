@@ -1,7 +1,7 @@
 # Pang Data SDK for Java
 
 이 프로젝트는 Pang Data 웹 클라우드 서비스를 쉽게 연결할수 있는 자바 클라이언트 라이브러리를 제공합니다. 
-<!--For documentation please see the <a href="http://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.-->
+<!--For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.-->
 
 <!--# Getting Start SDK-->
 # SDK 시작하기
@@ -68,7 +68,9 @@ SDK 소스 코드를 직접 다운로드하고 싶다면 아래 링크로 이동
 
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">최신 버전으로 다운로드</a>
 ## 2 단계 : 예제 작성
-#### 예제 1 : Pang task timer를 이용한 렌덤한 데이터 전송 예제
+#### 예제 1 : PangMqtt API 이용한 렌덤한 데이터 전송 예제
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">link to source</a>
+#### 예제 2 : Pang task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">소스코드로 링크</a>
 ```java
 package examples;
@@ -128,7 +130,7 @@ public class PangTaskTimerExample {
 }
 ```
 
-#### 예제 2 : JDK task timer를 이용한 렌덤한 데이터 전송 예제
+#### 예제 3 : JDK task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/JavaUtilTimerExample.java" target="_blank">소스코드로 링크</a>
 ```java
 package examples;
