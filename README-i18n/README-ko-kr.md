@@ -225,7 +225,7 @@ pang.userkey=[[your user key in pangdata.com]]
 pang.period = 10
 ```
 당신은 자신이 고유한 property를 이 파일에 설정할 수 있습니다.
-PangProperties API에 당신의 property를 읽어올 수 있는 getter 메소드가 있습니다. 아래 코드를 참고하세요.
+PangProperties API에 당신의 property를 읽어올 수 있는 메소드가 있습니다. 아래 코드를 참고하세요.
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
