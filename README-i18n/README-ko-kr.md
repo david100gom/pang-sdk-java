@@ -210,7 +210,7 @@ public class JavaUtilTimerExample {
 이 파일의 압축을 풀고, **pang.properties**을 세팅하고 실행시켜 봅니다.
 <!--#### Config **pang.properties** file-->
 #### **pang.properties** 설정
-Pang Data SDK 는 **pang.properties**가 java 클래스패스 경로에 위치해야 합니다. 이 파일은 Pangdata.com의 인증을 위해 **username**과 **user key**를 가지고 있습니다.
+Pang Data SDK 는 **pang.properties**  파일이 자바 클래스패스 경로안에 위치해야 합니다. 이 파일은 Pangdata.com의 인증을 위해 **username**과 **user key**를 설정합니다.
 <!--###### How to find your user key.-->
 ###### user key 찾는 법
 1. pangdata.com 에 로그인
