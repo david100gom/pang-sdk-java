@@ -1,227 +1,192 @@
 # Pang Data SDK for Java
-
-该项目提供了一个Java的客户端库，可以很容易连接庞答蹋网络云服务. For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
-
+该项目提供了一个Java的客户端库，可以很容易连接庞数据网络云服务. For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 # Getting Start SDK
-
-## Step 0 : Check prerequisites
-You will need Java **v1.5+**. If you would like to develop on the SDK, you will also need gradle.
-
-## Step 1 : Get SDK
-#### Using Maven
-If you want to include Pang sdk to your project, add your **pom.xml** as follows:
+## 第0阶段 : Check prerequisites
+需要Java 1.5或以上的版本.如果通过SDK开发那需要,gradle 或maven项目构建。
+## 第一阶段 : 获取 SDK。
+#### 使用 Maven
+如添加Pang java SDK项目那么需 **pom.xml** 中添加代码如下。:
 ```
 ...
 <repositories>
-    ...
-    <repository>
-        <id>pang-data-repo</id>
-        <name>pang-data-repo</name>
-        <url>http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/</url>
-    </repository>
+...
+<repository>
+<id>pang-data-repo</id>
+<name>pang-data-repo</name>
+<url>http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/</url>
+</repository>
 </repositories>
 ...
 <dependencies>
-    ...
-    <dependency>
-        <groupId>com.pangdata</groupId>
-        <artifactId>pang-sdk-java</artifactId>
-        <version>1.0.0-RELEASE</version>
-    </dependency>
+...
+<dependency>
+<groupId>com.pangdata</groupId>
+<artifactId>pang-sdk-java</artifactId>
+<version>1.0.0-RELEASE</version>
+</dependency>
 </dependencies>
-    ...
+...
 }
 ```
-#### Using Gradle
-If you want to include Pang sdk to your project, add your **build.gradle** as follows:
+#### 使用 Gradle
+如添加Pang java SDK项目那么需 **build.gradle**中添加代码如下。:
 ```
 ...
 apply plugin: 'maven'
 ...
 repositories {
-    ...
-    maven{
-        url "http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/"
-    }
-    ...
+...
+maven{
+url "http://mini.prever.io:8081/nexus/content/groups/prever-io-public-repository/"
+}
+...
 }
 dependencies {
-    ...
-    compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-RELEASE'
-    ...
+...
+compile group: 'com.pangdata', name: 'pang-sdk-java', version: '1.0.0-RELEASE'
+...
 }
 ```
-#### Using Git
-If using package management is not your thing, then you can grab the sdk directly from source using git. To get the source code of the SDK via git just type:
+#### 使用 Git
+ 如果禁用软件包,则可以直接通过Git来获取SDK源代码。请通过下面的命令接收源代码。:
 ```bash
 git clone https://github.com/pangdata/pang-sdk-java.git
 cd ./pang-sdk-java/
 ```
-### Download jar & code
-If you want to download this sdk source code, go to the below link and download the zip file.
-<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
-## Step 2 : Write Example
-#### Example 2 : Sending random number using PangMqtt API
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">link to source</a>
-
-This example does not use the pang.properties file. You can use it directly without any configuration.
+### 下载jar文件与源代码。
+如果你想下载这个SDK的源代码，去下面的链接和下载压缩文件。
+<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">下载最新版本</a>
+## 第二阶段 : 使用示例
+#### 示例1 : 使用pangmqtt API发送随机数。
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">源代码链接</a>
+此示例不用pang.properties文件。可以直接使用它没有任何配置。
 ```java
 Pang pang = new PangMqtt("username", "userkey");
-	    
-Random r = new Random();    
+
+Random r = new Random(); 
 pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
 ```
-
-#### Example 2 : Sending random number using Pang's task timer
-<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">link to source</a>
+#### 示例2 : 使用 Pang's task timer发送随机数。
+<a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">源代码链接</a>
 ```java
 package examples;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
-
 public class PangTaskTimerExample {
-  private static final Logger logger = LoggerFactory.getLogger(PangTaskTimerExample.class);
-
-  private static Random random = new Random();
-  private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
-
-  public static void main(String[] args) throws Exception {
-    final Pang pang = new PangMqtt();
-
-    long period = PangProperties.getPeriod(); // Milli seconds
-    pang.startTimerTask(new MultipleDataCallback() {
-
-      public void onSuccess(Object sent) {
-        logger.info("Sent: {}", sent);
-      }
-
-      public boolean isRunning(int sentCount) {
-        return true;
-      }
-
-      public Object getData() {
-        Map<String, Object> data = new HashMap<String, Object>();
-
-        int nextInt = random.nextInt(100);
-        data.put("randomInteger", nextInt);
-
-        double nextFloat = random.nextGaussian() * 8.0f + 50;
-        data.put("randomFloat", nextFloat);
-
-        int index = random.nextInt(3);
-        data.put("randomString", status[index]);
-
-        boolean nextBoolean = random.nextBoolean();
-        data.put("randomBoolean", nextBoolean);
-        return data;
-      }
-
-    }, period, TimeUnit.MILLISECONDS);
-  }
+private static final Logger logger = LoggerFactory.getLogger(PangTaskTimerExample.class);
+private static Random random = new Random();
+private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
+public static void main(String[] args) throws Exception {
+final Pang pang = new PangMqtt();
+long period = PangProperties.getPeriod(); // Milli seconds
+pang.startTimerTask(new MultipleDataCallback() {
+public void onSuccess(Object sent) {
+logger.info("Sent: {}", sent);
+}
+public boolean isRunning(int sentCount) {
+return true;
+}
+public Object getData() {
+Map<String, Object> data = new HashMap<String, Object>();
+int nextInt = random.nextInt(100);
+data.put("randomInteger", nextInt);
+double nextFloat = random.nextGaussian() * 8.0f + 50;
+data.put("randomFloat", nextFloat);
+int index = random.nextInt(3);
+data.put("randomString", status[index]);
+boolean nextBoolean = random.nextBoolean();
+data.put("randomBoolean", nextBoolean);
+return data;
+}
+}, period, TimeUnit.MILLISECONDS);
+}
 }
 ```
-
-#### Example 3 : Sending random number Using JDK Timer class
+#### 示例3 : 使用JDK Timer类发送随机数。
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/JavaUtilTimerExample.java" target="_blank">link to source</a>
 ```java
 package examples;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
-
 public class JavaUtilTimerExample {
-  private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
-  
-  private static Random random = new Random();
-  private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
+private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
 
-  public static void main(String[] args) throws Exception {
-    final Pang pang = new PangMqtt();
+private static Random random = new Random();
+private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
+public static void main(String[] args) throws Exception {
+final Pang pang = new PangMqtt();
+long period = PangProperties.getPeriod(); //seconds
+Timer timer = new Timer();
+timer.schedule(new TimerTask() {
 
-    long period = PangProperties.getPeriod(); //seconds
-    Timer timer = new Timer();
-    timer.schedule(new TimerTask() {
-      
-      @Override
-      public void run() {
-        Map<String, Object> data = new HashMap<String, Object>();
-        
-        int nextInt = random.nextInt(100);
-        data.put("randomInteger", nextInt);
-        
-        double nextFloat = random.nextGaussian() * 8.0f + 50;
-        data.put("randomFloat", nextFloat);
-        
-        int index = random.nextInt(3);
-        data.put("randomString", status[index]);
-        
-        boolean nextBoolean = random.nextBoolean();
-        data.put("randomBoolean", nextBoolean);
-        
-        boolean result = pang.sendData(data);
-        logger.info("Message delivery sucess: {}", result);
-      }
-    }, 0, period);
+@Override
+public void run() {
+Map<String, Object> data = new HashMap<String, Object>();
 
-  }
+int nextInt = random.nextInt(100);
+data.put("randomInteger", nextInt);
+
+double nextFloat = random.nextGaussian() * 8.0f + 50;
+data.put("randomFloat", nextFloat);
+
+int index = random.nextInt(3);
+data.put("randomString", status[index]);
+
+boolean nextBoolean = random.nextBoolean();
+data.put("randomBoolean", nextBoolean);
+
+boolean result = pang.sendData(data);
+logger.info("Message delivery sucess: {}", result);
+}
+}, 0, period);
+}
 }
 ```
-
-## Step 3 : Sign up pangdata.com account
-For running example, you need the account and user key of pangdata.com.
-Please sign up pangdata.com through the link below.
-
-<a href="http://pangdata.com/pa/signUp" target="_blank">go to signup</a>
-
-## Step 4 : Configuration & Run
-Let's run pang example. We provides a sample application in the form of an executable.
-Download **pang-sdk-java.zip/pang-sdk-java.tar** via below link.
-
-<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">download link</a>
-
-Unzip this file, config **pang.properties** and run this example. 
-#### Config **pang.properties** file
-Pang Data SDK requires **pang.properties** in classpath. This file contains **username** and **user key** to authenticate Pangdata.com.
-###### How to find your user key.
-1. login pangdata.com
-2. go to Settings > Profile
-3. copy user key to paste on 'pang.userkey'
+## 第三阶段 : pangdata.com 帐户注册。
+运行实例，你需要pangdata.com账户和用户密钥。
+请通过下面的链接注册pangdata.com。
+<a href="http://pangdata.com/pa/signUp" target="_blank">去注册</a>
+## 第四阶段 : 配置与运行。
+运行以上例子。在上面提供了可执行的应用程序。
+通过以下链接可下载 **pang-sdk-java.zip/pang-sdk-java.tar**文件 。
+<a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">下载链接</a>
+解压这个文件， 配置**pang.properties** 后运行。. 
+#### 配置**pang.properties** 文件
+庞数据 SDK 需要在**pang.properties**类路径.  为通过Pangdata.com认证。需配置 **用户名** 和 **用户密钥* 。
+###### 如何找到您的用户密钥。
+1. 注册 pangdata.com
+2. 转到设置 > 配置文件
+3. 复制用户密钥粘贴到 'pang.userkey'
 ```
 #Pang Data reserved properties
 pang.username=[[your user name in pangdata.com]]
 pang.userkey=[[your user key in pangdata.com]]
-
 # Search schedule period(seconds)
 pang.period = 10
 ```
-You can declare your own properties in that file.
-PangProperties API provides getter method to get your properties. Below code is to get the properties 
+您可以在该文件中声明您自己的属性。
+pangproperties API提供了获取的方法。下面的代码是获取属性。
 ```java
 final String devicename = (String) PangProperties.getProperty("your property key");
 ```
-#### Running example
-Run the following command in this example directory.
+#### 运行实例
+在以下示例目录中运行下列命令。
 ###### windows
 ```
 pang.bat
@@ -230,53 +195,42 @@ pang.bat
 ```bash
 ./pang.sh
 ```
-This example application is running successfully if following log is written.
+应用程序运行成功，就会显示以下日志。
 ```log
 10:54:48.991 [main] TimerDataSender is started.
 10:54:49.205 [pool-1-thread-1] Send data to server http://pangdata.com/api/data/put/XbuDm0/example
 10:54:49.678 [pool-1-thread-1] Response: {"Data":"{\"randomInteger\":71,\"randomBoolean\":false,\"randomString\":\"GOOD\",\"randomFloat\":62.508314100247794}","Message":"Ok!","Success":true}
 ```
+## 第五阶段 : 浏览数据。
+最后，通过pangdata.com中的仪表板，浏览实时进入的数据。
+#### 注册 pangdata.com
+<a href="http://pangdata.com/pa/login" target="_blank">注册</a>
+#### 设备登记
+登录后，您可以看到概述。概述显示您的帐户的整体状态。在**未注册的设备中点击** **总数**。
+跳转到新的设备列表。你可以看到检测到的数据（randominteger，randomfloat，randomstring，randombooean）。
+庞数据视自动检测数据，既发送的庞数据客户端（例）。
+列表**"randomInteger"**右侧 单击+ 按钮。跳转到**新设备**窗口。
+你想添加一个插件？画对号，点击右下角的确认， "randomInteger"就会注册到庞数据的设备列表。
 
-## Step 5 : See your data
-
-Finally, it's time to see our example data with real-time dashboard of pangdata.com.
-#### Log in pangdata.com
-<a href="http://pangdata.com/pa/login" target="_blank">go to login</a>
-
-#### Register Device
-
-After login, you can see The overview. The overview shows the overall status of your account. click the **Total** count in **Unregistered Device**.
-This screen is a new device list. You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
-Pangdata automatically detect the data sent by the Pangdata client(example). 
-
-Click the **+ button** to the right of the **"randomInteger"** in the list. **New device** window opens.
-Check **do you wnat to add a widget?** and press **OK button** in the bottom right corner.
-**"randomInteger"** is registered to the device of Pangdata.
-
-#### Create Widget
-Immediately the **Add a Widget** window opens.
-Enter **"Line chart"** in the title input. To create a widget, you have to select a dashboard. Click and select **select dashboard** you want to add a widget.
-First-time users will not have a dashboard. To create a new dashboard, input **"Example Dashboard"** in **select dashboard** and click the + button on right.
-Finally click "OK" button. You can see dashboard named **"Example Dashboard"** and widget named **"Line chart"**.
-
-#### See real-time update chart
-let's see this widget. The line chart in this widget is changed to the 10-second intervals.(If **pang.period** is set to 10 in **pang.properties**)
-You can also register another data(randomFloat, randomString, randomBooean) to device and widget with the same steps.
-Pangdata provides a variety of widget type in addition to the line chart. Let's try another type widget.
+#### 创建小部件
+立即添加一个小部件*窗口打开。
+在标题输入中输入**"Line chart"**。要创建部件，必须选择仪表板。点击**select dashboard**选择你想添加的小部件。
+首次登录不会有仪表盘。要创建一个新的仪表板，输入**"Example Dashboard"**在**select dashboard** 点击右侧  +  按钮。
+最后点击“确定”。您可以看到仪表板命名为*"Example Dashboard"**和部件名为"Line chart" 。
+#### 浏览实时更新图
+让我们看看这个小部件。此控件中的线条图被更改为10秒的间隔。（如果 **pang.properties**的 **pang.period**设置为10）
+可以相同的步骤，登记小部件既设备数据（randomfloat，randomstring，randombooean）。
+pangdata 除 line chart以外还提供各种小部件。可尝试一下其他类型小部件。
 ![dashboard](https://raw.githubusercontent.com/pangdata/pang-sdk-java/master/screenshots/getting_start_result.gif)
-
-## Screen Shots
+## 屏幕截图
 ![dashboard_screenshot](https://raw.githubusercontent.com/pangdata/pang-sdk-java/master/screenshots/example_dashboard.gif)
 ![device_screenshot](https://raw.githubusercontent.com/pangdata/pang-sdk-java/master/screenshots/device_rowdata.JPG)
 ![analytics_screenshot](https://raw.githubusercontent.com/pangdata/pang-sdk-java/master/screenshots/analytics.JPG)
+## 下一个阶段 : 你需要另一个庞数据应用程序吗？
+我们提供一个集合样品，它会告诉你如何开发你的物联网设备和任何应用程序，你想使用吗？ 那就点击以下链接安装吧，安装后请在pangdata.com 确认。 <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
 
-## Next Step : Do you need another Pang Data applications?
-We have a collection of getting started samples which will show you how to develop your IoT devices and any applications that you want to play with it. Please visit and install it then you will find out what Pangdata.com is at <a href="https://github.com/pang-apps/" target="_blank">Pang Data applications</a>.
-
-
-# Need some help?
-Please send us your issues and problems using our feedback in Pangdata.com.
-
-#Contribute Code
-If you would like to become an active contributor to this project please contact us using feedback in Pangdata.com.
-You can become a developer of Pang-apps and contribute your great applciations.
+# 需要帮忙吗？
+在反馈中把你的问题陈述给我们吧！pangdata.com。
+#贡献代码
+如果你想加入这个项目，那请使用反馈联系我们pangdata.com积极提出您的宝贵的意见与建议。
+你作Pang-apps开发者真诚的感谢你提供的宝贵的建议。
