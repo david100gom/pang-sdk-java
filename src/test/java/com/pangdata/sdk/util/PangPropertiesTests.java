@@ -8,7 +8,6 @@ public class PangPropertiesTests {
 
 	@Test
 	public void isEnabledToSend() throws IOException {
-		SdkUtils.loadPangProperties();
 		boolean enabledToSend = PangProperties.isEnabledToSend();
 		System.out.println(enabledToSend);
 	}

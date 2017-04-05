@@ -20,13 +20,10 @@
  */
 package com.pangdata.sdk.http;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -43,6 +40,7 @@ import com.pangdata.sdk.AbstractPang;
 import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
 public abstract class AbstractHttp extends AbstractPang {
@@ -57,30 +55,25 @@ public abstract class AbstractHttp extends AbstractPang {
   
   public AbstractHttp(boolean mustinvoke) {
     try {
-      Properties props = SdkUtils.loadPangProperties();
-      
-      String username = (String) props.get("pang.username");
+      String username = (String) PangProperties.getProperty("pang.username");
       if(username != null && username.trim().length() > 0) {
         this.username = username;
       } else {
         throw new PangException(new IllegalStateException("pang.username not found in pang.properties"));
       }
-      String userkey = (String) props.get("pang.userkey");
+      String userkey = (String) PangProperties.getProperty("pang.userkey");
       if(userkey != null && userkey.trim().length() > 0) {
         this.userkey = userkey;
       } else {
         throw new PangException(new IllegalStateException("pang.userkey not found in pang.properties"));
       }
-      String url = (String) props.get("pang.url");
+      String url = (String) PangProperties.getProperty("pang.url");
       if(url != null && url.trim().length() > 0) {
         this.url = url;
       } 
     } catch (PangException e) {
       logger.error("Property error", e);
       throw e;
-    } catch (IOException e) {
-      logger.error("Could not find a pang.properties in classpath", e);
-      throw new PangException(new FileNotFoundException("pang.properties"));
     }
   }
   
