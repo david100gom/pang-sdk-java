@@ -1,9 +1,9 @@
-# Pang Data SDK for Java
-该项目提供了一个Java的客户端库，可以很容易连接庞数据网络云服务. For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
-# Getting Start SDK
-## 第0阶段 : Check prerequisites
+# 使用JAVA语言的 庞数据 SDK 
+提供连接云服务的java客户端程序。
+# 使用 SDK 
+## 第一阶段 : 需要安装
 需要Java 1.5或以上的版本.如果通过SDK开发那需要,gradle 或maven项目构建。
-## 第一阶段 : 获取 SDK。
+## 第二阶段 : 获取 SDK。
 #### 使用 Maven
 如添加Pang java SDK项目那么需 **pom.xml** 中添加代码如下。:
 ```
@@ -56,7 +56,7 @@ cd ./pang-sdk-java/
 ### 下载jar文件与源代码。
 如果你想下载这个SDK的源代码，去下面的链接和下载压缩文件。
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">下载最新版本</a>
-## 第二阶段 : 使用示例
+## 第三阶段 : 使用示例
 #### 示例1 : 使用pangmqtt API发送随机数。
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangMqttExample.java" target="_blank">源代码链接</a>
 此示例不用pang.properties文件。可以直接使用它没有任何配置。
@@ -191,11 +191,11 @@ public class JavaUtilTimerExample {
   }
 }
 ```
-## 第三阶段 : pangdata.com 帐户注册。
+## 第四阶段 : pangdata.com 帐户注册。
 运行实例，你需要pangdata.com账户和用户密钥。
 请通过下面的链接注册pangdata.com。
 <a href="http://pangdata.com/pa/signUp" target="_blank">去注册</a>
-## 第四阶段 : 配置与运行。
+## 第五阶段 : 配置与运行。
 运行以上例子。在上面提供了可执行的应用程序。
 通过以下链接可下载 **pang-sdk-java.zip/pang-sdk-java.tar**文件 。
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">下载链接</a>
@@ -235,7 +235,7 @@ pang.bat
 10:54:49.205 [pool-1-thread-1] Send data to server http://pangdata.com/api/data/put/XbuDm0/example
 10:54:49.678 [pool-1-thread-1] Response: {"Data":"{\"randomInteger\":71,\"randomBoolean\":false,\"randomString\":\"GOOD\",\"randomFloat\":62.508314100247794}","Message":"Ok!","Success":true}
 ```
-## 第五阶段 : 浏览数据。
+## 第六阶段 : 浏览数据。
 最后，通过pangdata.com中的仪表板，浏览实时进入的数据。
 #### 注册 pangdata.com
 <a href="http://pangdata.com/pa/login" target="_blank">注册</a>
