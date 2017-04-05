@@ -7,7 +7,7 @@
 # SDK 시작하기
 
 <!--## Step 0 : Check prerequisites-->
-## 0 단계 : 개발에 필요한 요건
+## 0 단계 : 사전 설치 프로그램
 JAVA **1.5** 버전 이상이 필요합니다. SDK로 개발을 하고 싶다면, gradle 이나 maven 빌드 툴도 필요합니다.
 
 <!--## Step 1 : Get SDK-->
