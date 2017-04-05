@@ -70,44 +70,59 @@ pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">源代码链接</a>
 ```java
 package examples;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
+
 public class PangTaskTimerExample {
-private static final Logger logger = LoggerFactory.getLogger(PangTaskTimerExample.class);
-private static Random random = new Random();
-private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
-public static void main(String[] args) throws Exception {
-final Pang pang = new PangMqtt();
-long period = PangProperties.getPeriod(); // Milli seconds
-pang.startTimerTask(new MultipleDataCallback() {
-public void onSuccess(Object sent) {
-logger.info("Sent: {}", sent);
-}
-public boolean isRunning(int sentCount) {
-return true;
-}
-public Object getData() {
-Map<String, Object> data = new HashMap<String, Object>();
-int nextInt = random.nextInt(100);
-data.put("randomInteger", nextInt);
-double nextFloat = random.nextGaussian() * 8.0f + 50;
-data.put("randomFloat", nextFloat);
-int index = random.nextInt(3);
-data.put("randomString", status[index]);
-boolean nextBoolean = random.nextBoolean();
-data.put("randomBoolean", nextBoolean);
-return data;
-}
-}, period, TimeUnit.MILLISECONDS);
-}
+  private static final Logger logger = LoggerFactory.getLogger(PangTaskTimerExample.class);
+
+  private static Random random = new Random();
+  private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
+
+  public static void main(String[] args) throws Exception {
+    final Pang pang = new PangMqtt();
+
+    long period = PangProperties.getPeriod(); // Milli seconds
+    pang.startTimerTask(new MultipleDataCallback() {
+
+      public void onSuccess(Object sent) {
+        logger.info("Sent: {}", sent);
+      }
+
+      public boolean isRunning(int sentCount) {
+        return true;
+      }
+
+      public Object getData() {
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        int nextInt = random.nextInt(100);
+        data.put("randomInteger", nextInt);
+
+        double nextFloat = random.nextGaussian() * 8.0f + 50;
+        data.put("randomFloat", nextFloat);
+
+        int index = random.nextInt(3);
+        data.put("randomString", status[index]);
+
+        boolean nextBoolean = random.nextBoolean();
+        data.put("randomBoolean", nextBoolean);
+        return data;
+      }
+
+    }, period, TimeUnit.MILLISECONDS);
+  }
 }
 ```
 #### 示例3 : 使用JDK Timer类发送随机数。
@@ -124,38 +139,56 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.mqtt.PangMqtt;
 import com.pangdata.sdk.util.PangProperties;
+package examples;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.pangdata.sdk.Pang;
+import com.pangdata.sdk.mqtt.PangMqtt;
+import com.pangdata.sdk.util.PangProperties;
+
 public class JavaUtilTimerExample {
-private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
+  private static final Logger logger = LoggerFactory.getLogger(JavaUtilTimerExample.class);
+  
+  private static Random random = new Random();
+  private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
 
-private static Random random = new Random();
-private static final String[] status = new String[]{"GOOD", "BAD", "NONE"};
-public static void main(String[] args) throws Exception {
-final Pang pang = new PangMqtt();
-long period = PangProperties.getPeriod(); //seconds
-Timer timer = new Timer();
-timer.schedule(new TimerTask() {
+  public static void main(String[] args) throws Exception {
+    final Pang pang = new PangMqtt();
 
-@Override
-public void run() {
-Map<String, Object> data = new HashMap<String, Object>();
+    long period = PangProperties.getPeriod(); //seconds
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask() {
+      
+      @Override
+      public void run() {
+        Map<String, Object> data = new HashMap<String, Object>();
+        
+        int nextInt = random.nextInt(100);
+        data.put("randomInteger", nextInt);
+        
+        double nextFloat = random.nextGaussian() * 8.0f + 50;
+        data.put("randomFloat", nextFloat);
+        
+        int index = random.nextInt(3);
+        data.put("randomString", status[index]);
+        
+        boolean nextBoolean = random.nextBoolean();
+        data.put("randomBoolean", nextBoolean);
+        
+        boolean result = pang.sendData(data);
+        logger.info("Message delivery sucess: {}", result);
+      }
+    }, 0, period);
 
-int nextInt = random.nextInt(100);
-data.put("randomInteger", nextInt);
-
-double nextFloat = random.nextGaussian() * 8.0f + 50;
-data.put("randomFloat", nextFloat);
-
-int index = random.nextInt(3);
-data.put("randomString", status[index]);
-
-boolean nextBoolean = random.nextBoolean();
-data.put("randomBoolean", nextBoolean);
-
-boolean result = pang.sendData(data);
-logger.info("Message delivery sucess: {}", result);
-}
-}, 0, period);
-}
+  }
 }
 ```
 ## 第三阶段 : pangdata.com 帐户注册。
@@ -177,6 +210,7 @@ logger.info("Message delivery sucess: {}", result);
 #Pang Data reserved properties
 pang.username=[[your user name in pangdata.com]]
 pang.userkey=[[your user key in pangdata.com]]
+
 # Search schedule period(seconds)
 pang.period = 10
 ```
