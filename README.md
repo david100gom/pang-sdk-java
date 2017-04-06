@@ -66,6 +66,13 @@ cd ./pang-sdk-java/
 ### Download jar & code
 If you want to download this sdk source code, go to the below link and download the zip file.
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
+
+###### Linux ######
+``` 
+wget https://github.com/pangdata/pang-sdk-java/releases/download/[version]/pang-sdk-java.tar
+tar -xvf pang-sdk-java.tar
+``` 
+
 ## Step 2 : Write Example
 
 #### Example 1 : Sending random number using PangMqtt API
