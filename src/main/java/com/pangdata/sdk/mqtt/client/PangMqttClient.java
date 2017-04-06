@@ -241,6 +241,9 @@ public class PangMqttClient extends AbstractPang{
     return true;
   }
   
+  public boolean sendData(String devicename, Object data) {
+    return sendData(devicename, String.valueOf(data));
+  }
   
   public boolean sendData(Object obj) {
     String strValues = JsonUtils.convertObjToJsonStr(obj);

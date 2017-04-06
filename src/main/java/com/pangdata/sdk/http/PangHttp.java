@@ -20,7 +20,6 @@
  */
 package com.pangdata.sdk.http;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +44,6 @@ public class PangHttp extends AbstractHttp {
   public PangHttp(String username, String userkey, String uri) {
     super(username, userkey, uri);
   }
-
 
   public boolean isConnected() {
     throw new UnsupportedOperationException();
@@ -78,6 +76,10 @@ public class PangHttp extends AbstractHttp {
     return sendData(dataMap);
   }
 
+  public boolean sendData(String devicename, Object value) {
+    return sendData(devicename, String.valueOf(value));
+  }
+
   public boolean sendData(Object obj) {
     HttpPost httpPost =
         new HttpPost(getUrl());
@@ -88,4 +90,5 @@ public class PangHttp extends AbstractHttp {
 
     return sendData(httpPost);
   }
+
 }

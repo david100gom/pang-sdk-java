@@ -45,8 +45,7 @@ import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
 public class PangMqtt extends MqttDelegatedAbstractHttpClient {
-	private static final Logger logger = LoggerFactory
-			.getLogger(PangMqtt.class);
+  private static final Logger logger = LoggerFactory.getLogger(PangMqtt.class);
 
 	class DefaultReassignableBrokerProvider implements
 			ReassignableBrokerProvider {

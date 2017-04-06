@@ -73,9 +73,14 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
     return pang.sendData(devicename, data);
   }
 
+  public boolean sendData(String devicename, Object data) {
+    return pang.sendData(devicename, data);
+  }
+
   public boolean sendData(Object data) {
     return pang.sendData(data);
   }
+  
 
   public void startTimerTask(String devicename, DataCallback dataCallback, long period,
       TimeUnit timeUnit) {

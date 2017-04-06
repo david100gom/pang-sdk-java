@@ -40,6 +40,8 @@ public interface Pang {
   
   public boolean sendData(Object data);
 
+  public boolean sendData(String devicename, Object value);
+  
   public void startTimerTask(String devicename, DataCallback dataCallback, long period,
       TimeUnit timeUnit);
 
