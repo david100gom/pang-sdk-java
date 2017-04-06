@@ -83,7 +83,18 @@ This example does not use the pang.properties file. You can use it directly with
 Pang pang = new PangMqtt("username", "userkey");
 	    
 Random r = new Random();    
-pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
+pang.sendData("example_temperature", r.nextInt(200));
+```
+
+Using Map
+```java
+Pang pang = new PangMqtt("username", "userkey");
+Map<String, Object> data = new HashMap<String, Object>();
+
+Random r = new Random();
+data.put("example_temperature", r.nextInt(40));
+    
+pang.sendData(data);
 ```
 
 #### Example 2 : Sending random number using Pang's task timer
