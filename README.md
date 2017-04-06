@@ -66,6 +66,13 @@ cd ./pang-sdk-java/
 ### Download jar & code
 If you want to download this sdk source code, go to the below link and download the zip file.
 <a href="https://github.com/pangdata/pang-sdk-java/releases/latest" target="_blank">latest version</a>
+
+###### Linux ######
+``` 
+wget https://github.com/pangdata/pang-sdk-java/releases/download/[version]/pang-sdk-java.tar
+tar -xvf pang-sdk-java.tar
+``` 
+
 ## Step 2 : Write Example
 
 #### Example 1 : Sending random number using PangMqtt API
@@ -76,7 +83,18 @@ This example does not use the pang.properties file. You can use it directly with
 Pang pang = new PangMqtt("username", "userkey");
 	    
 Random r = new Random();    
-pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
+pang.sendData("example_temperature", r.nextInt(200));
+```
+
+Using Map
+```java
+Pang pang = new PangMqtt("username", "userkey");
+Map<String, Object> data = new HashMap<String, Object>();
+
+Random r = new Random();
+data.put("example_temperature", r.nextInt(40));
+    
+pang.sendData(data);
 ```
 
 #### Example 2 : Sending random number using Pang's task timer
