@@ -143,7 +143,7 @@ public class PangProperties {
 		return prefxiedProperties;
   }
   
-  public static List<String> extractPrefixedProperties(String prefix) {
+  public static List<String> extractPrefixedKey(String prefix) {
 	  checkNull();
 		Set<Entry<Object, Object>> entrySet = props.entrySet();
 		Iterator<Entry<Object, Object>> iterator = entrySet.iterator();
@@ -160,6 +160,23 @@ public class PangProperties {
 			}
 		}
 		return properties;
+  }
+  
+  public static Map<String, Object> extractPrefixedProperties(String prefix) {
+    checkNull();
+      Set<Entry<Object, Object>> entrySet = props.entrySet();
+      Iterator<Entry<Object, Object>> iterator = entrySet.iterator();
+
+      Map<String, Object> properties = new HashMap<String, Object>();
+
+      while (iterator.hasNext()) {
+          Entry<Object, Object> next = iterator.next();
+          String key = (String) next.getKey();
+          if (key.startsWith(prefix)) {
+              properties.put(key, next.getValue());
+          }
+      }
+      return properties;
   }
   
   public static Map<Integer, Map<String, String>> extractVariableProperties(String prefix) {
