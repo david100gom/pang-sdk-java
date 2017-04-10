@@ -15,8 +15,6 @@
 /build
 /bin
 /logs
-/pang-sdk-java/logs
-pang-sdk-java.tar
-pang-sdk-java.zip
+/pang-sdk-java
 pang-sdk-java.tar
 pang-sdk-java.zip
