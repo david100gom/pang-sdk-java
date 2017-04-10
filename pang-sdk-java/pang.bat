@@ -1,1 +1,0 @@
-java -cp ./libs/*;./conf examples.PangTaskTimerExample
