@@ -96,6 +96,7 @@ data.put("example_temperature", r.nextInt(40));
     
 pang.sendData(data);
 ```
+Note: Devicename(Key of data) cloud not use space.
 
 #### Example 2 : Sending random number using Pang's task timer
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">link to source</a>
@@ -243,7 +244,7 @@ pang.period = 10
 You can declare your own properties in that file.
 PangProperties API provides getter method to get your properties. Below code is to get the properties 
 ```java
-final String devicename = (String) PangProperties.getProperty("your property key");
+String property = (String) PangProperties.getProperty("your property key");
 ```
 #### Running example
 Run the following command in this example directory.
