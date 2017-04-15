@@ -2,6 +2,8 @@
 
 This project provides a client library in Java that makes it easy to connect Pang Data web cloud services. For documentation please see the <a href="https://pangdata.com/home#/sdk" target="_blank">SDK</a>. For a list of libraries and how they are organized, please see the <a href="https://github.com/pangdata/pang-sdk-java/wiki/Pang-Data-SDK-for-Java-Features" target="_blank">Pang Data SDK for Java Features Wiki page</a>.
 
+![Pang Data Cloud Overview](https://github.com/pangdata/pang-sdk-java/blob/master/screenshots/pangdata-cloud.PNG)
+
 # Translations
 
 - [Korean](https://github.com/pangdata/pang-sdk-java/blob/master/README-i18n/README-ko-kr.md)
