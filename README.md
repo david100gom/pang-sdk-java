@@ -269,12 +269,10 @@ Finally, it's time to see our example data with real-time dashboard of pangdata.
 #### Log in pangdata.com
 <a href="http://pangdata.com/pa/login" target="_blank">go to login</a>
 
-#### Register Device
+See main dashborad(Overview) and you can find registered device. 
+You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
 
-After login, you can see The overview. The overview shows the overall status of your account. click the **Total** count in **Unregistered Device**.
-This screen is a new device list. You can see the detected data(randomInteger,randomFloat, randomString, randomBooean).
-Pangdata automatically detect the data sent by the Pangdata client(example). 
-
+Create your own dashboard and your data will play in realtime.
 Click the **+ button** to the right of the **"randomInteger"** in the list. **New device** window opens.
 Check **do you wnat to add a widget?** and press **OK button** in the bottom right corner.
 **"randomInteger"** is registered to the device of Pangdata.
