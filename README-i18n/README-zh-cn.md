@@ -64,7 +64,7 @@ cd ./pang-sdk-java/
 Pang pang = new PangMqtt("username", "userkey");
 
 Random r = new Random(); 
-pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
+pang.sendData("example_temperature", r.nextInt(200));
 ```
 #### 示例2 : 使用 Pang's task timer发送随机数。
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">源代码链接</a>
