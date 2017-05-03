@@ -76,7 +76,7 @@ SDK 소스 코드를 직접 다운로드하고 싶다면 아래 링크로 이동
 Pang pang = new PangMqtt("username", "userkey");
 	    
 Random r = new Random();    
-pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));
+pang.sendData("example_temperature", r.nextInt(200));
 ```
 #### 예제 2 : Pang task timer를 이용한 렌덤한 데이터 전송 예제
 <a href="https://github.com/pangdata/pang-sdk-java/blob/master/examples/examples/PangTaskTimerExample.java" target="_blank">소스코드로 링크</a>
