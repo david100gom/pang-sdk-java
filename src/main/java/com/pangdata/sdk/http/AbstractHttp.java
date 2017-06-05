@@ -37,13 +37,13 @@ public abstract class AbstractHttp extends AbstractPang {
     try {
       String username = (String) PangProperties.getProperty("pang.username");
       if(username != null && username.trim().length() > 0) {
-        this.username = username;
+        this.username = username.trim();
       } else {
         throw new PangException(new IllegalStateException("pang.username not found in pang.properties"));
       }
       String userkey = (String) PangProperties.getProperty("pang.userkey");
       if(userkey != null && userkey.trim().length() > 0) {
-        this.userkey = userkey;
+        this.userkey = userkey.trim();
       } else {
         throw new PangException(new IllegalStateException("pang.userkey not found in pang.properties"));
       }
