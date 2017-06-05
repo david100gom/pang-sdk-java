@@ -20,6 +20,8 @@ public class PangProperties {
   private static final int _DEFAULT_PERIOD = 10000;
   private static Properties props;
   private static boolean loaded;
+  private static String concatenator;
+  private static String prefix;
   
   public static synchronized Properties loadPangProperties() throws IOException {
     if(props != null) {
@@ -35,7 +37,33 @@ public class PangProperties {
     props.load(is);
     is.close();
     
+    concatenator = props.getProperty("pang.concatenator");
+    if(concatenator == null) {
+      concatenator = "-";
+    } else if(concatenator.trim().equalsIgnoreCase("underscore")){
+      concatenator = "_";
+    } else {
+      concatenator = "-";
+    }
+    logger.debug("pang.concatenator: '{}'", concatenator);
+    
+    prefix = props.getProperty("pang.prefix");
+    if(prefix != null) {
+      prefix = prefix.trim();
+    }
+    logger.debug("pang.prefix: {}.", prefix);
+    
     return props;
+  }
+
+  public static String getConcatenator() {
+    checkNull();
+    return concatenator;
+  }
+  
+  public static String getPrefix() {
+    checkNull();
+    return prefix;
   }
   
   public static void setProperties(Properties props) {

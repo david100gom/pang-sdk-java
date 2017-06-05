@@ -39,6 +39,10 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
 	public PangMqtt() throws Exception {
 		super(true);
+		if(!PangProperties.isEnabledToSend()) {
+		  setProxyClient();
+		  return;
+		}
 		setWaitor();
 		connect(url);
 		waitUntilConnected();
@@ -46,6 +50,10 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
 	public PangMqtt(String username, String userkey) throws Exception {
 		this(username, userkey, null);
+		if(!PangProperties.isEnabledToSend()) {
+		  setProxyClient();
+          return;
+        }
 		setWaitor();
 		connect(url);
 		waitUntilConnected();

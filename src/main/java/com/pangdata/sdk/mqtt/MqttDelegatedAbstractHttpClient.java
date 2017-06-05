@@ -113,4 +113,77 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
     pang.startTimerTask(multipleDataCallback, period, timeUnit);
   }
 
+  protected void setProxyClient() {
+    pang = new Pang() {
+      
+      public void waitTimerTask(long timeout, TimeUnit unit) {
+        
+      }
+      
+      public void waitTimerTask() {
+        // TODO Auto-generated method stub
+        
+      }
+      
+      public void unsubscribeDataSharing(String giverUserId, String devicename) {
+        
+      }
+      
+      public void unsubscribeControl(String devicename) {
+        
+      }
+      
+      public void subscribeDataSharing(String giverUserId, String devicename,
+          DataSharingCallback sharingDataCallback) {
+        
+      }
+      
+      public void subscribeControl(String devicename, ControlCallback controlCallback) {
+        
+      }
+      
+      public void stopTimerTask() {
+        
+      }
+      
+      public void startTimerTask(MultipleDataCallback multipleDataCallback, long period,
+          TimeUnit timeUnit) {
+        
+      }
+      
+      public void startTimerTask(String devicename, DataCallback dataCallback, long period,
+          TimeUnit timeUnit) {
+        
+      }
+      
+      public void setConnectionCallback(ConnectionCallback connectionCallback) {
+        
+      }
+      
+      public boolean sendData(String devicename, Object value) {
+        return true;
+      }
+      
+      public boolean sendData(Object data) {
+        return true;
+      }
+      
+      public boolean sendData(String devicename, String data) {
+        return true;
+      }
+      
+      public boolean isConnected() {
+        // TODO Auto-generated method stub
+        return true;
+      }
+      
+      public void disconnect() {
+        
+      }
+      
+      public void connect(String addresses) throws Exception {
+        
+      }
+    };
+  }
 }
