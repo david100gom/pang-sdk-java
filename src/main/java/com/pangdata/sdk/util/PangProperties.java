@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -212,6 +213,38 @@ public class PangProperties {
 	    }
 
 	    return targets;
-	  }
+  }
 
+  public static Set<String> getList(Object object) {
+    return getList(object, false);
+  }
+
+  public static Set<String> getList(Object object, boolean toLower) {
+    Set<String> partitions = new HashSet<String>();
+    if (object == null) {
+      return null;
+    } else if (object instanceof Map) {
+      Map<String, Object> keyMap = (Map<String, Object>) object;
+      Set<String> keySet = keyMap.keySet();
+      for (String key : keySet) {
+        if(toLower) {
+          partitions.add(((String) keyMap.get(key)).toLowerCase());
+        } else {
+          partitions.add((String) keyMap.get(key));
+        }
+      }
+    } else if (object instanceof String) {
+      String[] split = ((String) object).split(",");
+      for (String k : split) {
+        if(toLower) {
+          partitions.add(k.trim().toLowerCase());
+        } else {
+          partitions.add(k.trim());
+        }
+      }
+    } else {
+      return null;
+    }
+    return partitions;
+  }
 }

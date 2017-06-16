@@ -23,15 +23,29 @@ public class PangMqttTests {
   public void pangMqttConstructor() throws Exception {
     Pang pang = new PangMqtt("your username", "your userkey");
     
-    Random r = new Random();    
+    Random r = new Random();   
+    
+    
     pang.sendData("example_temperature", String.valueOf(r.nextInt(200)));    
   }
   
   @Test
-  public void pangMqttFromProperties() throws Exception {
+  public void sendLargeData() throws Exception {
 	  Pang pang = new PangMqtt();
 	  Random r = new Random();
-	  pang.sendData("example_temperature", String.valueOf(r.nextInt(10)));
+//	  String values = "23434343szdfasdfasdfadsfadsfasdfadsfadfasdfa";
+	  String values = "javaw#2=cpu:15.16,mem:106248,tcount:28   "+
+	      "MsMpEng=cpu:3.43, mem:157384, tcount:30   "+
+	      " explorer=cpu=1.67, mem:34984, tcount:82"+
+	      " Taskmgr=cpu:1.46,mem:7964,tcount:20"+
+	      " dwm=cpu:0.84,mem:37976,tcount:10"+
+	      " System=cpu:0.47,mem:28,tcount:163"+
+	      " java#2=cpu:0.3,mem:57884,tcount:34"+
+	      " svchost#4=cpu:0.3,mem:20304,tcount:84"+
+	      " WmiPrvSE#2=cpu:0.2,mem:8644,tcount:11"+
+	      " SecureCRT=cpu:0.14,mem:9708,tcount:17";
+	  
+	  pang.sendData("josh-top-process", values);
   }
   
   @Test
