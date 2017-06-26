@@ -34,50 +34,13 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
   public void connect(String uri) throws Exception {
     super.connect(uri);
     
-    HttpPost httpPost = null;
-
-    HttpResponse response = null;
     try {
-
-      if(httpClient == null) {
-        httpClient = new DefaultHttpClient();
-      }
-      httpPost = new HttpPost(uri + "/pa/user/profile/" +userkey + "/"+ username);
-      List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-      nvps.add(new BasicNameValuePair("content-type", "application/json"));
-
-      logger.info("Starting to get user profile.......");
-      logger.info("URI: {}", httpPost.getURI().toString());
-      response = httpClient.execute(httpPost);
-
-      if (response.getStatusLine().getStatusCode() != 200) {
-        logger.error("HTTP error: {}", EntityUtils.toString(response.getEntity(), "UTF-8"));
-        throw new RuntimeException("Failed : HTTP error code : "
-            + response.getStatusLine().getStatusCode());
-      }
-
-      String profile = EntityUtils.toString(response.getEntity(), "UTF-8");
-      logger.info("{} 's response profile: {}", username, profile);
-
-      Map<String, Object> responseMap = (Map<String, Object>) JsonUtils.toObject(profile, Map.class);
-      if (!(Boolean) responseMap.get("Success")) {
-        throw new RuntimeException(String.format("Success: %s, Error message: %s",
-            responseMap.get("Success"), responseMap.get("Message")));
-      }
-      connect((Map)responseMap.get("Data"));
+      Map<String, Object> profile = request("pa/user/profile");
+      connect((Map)profile.get("Data"));
     } catch (Exception e) {
       logger.error("User profile request error", e);
       throw e;
-    } finally {
-      try {
-        if (httpClient != null) {
-          httpClient.getConnectionManager().shutdown();
-        }
-      } catch (Exception e) {
-        logger.error("Error", e);
-      }
     }
-
   }
   
   protected void connect(Map profile) throws Exception {
@@ -98,5 +61,12 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
 
   public void connect(String addresses, boolean anonymous) throws Exception {
     throw new UnsupportedOperationException();
+  }
+
+  public boolean isSendable() {
+    return false;
+  }
+
+  public void setSendable(boolean sendable) {
   }
 }

@@ -60,6 +60,10 @@ public class PangMqttClient extends AbstractPang{
   
   private PangMqttClientCallback mqttCallback;
 
+  private boolean sendable = true;
+
+  private Map<String, String> registered = new HashMap<String, String> ();
+
   public PangMqttClient(String username) throws PangException {
     this(username, "default", Long.toString(System.currentTimeMillis()));
   }
@@ -201,7 +205,12 @@ public class PangMqttClient extends AbstractPang{
   }
 
   public boolean sendData(String devicename, String data) {
-
+    if(!isSendable()) {
+      return false;
+    }
+    
+    registerDevices(devicename);
+    
     MqttMessage message = new MqttMessage();
     message.setPayload(data.getBytes(Charset.forName(charset)));
     message.setQos(DEFAULT_DATA_QOS);
@@ -226,6 +235,9 @@ public class PangMqttClient extends AbstractPang{
   }
   
   public boolean sendData(Object obj) {
+    if(!isSendable()) {
+      return false;
+    }
     String strValues = JsonUtils.convertObjToJsonStr(obj);
     
     MqttMessage message = new MqttMessage();
@@ -311,4 +323,17 @@ public class PangMqttClient extends AbstractPang{
     controlCallbackMap.remove(thingId);
   }
 
+  public boolean isSendable() {
+    return sendable;
+  }
+
+  public void setSendable(boolean sendable) {
+    this.sendable = sendable; 
+  }
+  
+  private void registerDevices(String devicename) {
+    if(registered.containsKey(devicename)) {
+      return;
+    }
+  }
 }

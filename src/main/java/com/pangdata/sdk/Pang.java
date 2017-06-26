@@ -47,4 +47,7 @@ public interface Pang {
 
   public void setConnectionCallback(ConnectionCallback connectionCallback);
 
+  public boolean isSendable();
+  
+  public void setSendable(boolean sendable);
 }

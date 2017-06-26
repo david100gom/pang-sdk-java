@@ -13,6 +13,8 @@ import com.pangdata.sdk.util.JsonUtils;
 
 public class PangHttp extends AbstractHttp {
 
+  private boolean sendable = true;
+
   public PangHttp() {
     super(true);
   }
@@ -61,6 +63,10 @@ public class PangHttp extends AbstractHttp {
   }
 
   public boolean sendData(Object obj) {
+    if(!isSendable()) {
+      return false;
+    }
+    
     HttpPost httpPost =
         new HttpPost(getUrl());
     String data = JsonUtils.convertObjToJsonStr(obj);
@@ -69,6 +75,14 @@ public class PangHttp extends AbstractHttp {
     httpPost.addHeader("content-type", "application/json");
 
     return sendData(httpPost);
+  }
+
+  public boolean isSendable() {
+    return sendable;
+  }
+
+  public void setSendable(boolean sendable) {
+    this.sendable  = sendable;
   }
 
 }
