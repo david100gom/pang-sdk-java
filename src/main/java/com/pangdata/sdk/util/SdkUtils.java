@@ -18,6 +18,40 @@ import org.apache.http.params.HttpParams;
 
 public class SdkUtils {
 
+  public static String getDevicename(String devicename) {
+    return getDevicename(devicename, null);
+  }
+
+  public static String getDevicename(String devicename, String...args) {
+    if(args != null) {
+      devicename = replaceTwoToOne(replaceSpecialCharacter(replace(devicename, args)));
+    }
+    String prefix = PangProperties.getPrefix();
+    if (prefix != null && !prefix.isEmpty()) {
+      devicename = prefix+PangProperties.getConcatenator()+devicename;
+    }
+    return devicename;
+  }
+  
+  public static String replace(String value, String...args) {
+    for(String arg:args) {
+      value = value.replace("{}", arg);
+    }
+    return value;
+  }
+  
+  
+  public static String replaceSpaceCharacter(String devicename) {
+    return devicename.replaceAll("[\\s+]", "");
+  }
+
+  public static String replaceTwoToOne(String devicename) {
+    return devicename.replaceAll(PangProperties.getConcatenator()+"{2,}", PangProperties.getConcatenator());
+  }
+  public static String replaceSpecialCharacter(String devicename) {
+    return devicename.replaceAll("[^a-zA-Z0-9]", PangProperties.getConcatenator());
+  }
+  
   public static InetAddress getLocalAddress() throws SocketException
   {
     Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();

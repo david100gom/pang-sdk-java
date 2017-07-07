@@ -16,13 +16,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PangProperties {
-	
   private static final Logger logger = LoggerFactory.getLogger(PangProperties.class);
+  public static final String Cons_value = "value";
+  public static final String Cons_tag = "tag";
+  public static final String Cons_desc = "desc";
+  public static final String Cons_title = "title";
+  public static final String Cons_timestamp = "_timestamp";
+  
   private static final int _DEFAULT_PERIOD = 10000;
   private static Properties props;
   private static boolean loaded;
   private static String concatenator;
   private static String prefix;
+  private static Map<String, Map<String, Object>> deviceMeta = new HashMap<String, Map<String, Object>>();
   
   public static synchronized Properties loadPangProperties() throws IOException {
     if(props != null) {
@@ -246,5 +252,13 @@ public class PangProperties {
       return null;
     }
     return partitions;
+  }
+
+  public static Map<String, Object> getDeviceMeta(String devicename) {
+    return deviceMeta.get(devicename);
+  }
+
+  public static void setDeviceMeta(String devicename, Map<String, Object> d) {
+    deviceMeta.put(devicename, d);
   }
 }

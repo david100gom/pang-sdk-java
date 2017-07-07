@@ -35,7 +35,7 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
     super.connect(uri);
     
     try {
-      Map<String, Object> profile = request("pa/user/profile");
+      Map<String, Object> profile = request("pa/user/profile"+"/" + userkey + "/" + username);
       connect((Map)profile.get("Data"));
     } catch (Exception e) {
       logger.error("User profile request error", e);

@@ -1,19 +1,26 @@
 package com.pangdata.sdk.mqtt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.gaffer.PropertyUtil;
 
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
@@ -25,6 +32,7 @@ import com.pangdata.sdk.http.AbstractHttp;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
 abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
@@ -37,6 +45,8 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   protected DataSharingCallback dataSharingCallback;
 
   private ConnectionCallback connectionCallback;
+
+  private Map<String, Map<String, Object>> rMap = new HashMap<String, Map<String, Object>> ();
 
   public MqttDelegatedAbstractHttpClient(boolean mustinvoke) {
     super(mustinvoke);
@@ -69,7 +79,13 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
 
   public boolean sendData(Object data) {
-    return pang.sendData(data);
+    try {
+      registerDevices(data);
+      return pang.sendData(data);
+    } catch (Exception e) {
+      logger.error("Error", e);
+      return false;
+    }
   }
 
 
@@ -179,6 +195,10 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
   
   protected Map<String, Object> request(String target) throws Exception {
+    return request(target, null);
+  }
+  
+  protected Map<String, Object> request(String target, String data) throws Exception {
     HttpPost httpPost = null;
     HttpResponse response = null;
     try {
@@ -189,7 +209,12 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
       HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 100 * 1000);
       HttpConnectionParams.setSoTimeout(httpClient.getParams(), 100 * 1000);
     
-      httpPost = new HttpPost(this.url + "/"+ target+ "/" + userkey + "/" + username);
+      httpPost = new HttpPost(this.url + "/"+ target);
+      if(data != null) {
+        HttpEntity entity = new StringEntity(data);
+        httpPost.setEntity(entity);
+        httpPost.setHeader("Content-type", "text/plain");
+      }
       List<NameValuePair> nvps = new ArrayList<NameValuePair>();
       nvps.add(new BasicNameValuePair("content-type", "application/json"));
     
@@ -221,7 +246,79 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
       } catch (Exception e) {
         logger.error("Error", e);
       }
+    }
+  }
+  
+  private void registerDevices(Object data) throws Exception {
+    String prefix = PangProperties.getPrefix();
+    
+    if(prefix == null || prefix.length() == 0) {
+      return;
+    }
+    
+    Map<String, Map<String, Object>> toRegister = new HashMap<String, Map<String, Object>>();
+    if(data instanceof Map) {
+      
+      Map<String, Object> map = (Map<String, Object>)data; 
+      
+      Iterator<Entry<String, Object>> devices = map.entrySet().iterator();
+      while(devices.hasNext()) {
+        // Register
+        doPrepareToRegister(devices.next(), toRegister);
+      }
+    } else {
+      List<Map<String, Object>> list = (List<Map<String, Object>>)data;
+      for(Map<String, Object> map : list) {
+        Iterator<Entry<String, Object>> devices = map.entrySet().iterator();
+        while(devices.hasNext()) {
+          Entry<String, Object> next = devices.next();
+          doPrepareToRegister(devices.next(), toRegister);
+        }
+      }
+    }
+    doRegister(toRegister);
+  }
 
+  private void doPrepareToRegister(Entry<String, Object> next, Map<String, Map<String, Object>> toRegister) {
+    String devicename = next.getKey();
+    if(devicename.equalsIgnoreCase(PangProperties.Cons_timestamp)) {
+      return;
+    }
+    
+    if(!rMap.containsKey(devicename)) {
+      Object value = next.getValue();
+      if(value instanceof Map) {
+        value = ((Map)value).get(PangProperties.Cons_value);
+      }
+      Map<String, Object> meta =  new HashMap<String, Object>();
+      meta.put(PangProperties.Cons_value, value);
+      
+      Map<String, Object> dMeta = PangProperties.getDeviceMeta(devicename);
+      if(dMeta.containsKey("title")) {
+        meta.put("title", dMeta.get("title"));
+      }
+      if(dMeta.containsKey(PangProperties.Cons_tag)) {
+        meta.put(PangProperties.Cons_tag, dMeta.get(PangProperties.Cons_tag));
+      }
+      if(dMeta.containsKey(PangProperties.Cons_desc)) {
+        meta.put(PangProperties.Cons_desc, dMeta.get(PangProperties.Cons_desc));
+      }
+      toRegister.put(devicename, meta);
+    }
+  }
+  
+  private void doRegister(Map<String, Map<String, Object>> toRegister) throws Exception {
+    if(toRegister.size()>0) {
+      logger.debug("To registered: {}", toRegister.toString());
+      Iterator<Entry<String, Map<String, Object>>> iterator = toRegister.entrySet().iterator();
+      
+      request("pa/device/register/"+userkey+"/"+username+"/"+PangProperties.getPrefix(), JsonUtils.convertObjToJsonStr(toRegister));
+      
+      while(iterator.hasNext()) {
+        Entry<String, Map<String, Object>> next = iterator.next();
+        String devicename = next.getKey();
+        rMap.put(devicename, next.getValue());
+      }
     }
   }
 }

@@ -1,30 +1,18 @@
 package com.pangdata.sdk.mqtt;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnector;
-import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
-import com.pangdata.sdk.util.SdkUtils;
 
 public class PangMqtt extends MqttDelegatedAbstractHttpClient {
   private static final Logger logger = LoggerFactory.getLogger(PangMqtt.class);
@@ -38,8 +26,6 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
   private CountDownLatch cd;
 
-  private boolean run;
-  
   public PangMqtt() throws Exception {
     super(true);
     prepare();
@@ -71,7 +57,7 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
   private PangOption getNewAddress() throws Exception {
     try {
-      Map<String, Object> responseMap =  request("pa/user/profile");
+      Map<String, Object> responseMap =  request("pa/user/profile"+"/" + userkey + "/" + username);
       Map data = (Map) responseMap.get("Data");
       
       String brokers = (String) data.get("MDS");
@@ -134,28 +120,16 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
   }
 
   private void startStatusUpdater() {
-    run = true;
     Thread t = new Thread() {
 
       public void run() {
         while (true) {
           try {
-            Map<String, Object> response = (Map<String, Object>) request("pa/user/license").get("Data");
-            try {
-                String license = (String) response.get("LICENSE");
-                if (license == null || license.length() == 0) {
-                  throw new IllegalStateException("No license information found");
-                }
-                if (license.equalsIgnoreCase("unpaid")) {
-                  throw new IllegalStateException("License expired.");
-                }
-              PangMqtt.this.pang.setSendable(true); 
-            } catch (IllegalStateException e) {
-              PangMqtt.this.pang.setSendable(false);
-              logger.error("License error", e.getMessage());
-            }
+            request("pa/user/validate" + "/" + userkey + "/" + username);
+            PangMqtt.this.pang.setSendable(true); 
           } catch (Exception e) {
-            logger.error("Profile error", e);
+            PangMqtt.this.pang.setSendable(false);
+            logger.error("Validate error", e);
           }
           try {
             TimeUnit.HOURS.sleep(12);
