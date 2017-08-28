@@ -39,7 +39,6 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   private static final Logger logger = LoggerFactory
       .getLogger(MqttDelegatedAbstractHttpClient.class);
 
-  protected HttpClient httpClient;
   protected Pang pang;
 
   protected DataSharingCallback dataSharingCallback;
@@ -201,6 +200,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   protected Map<String, Object> request(String target, String data) throws Exception {
     HttpPost httpPost = null;
     HttpResponse response = null;
+    HttpClient httpClient = null;
     try {
       httpClient = SdkUtils.createHttpClient(this.url);
     
