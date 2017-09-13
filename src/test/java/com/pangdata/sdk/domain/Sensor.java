@@ -1,6 +1,8 @@
 package com.pangdata.sdk.domain;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Sensor {
 
@@ -32,6 +34,14 @@ public class Sensor {
 
   public void setTimeStamp(Date timeStamp) {
     this.timeStamp = timeStamp;
+  }
+  
+  public Map<String, Object> toMap() {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("temperature", temperature);
+    map.put("humidity", humidity);
+    map.put("timeStamp", timeStamp);
+    return map;
   }
 
 }

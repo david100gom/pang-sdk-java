@@ -33,7 +33,7 @@ public class HttpClientTests {
     sensor.setTemperature((int) (Math.random() * 20 + 20));
     sensor.setTimeStamp(new Date());
     
-    httpClient.sendData(sensor);
+    httpClient.sendData(sensor.toMap());
     
     httpClient.disconnect();
   }

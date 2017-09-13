@@ -1,5 +1,6 @@
 package com.pangdata.sdk;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.pangdata.sdk.callback.DataCallback;
@@ -36,8 +37,8 @@ public abstract class AbstractPang implements Pang {
     
     timerDataSender.available();
     
-    timerDataSender.setTask(new TimerTask<Object>() {
-      public boolean execute(Object obj) {
+    timerDataSender.setTask(new TimerTask<Map<String, Object>>() {
+      public boolean execute(Map<String, Object> obj) {
         return sendData(obj);
       }
     }, period, unit);

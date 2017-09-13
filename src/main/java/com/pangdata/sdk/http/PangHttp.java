@@ -9,6 +9,7 @@ import org.apache.http.entity.StringEntity;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
+import com.pangdata.sdk.util.DevicenameUtils;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class PangHttp extends AbstractHttp {
@@ -52,24 +53,26 @@ public class PangHttp extends AbstractHttp {
     throw new UnsupportedOperationException();
   }
 
-  public boolean sendData(String devicename, String data) {
-    Map<String, String> dataMap = new HashMap<String, String>();
-    dataMap.put(devicename, data);
+
+  public boolean sendData(String devicename, Object value) {
+    Map<String, Object> dataMap = new HashMap<String, Object>();
+    dataMap.put(devicename, value);
     return sendData(dataMap);
   }
 
-  public boolean sendData(String devicename, Object value) {
-    return sendData(devicename, String.valueOf(value));
-  }
-
-  public boolean sendData(Object obj) {
+  public boolean sendData(Map<String, Object> dataMap) {
     if(!isSendable()) {
       return false;
+    }
+    for(String devicename:dataMap.keySet()) {
+      if(DevicenameUtils.isValid(devicename)) {
+        throw new IllegalArgumentException("Devicename({}) is invalid"); 
+      }
     }
     
     HttpPost httpPost =
         new HttpPost(getUrl());
-    String data = JsonUtils.convertObjToJsonStr(obj);
+    String data = JsonUtils.convertObjToJsonStr(dataMap);
     StringEntity params = new StringEntity(data, "UTF-8");
     httpPost.setEntity(params);
     httpPost.addHeader("content-type", "application/json");

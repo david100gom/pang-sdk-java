@@ -15,7 +15,7 @@ public class PangDemoScenario1 extends PangPropertyLoder {
   public static void main(String[] args) throws Exception {
     PangDemoScenario1 app = new PangDemoScenario1();
     app.load("pang.properties");
-    final Map<String, Number> dataMap = new HashMap<String, Number>();
+    final Map<String, Object> dataMap = new HashMap<String, Object>();
 
     final Pang httpClient =
         PangFactory.createHttpClient(app.getProperty("username"), app.getProperty("userKey"), app.getProperty("serverUri", "http://pangdata.com"));

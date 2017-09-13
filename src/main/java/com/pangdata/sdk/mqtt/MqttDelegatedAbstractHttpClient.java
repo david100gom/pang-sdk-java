@@ -69,15 +69,11 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
     return pang.isConnected();
   }
 
-  public boolean sendData(String devicename, String data) {
-    return pang.sendData(devicename, data);
-  }
-
   public boolean sendData(String devicename, Object data) {
     return pang.sendData(devicename, data);
   }
 
-  public boolean sendData(Object data) {
+  public boolean sendData(Map<String, Object> data) {
     try {
       registerDevices(data);
       return pang.sendData(data);
@@ -169,11 +165,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
         return true;
       }
 
-      public boolean sendData(Object data) {
-        return true;
-      }
-
-      public boolean sendData(String devicename, String data) {
+      public boolean sendData(Map<String, Object> data) {
         return true;
       }
 

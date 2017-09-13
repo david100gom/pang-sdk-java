@@ -26,6 +26,7 @@ import com.pangdata.sdk.mqtt.SubscriberListener;
 import com.pangdata.sdk.mqtt.TopicUtils;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
 import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnector;
+import com.pangdata.sdk.util.DevicenameUtils;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class PangMqttClient extends AbstractPang{
@@ -204,11 +205,14 @@ public class PangMqttClient extends AbstractPang{
     return failoverConnector.isAvailable();
   }
 
-  public boolean sendData(String devicename, String data) {
+  private boolean sendData(String devicename, String data) {
     if(!isSendable()) {
       return false;
     }
-    
+
+    if(DevicenameUtils.isValid(devicename)) {
+      throw new IllegalArgumentException("Devicename({}) is invalid"); 
+    }
     registerDevices(devicename);
     
     MqttMessage message = new MqttMessage();
@@ -234,9 +238,15 @@ public class PangMqttClient extends AbstractPang{
     return sendData(devicename, String.valueOf(data));
   }
   
-  public boolean sendData(Object obj) {
+  public boolean sendData(Map<String, Object> obj) {
     if(!isSendable()) {
       return false;
+    }
+
+    for(String devicename:obj.keySet()) {
+      if(DevicenameUtils.isValid(devicename)) {
+        throw new IllegalArgumentException("Devicename({}) is invalid"); 
+      }
     }
     String strValues = JsonUtils.convertObjToJsonStr(obj);
     
