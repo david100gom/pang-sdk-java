@@ -245,7 +245,7 @@ public class PangMqttClient extends AbstractPang{
 
     for(String devicename:obj.keySet()) {
       if(DevicenameUtils.isValid(devicename)) {
-        throw new IllegalArgumentException("Devicename({}) is invalid"); 
+        throw new IllegalArgumentException("Devicename("+devicename+") is invalid"); 
       }
     }
     String strValues = JsonUtils.convertObjToJsonStr(obj);

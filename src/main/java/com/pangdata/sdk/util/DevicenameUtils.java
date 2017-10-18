@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class DevicenameUtils {
 
-  private static final int devicenameMaxSize = 50;
+  private static final int devicenameMaxSize = 90;
   private static final Pattern devicenameValidPattern = Pattern.compile("^[a-zA-Z0-9_-]+$");
   
   public static boolean isValid(String devicename) {
