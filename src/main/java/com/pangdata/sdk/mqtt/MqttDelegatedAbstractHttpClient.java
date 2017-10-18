@@ -286,6 +286,9 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
       meta.put(PangProperties.Cons_value, value);
       
       Map<String, Object> dMeta = PangProperties.getDeviceMeta(devicename);
+      if(dMeta == null) {
+        return;
+      }
       if(dMeta.containsKey("title")) {
         meta.put("title", dMeta.get("title"));
       }
