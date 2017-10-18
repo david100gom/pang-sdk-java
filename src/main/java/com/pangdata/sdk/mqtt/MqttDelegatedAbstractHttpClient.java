@@ -1,6 +1,5 @@
 package com.pangdata.sdk.mqtt;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -8,19 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.gaffer.PropertyUtil;
 
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
@@ -186,59 +174,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
   
   protected Map<String, Object> request(String target) throws Exception {
-    return request(target, null);
-  }
-  
-  protected Map<String, Object> request(String target, String data) throws Exception {
-    HttpPost httpPost = null;
-    HttpResponse response = null;
-    HttpClient httpClient = null;
-    try {
-      httpClient = SdkUtils.createHttpClient(this.url);
-    
-      // FIXIT? http://mini.prever.io:3000/issues/2342
-      // TODO upgrade version to handle timeout.
-      HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 100 * 1000);
-      HttpConnectionParams.setSoTimeout(httpClient.getParams(), 100 * 1000);
-    
-      httpPost = new HttpPost(this.url + "/"+ target);
-      if(data != null) {
-        HttpEntity entity = new StringEntity(data);
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Content-type", "text/plain");
-      }
-      List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-      nvps.add(new BasicNameValuePair("content-type", "application/json"));
-    
-      logger.info("Requesting.......");
-      logger.info("URI: {}", httpPost.getURI().toString());
-      response = httpClient.execute(httpPost);
-    
-      if (response.getStatusLine().getStatusCode() != 200) {
-        logger.error("HTTP error: {}", EntityUtils.toString(response.getEntity(), "UTF-8"));
-        throw new RuntimeException("Failed : HTTP error code : "
-            + response.getStatusLine().getStatusCode());
-      }
-    
-      String profile = EntityUtils.toString(response.getEntity(), "UTF-8");
-      logger.info("{} 's response profile: {}", username, profile);
-    
-      Map<String, Object> responseMap =
-          (Map<String, Object>) JsonUtils.toObject(profile, Map.class);
-      if (!(Boolean) responseMap.get("Success")) {
-        throw new RuntimeException(String.format("Success: %s, Error message: %s",
-            responseMap.get("Success"), responseMap.get("Message")));
-      }
-      return responseMap;
-    } finally {
-      try {
-        if (httpClient != null) {
-          httpClient.getConnectionManager().shutdown();
-        }
-      } catch (Exception e) {
-        logger.error("Error", e);
-      }
-    }
+    return SdkUtils.request(this.url + "/"+ target, null);
   }
   
   private void registerDevices(Object data) throws Exception {
@@ -307,7 +243,7 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
       logger.debug("To registered: {}", toRegister.toString());
       Iterator<Entry<String, Map<String, Object>>> iterator = toRegister.entrySet().iterator();
       
-      request("pa/device/register/"+userkey+"/"+username+"/"+PangProperties.getPrefix(), JsonUtils.convertObjToJsonStr(toRegister));
+      SdkUtils.request(this.url+"/pa/device/register/"+userkey+"/"+username+"/"+PangProperties.getPrefix(), JsonUtils.convertObjToJsonStr(toRegister));
       
       while(iterator.hasNext()) {
         Entry<String, Map<String, Object>> next = iterator.next();
