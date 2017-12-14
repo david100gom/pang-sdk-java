@@ -221,6 +221,36 @@ public class PangProperties {
 	    return targets;
   }
 
+  public static Map<Integer, Map<String, String>> extractVariablePropertiesSubstringByPrefix(String prefix, String exclude) {
+	    Properties properties = PangProperties.getProperties();
+	    Set<Entry<Object, Object>> entrySet = properties.entrySet();
+	    Iterator<Entry<Object, Object>> iterator = entrySet.iterator();
+
+	    Map<Integer, Map<String, String>> targets = new HashMap<Integer, Map<String, String>>();
+
+	    while (iterator.hasNext()) {
+	      Entry<Object, Object> next = iterator.next();
+	      String key = (String) next.getKey();
+	      if (key.startsWith(prefix)) {
+	        String sub1 = key.substring(prefix.length());
+	        int indexOf = sub1.indexOf(".");
+	        String number = sub1.substring(0, indexOf);
+	        if(exclude != null && key.startsWith(prefix+number+"."+exclude)) {
+	        	continue;
+	        }
+	        Map<String, String> target = targets.get(Integer.valueOf(number));
+	        if (target == null) {
+	          target = new HashMap<String, String>();
+	          targets.put(Integer.valueOf(number), target);
+	        }
+
+	        target.put(sub1.substring(sub1.lastIndexOf(".") + 1).trim(), (String) next.getValue());
+	      }
+	    }
+
+	    return targets;
+}
+
   public static Set<String> getList(Object object) {
     return getList(object, false);
   }
