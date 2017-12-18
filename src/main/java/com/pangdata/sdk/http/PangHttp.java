@@ -61,11 +61,11 @@ public class PangHttp extends AbstractHttp {
   }
 
   public boolean sendData(Map<String, Object> dataMap) {
-    if(!isSendable()) {
+    if(!isValidLicense()) {
       return false;
     }
     for(String devicename:dataMap.keySet()) {
-      if(DevicenameUtils.isValid(devicename)) {
+      if(DevicenameUtils.isInvalid(devicename)) {
         throw new IllegalArgumentException("Devicename({}) is invalid"); 
       }
     }
@@ -80,11 +80,11 @@ public class PangHttp extends AbstractHttp {
     return sendData(httpPost);
   }
 
-  public boolean isSendable() {
+  public boolean isValidLicense() {
     return sendable;
   }
 
-  public void setSendable(boolean sendable) {
+  public void setValidLicense(boolean sendable) {
     this.sendable  = sendable;
   }
 

@@ -35,7 +35,7 @@ public class SimpleDataSendingTests {
 
       public void onConnectionFailure(Throwable cause) {}
     });
-    sendingDataClient.connect("tcp://192.168.0.3");
+    sendingDataClient.connect("tcp://127.0.0.1");
     latch.await(3, TimeUnit.SECONDS);
   }
   

@@ -12,10 +12,11 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnectorV2;
 import com.pangdata.sdk.util.PangProperties;
 
-public class PangMqtt extends MqttDelegatedAbstractHttpClient {
-  private static final Logger logger = LoggerFactory.getLogger(PangMqtt.class);
+public class PangMqttV2 extends MqttDelegatedAbstractHttpClientV2 {
+  private static final Logger logger = LoggerFactory.getLogger(PangMqttV2.class);
   
   class DefaultReassignableBrokerProvider implements ReassignableBrokerProvider {
 
@@ -26,22 +27,22 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
   private CountDownLatch cd;
 
-  public PangMqtt() throws Exception {
+  public PangMqttV2() throws Exception {
     super(true);
     prepare();
   }
 
-  public PangMqtt(String username, String userkey, String uri,
+  public PangMqttV2(String username, String userkey, String uri,
       DataSharingCallback dataSharingCallback) throws Exception {
     super(username, userkey, uri, dataSharingCallback);
     prepare();
   }
   
-  public PangMqtt(String username, String userkey) throws Exception {
+  public PangMqttV2(String username, String userkey) throws Exception {
     this(username, userkey, null);
   }
 
-  public PangMqtt(String username, String userkey, String uri) throws Exception {
+  public PangMqttV2(String username, String userkey, String uri) throws Exception {
     this(username, userkey, uri, null);
   }
 
@@ -93,7 +94,7 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
       }
     }
 
-    createConnector(new BrokerReassignFailoverConnector(newAddress.getAddresss(), username, passwd,
+    createConnector(new BrokerReassignFailoverConnectorV2(newAddress.getAddresss(), username, passwd,
         id, new DefaultReassignableBrokerProvider()));
     logger.info("Connecting Pangdata scalable message server...");
     pang.connect(newAddress.getAddresss());
@@ -126,9 +127,9 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
         while (true) {
           try {
             request("pa/user/validate" + "/" + userkey + "/" + username);
-            PangMqtt.this.pang.setValidLicense(true); 
+            PangMqttV2.this.pang.setValidLicense(true); 
           } catch (Exception e) {
-            PangMqtt.this.pang.setValidLicense(false);
+            PangMqttV2.this.pang.setValidLicense(false);
             logger.error("Validate error", e);
           }
           try {

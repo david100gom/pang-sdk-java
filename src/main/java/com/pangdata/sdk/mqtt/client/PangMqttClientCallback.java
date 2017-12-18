@@ -65,6 +65,10 @@ public class PangMqttClientCallback implements MqttCallback {
 
   public void deliveryComplete(IMqttDeliveryToken token) {
     String[] topics = token.getTopics();
+    //System topic should be null.
+    if(topics == null) {
+    	return;
+    }
     String topic = null;
     String key = null;
 

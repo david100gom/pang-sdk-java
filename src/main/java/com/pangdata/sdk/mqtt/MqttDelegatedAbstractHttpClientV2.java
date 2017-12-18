@@ -18,14 +18,16 @@ import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.http.AbstractHttp;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV2;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerConnectorV2;
 import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
 
-abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
+abstract class MqttDelegatedAbstractHttpClientV2 extends AbstractHttp {
   private static final Logger logger = LoggerFactory
-      .getLogger(MqttDelegatedAbstractHttpClient.class);
+      .getLogger(MqttDelegatedAbstractHttpClientV2.class);
 
   protected Pang pang;
 
@@ -35,19 +37,19 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
 
   private Map<String, Map<String, Object>> rMap = new HashMap<String, Map<String, Object>> ();
 
-  public MqttDelegatedAbstractHttpClient(boolean mustinvoke) {
+  public MqttDelegatedAbstractHttpClientV2(boolean mustinvoke) {
     super(mustinvoke);
   }
 
-  public MqttDelegatedAbstractHttpClient(String username, String userkey, String uri,
+  public MqttDelegatedAbstractHttpClientV2(String username, String userkey, String uri,
       DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri);
 
     this.dataSharingCallback = dataSharingCallback;
   }
 
-  protected void createConnector(BrokerConnector connector) {
-    pang = new PangMqttClient(username, connector);
+  protected void createConnector(BrokerConnectorV2 connector) {
+    pang = new PangMqttClientV2(username, connector);
     if (connectionCallback != null) {
       pang.setConnectionCallback(connectionCallback);
     }

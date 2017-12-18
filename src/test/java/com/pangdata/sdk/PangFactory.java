@@ -3,6 +3,7 @@ package com.pangdata.sdk;
 import com.pangdata.sdk.http.PangHttp;
 import com.pangdata.sdk.mqtt.MqttFailoverHttpClient;
 import com.pangdata.sdk.mqtt.PangMqtt;
+import com.pangdata.sdk.mqtt.PangMqttV2;
 
 
 public class PangFactory {
@@ -25,8 +26,12 @@ public class PangFactory {
   
   public static Pang createReassignableMqttClient(String username, String userkey, String uri) throws Exception {
     Pang client = new PangMqtt(username, userkey, uri);
-    client.connect(uri);
     return client;
+  }
+  
+  public static Pang createReassignableMqttClientV2(String username, String userkey, String uri) throws Exception {
+	  Pang client = new PangMqttV2(username, userkey, uri);
+	  return client;
   }
   
   public static Pang createFailoverMqttClient(String username, String userkey) throws Exception {

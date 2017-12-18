@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttTopic;
@@ -22,28 +22,32 @@ import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.MqttTopics;
-import com.pangdata.sdk.mqtt.SubscriberListener;
+import com.pangdata.sdk.mqtt.SubscriberListenerV2;
 import com.pangdata.sdk.mqtt.TopicUtils;
-import com.pangdata.sdk.mqtt.connector.BrokerConnector;
-import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerConnectorV2;
+import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnectorV2;
 import com.pangdata.sdk.util.DevicenameUtils;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.PangProperties;
 
-public class PangMqttClient extends AbstractPang{
+public class PangMqttClientV2 extends AbstractPang{
 
-  private static final Logger logger = LoggerFactory.getLogger(PangMqttClient.class);
+  private static final Logger logger = LoggerFactory.getLogger(PangMqttClientV2.class);
 
   private static final int DEFAULT_CONTROL_QOS = 2;
 
   private static final int DEFAULT_DATA_QOS = 0;
+  private static final int DEFAULT_DATA_QOS1 = 1;
 
+  private int qos = DEFAULT_DATA_QOS;
+  
   private String controlRequestTopic;
 
   private String dataPublishRootTopic;
 
   private String serverURI;
 
-  private BrokerConnector failoverConnector;
+  private BrokerConnectorV2 failoverConnector;
 
   private ConnectionCallback connectionCallback;
 
@@ -65,25 +69,26 @@ public class PangMqttClient extends AbstractPang{
 
   private Map<String, String> registered = new HashMap<String, String> ();
 
-  public PangMqttClient(String username) throws PangException {
+  public PangMqttClientV2(String username) throws PangException {
     this(username, "default", Long.toString(System.currentTimeMillis()));
   }
 
-  public PangMqttClient(String username, String userkey) throws PangException {
+  public PangMqttClientV2(String username, String userkey) throws PangException {
     this(username, userkey, "default", Long.toString(System.currentTimeMillis()));
   }
 
     
-  public PangMqttClient(String username, String threadName, String clientId) throws PangException {
-    this(username, new BrokerFailoverConnector(threadName, clientId));
+  public PangMqttClientV2(String username, String threadName, String clientId) throws PangException {
+    this(username, new BrokerFailoverConnectorV2(threadName, clientId));
   }
   
-  public PangMqttClient(String username, String passwd, String threadName, String clientId) throws PangException {
-    this(username, new BrokerFailoverConnector(threadName, username, passwd, clientId));
+  public PangMqttClientV2(String username, String passwd, String threadName, String clientId) throws PangException {
+    this(username, new BrokerFailoverConnectorV2(threadName, username, passwd, clientId));
   }
   
-  public PangMqttClient(String username, BrokerConnector failoverConnector) throws PangException {
+  public PangMqttClientV2(String username, BrokerConnectorV2 failoverConnector) throws PangException {
     super();
+    setQOS();
     this.failoverConnector = failoverConnector;
     this.username = username;
     
@@ -97,7 +102,14 @@ public class PangMqttClient extends AbstractPang{
     failoverConnector.setMqttCallback(mqttCallback);
   }
   
-  public void setConnectionCallback(ConnectionCallback connectionCallback) {
+  private void setQOS() {
+	  String persist = (String) PangProperties.getProperty("pang.persist");
+	  if(persist != null && persist.trim().equalsIgnoreCase("true")) {
+		  qos = DEFAULT_DATA_QOS1;
+	  }
+  }
+
+public void setConnectionCallback(ConnectionCallback connectionCallback) {
     this.connectionCallback = connectionCallback;
     mqttCallback.setConnectionCallback(connectionCallback);
   }
@@ -150,9 +162,9 @@ public class PangMqttClient extends AbstractPang{
     createConnector(address);
     logger.info(String.format("Client(%s) is connecting to Broker(%s)", failoverConnector.getClientId(), serverURI));
 
-    failoverConnector.addSubscribListener(new SubscriberListener() {
+    failoverConnector.addSubscribListener(new SubscriberListenerV2() {
 
-      public void subscribeTo(MqttClient activeClient) {
+      public void subscribeTo(IMqttAsyncClient activeClient) {
 
         // Control(action) spec may changed. not QoS level 2. Just 0. Action will be done in async. Not Sync
         /*try {
@@ -217,7 +229,7 @@ public class PangMqttClient extends AbstractPang{
     
     MqttMessage message = new MqttMessage();
     message.setPayload(data.getBytes(Charset.forName(charset)));
-    message.setQos(DEFAULT_DATA_QOS);
+    message.setQos(qos);
 
     String sendDataTopic = dataPublishRootTopic + MqttTopic.TOPIC_LEVEL_SEPARATOR + devicename;
 
@@ -252,7 +264,7 @@ public class PangMqttClient extends AbstractPang{
     
     MqttMessage message = new MqttMessage();
     message.setPayload(strValues.getBytes(Charset.forName(charset)));
-    message.setQos(DEFAULT_DATA_QOS);
+    message.setQos(qos);
     
     String sendDataTopic = dataPublishRootTopic;
     

@@ -63,10 +63,10 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
     throw new UnsupportedOperationException();
   }
 
-  public boolean isSendable() {
+  public boolean isValidLicense() {
     return false;
   }
 
-  public void setSendable(boolean sendable) {
+  public void setValidLicense(boolean sendable) {
   }
 }

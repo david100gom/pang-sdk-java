@@ -48,7 +48,7 @@ public interface Pang {
 
   public void setConnectionCallback(ConnectionCallback connectionCallback);
 
-  public boolean isSendable();
+  public boolean isValidLicense();
   
-  public void setSendable(boolean sendable);
+  public void setValidLicense(boolean valid);
 }

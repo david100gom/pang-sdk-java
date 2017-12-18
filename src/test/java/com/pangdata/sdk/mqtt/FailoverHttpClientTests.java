@@ -58,7 +58,7 @@ public class FailoverHttpClientTests {
   public void sendByTimerTask() throws Exception {
     final Random r = new Random();
     
-    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "o5w_Cx", "http://localhost");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       
@@ -67,7 +67,7 @@ public class FailoverHttpClientTests {
       }
       
       public boolean isRunning(int currentCount) {
-        return currentCount < 20;
+        return currentCount < 1000;
       }
       
       public String getData() {
@@ -82,10 +82,24 @@ public class FailoverHttpClientTests {
   }
   
   @Test
+  public void sendFor() throws Exception {
+	  final Random r = new Random();
+	  
+	  Pang httpClient = PangFactory.createReassignableMqttClientV2("josh", "o5w_Cx", "http://localhost");
+
+	  for(int i=0;i<10000;i++) {
+		  httpClient.sendData("temperature", Integer.toString(r.nextInt(10)));
+		  TimeUnit.MILLISECONDS.sleep(100);
+	  }
+	  
+	  httpClient.disconnect();  
+  }
+  
+  @Test
   public void sendByTimerTaskUsingFailover() throws Exception {
     final Random r = new Random();
     
-    Pang httpClient = PangFactory.createFailoverMqttClient("josh", "abc2fk", "http://localhost:9191");
+    Pang httpClient = PangFactory.createFailoverMqttClient("josh", "o5w_Cx", "http://localhost");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       
