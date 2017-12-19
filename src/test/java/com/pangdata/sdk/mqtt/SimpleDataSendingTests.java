@@ -14,6 +14,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.domain.Sensor;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class SimpleDataSendingTests {
 
@@ -23,7 +24,7 @@ public class SimpleDataSendingTests {
   
   @Before
   public void init() throws Exception {
-    sendingDataClient = new PangMqttClient("demo", "test1");
+    sendingDataClient = new PangMqttClientV1("demo", "test1");
     final CountDownLatch latch = new CountDownLatch(1);
     sendingDataClient.setConnectionCallback(new ConnectionCallback() {
 

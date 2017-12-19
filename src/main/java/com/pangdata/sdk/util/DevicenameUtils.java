@@ -10,6 +10,7 @@ public class DevicenameUtils {
   private static final Pattern devicenameValidPattern = Pattern.compile("^[a-zA-Z0-9_-]+$");
   
   private static final Map<String, Boolean> ok = new HashMap<String, Boolean>();
+  private static final Map<String, Boolean> error = new HashMap<String, Boolean>();
   
   public static boolean isInvalid(String devicename) {
     if(devicename == null) {
@@ -18,7 +19,13 @@ public class DevicenameUtils {
     if(ok.containsKey(devicename)) {
     	return false;
     }
+    
+    if(error.containsKey(devicename)) {
+    	return true;
+    }
+    
 	if(devicename.trim().isEmpty() || devicename.length() > devicenameMaxSize || !devicenameValidPattern.matcher(devicename).matches()) {
+		error.put(devicename, true);
 		return true;
 	}
 	//For performance

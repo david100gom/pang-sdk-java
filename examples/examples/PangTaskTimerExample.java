@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.mqtt.PangMqtt;
+import com.pangdata.sdk.mqtt.PangMqttV1;
 import com.pangdata.sdk.util.PangProperties;
 
 public class PangTaskTimerExample {
@@ -40,7 +41,7 @@ public class PangTaskTimerExample {
   private static final String[] status = new String[] {"GOOD", "BAD", "NONE"};
 
   public static void main(String[] args) throws Exception {
-    final Pang pang = new PangMqtt();
+    final Pang pang = new PangMqttV1();
 
     long period = PangProperties.getPeriod(); // Milli seconds
     pang.startTimerTask(new MultipleDataCallback() {

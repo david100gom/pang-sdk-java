@@ -1,9 +1,8 @@
 package com.pangdata.sdk.mqtt;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
 
-public interface SubscriberListener {
+public interface SubscriberListener<T> {
 
-  void subscribeTo(MqttClient activeClient);
+  void subscribeTo(T activeClient);
 
 }

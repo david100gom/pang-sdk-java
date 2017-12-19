@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
-import com.pangdata.sdk.mqtt.connector.BrokerReassignFailoverConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerConnector;
 import com.pangdata.sdk.util.PangProperties;
 
-public class PangMqtt extends MqttDelegatedAbstractHttpClient {
+public abstract class PangMqtt extends MqttDelegatedAbstractHttpClient {
   private static final Logger logger = LoggerFactory.getLogger(PangMqtt.class);
   
   class DefaultReassignableBrokerProvider implements ReassignableBrokerProvider {
@@ -26,8 +26,8 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
 
   private CountDownLatch cd;
 
-  public PangMqtt() throws Exception {
-    super(true);
+  public PangMqtt(boolean con) throws Exception {
+    super(con);
     prepare();
   }
 
@@ -93,13 +93,17 @@ public class PangMqtt extends MqttDelegatedAbstractHttpClient {
       }
     }
 
-    createConnector(new BrokerReassignFailoverConnector(newAddress.getAddresss(), username, passwd,
+    createConnector(createReassignableConnector(newAddress.getAddresss(), username, passwd,
         id, new DefaultReassignableBrokerProvider()));
     logger.info("Connecting Pangdata scalable message server...");
     pang.connect(newAddress.getAddresss());
   }
 
-  private void setWaitor() {
+  protected abstract BrokerConnector createReassignableConnector(String addresss,
+		String username, String passwd, String id,
+		DefaultReassignableBrokerProvider defaultReassignableBrokerProvider);
+
+private void setWaitor() {
     cd = new CountDownLatch(1);
     setConnectionCallback(new ConnectionCallback() {
 

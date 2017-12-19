@@ -14,8 +14,10 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataSharingCallback;
-import com.pangdata.sdk.mqtt.connector.BrokerFailoverConnector;
+import com.pangdata.sdk.mqtt.connector.BrokerConnector;
+import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnector1;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
@@ -27,7 +29,7 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
 
   public MqttFailoverHttpClient(String username, String userkey, String uri, DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri, dataSharingCallback);
-    createConnector(new BrokerFailoverConnector("fo-connector", username + "-" + userkey));
+    createConnector(new BrokerFailoverConnector1("fo-connector", username + "-" + userkey));
   }
 
   @Override
@@ -69,4 +71,10 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
 
   public void setValidLicense(boolean sendable) {
   }
+
+  @Override
+  protected Pang createClient(String username, BrokerConnector connector) {
+	return null;
+  }
+
 }

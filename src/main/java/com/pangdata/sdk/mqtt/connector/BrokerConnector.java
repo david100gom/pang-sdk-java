@@ -7,7 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 
 import com.pangdata.sdk.mqtt.SubscriberListener;
 
-public interface BrokerConnector {
+public interface BrokerConnector<T> {
   String getClientId();
   
   void setMqttCallback(MqttCallback callback);
@@ -26,5 +26,5 @@ public interface BrokerConnector {
   
   void addConnectionCallback(ConnectionCallback connectionCallback);
   
-  void addSubscribListener(SubscriberListener subscriberListener);
+  void addSubscribListener(SubscriberListener<T> subscriberListener);
 }

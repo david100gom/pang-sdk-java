@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class DataSharingTests {
   private static final Logger logger = LoggerFactory.getLogger(DataSharingTests.class);
@@ -18,7 +19,7 @@ public class DataSharingTests {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
         Pang client =
-            new PangMqttClient("james", "james-key-" + System.currentTimeMillis());
+            new PangMqttClientV1("james", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1883");
         } catch (Exception e1) {
@@ -49,7 +50,7 @@ public class DataSharingTests {
       public void run() {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Pang client = new PangMqttClient("john", "james-key-" + System.currentTimeMillis());
+        Pang client = new PangMqttClientV1("john", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1884");
         } catch (Exception e1) {
@@ -79,7 +80,7 @@ public class DataSharingTests {
         final CountDownLatch countDownLatch = new CountDownLatch(10);
 
         Pang client =
-            new PangMqttClient("james", "james-key-" + System.currentTimeMillis());
+            new PangMqttClientV1("james", "james-key-" + System.currentTimeMillis());
         try {
           client.connect("tcp://mini.prever.co.kr:1884");
         } catch (Exception e1) {

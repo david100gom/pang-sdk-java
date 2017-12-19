@@ -1,5 +1,6 @@
 package com.pangdata.sdk;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +10,7 @@ import com.pangdata.sdk.timer.TimerDataSender;
 import com.pangdata.sdk.timer.TimerTask;
 
 public abstract class AbstractPang implements Pang {
+  protected Charset charset = Charset.forName("utf8");
   private TimerDataSender timerDataSender;
   
   public AbstractPang() {
@@ -75,5 +77,9 @@ public abstract class AbstractPang implements Pang {
       throw new IllegalArgumentException("the period argument must be greater than 4");
     }    
   }
-  
+
+  public void setCharset(String charset) {
+	    this.charset = Charset.forName(charset);
+  }
+
 }

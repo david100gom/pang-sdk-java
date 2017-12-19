@@ -26,10 +26,11 @@ import java.util.Random;
 
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.mqtt.PangMqtt;
+import com.pangdata.sdk.mqtt.PangMqttV1;
 
 public class PangMqttExample {
   public static void main(String[] args) throws Exception {
-    Pang pang = new PangMqtt("username", "userkey");
+    Pang pang = new PangMqttV1("username", "userkey");
 
 	Random r = new Random();
 	pang.sendData("example_temperature", r.nextInt(40));
@@ -39,7 +40,7 @@ public class PangMqttExample {
   }
   
   private static void sendUsingMap() throws Exception {
-    Pang pang = new PangMqtt("username", "userkey");
+    Pang pang = new PangMqttV1("username", "userkey");
     
     Map<String, Object> data = new HashMap<String, Object>();
 

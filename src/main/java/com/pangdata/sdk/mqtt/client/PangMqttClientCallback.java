@@ -18,8 +18,8 @@ import com.pangdata.sdk.callback.ControlCallback;
 import com.pangdata.sdk.callback.ControlResponseCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.MqttTopics;
-import com.pangdata.sdk.mqtt.TopicUtils;
 import com.pangdata.sdk.util.JsonUtils;
+import com.pangdata.sdk.util.TopicUtils;
 
 public class PangMqttClientCallback implements MqttCallback {
   private static final Logger logger = LoggerFactory.getLogger(PangMqttClientCallback.class);

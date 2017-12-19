@@ -8,12 +8,13 @@ import org.junit.Test;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class SecurityTests {
 
   @Test
   public void secured() throws Exception {
-    Pang pang = new PangMqttClient("user", "passwd");
+    Pang pang = new PangMqttClientV1("user", "passwd");
     final CountDownLatch latch = new CountDownLatch(1);
     pang.setConnectionCallback(new ConnectionCallback() {
 
@@ -32,7 +33,7 @@ public class SecurityTests {
   
   @Test
   public void unsecured() throws Exception {
-    Pang pang = new PangMqttClient("user");
+    Pang pang = new PangMqttClientV1("user");
     final CountDownLatch latch = new CountDownLatch(1);
     pang.setConnectionCallback(new ConnectionCallback() {
       

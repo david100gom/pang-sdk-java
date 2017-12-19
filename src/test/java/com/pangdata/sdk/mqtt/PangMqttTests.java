@@ -21,7 +21,7 @@ public class PangMqttTests {
 
   @Test
   public void pangMqttConstructor() throws Exception {
-    Pang pang = new PangMqtt("your username", "your userkey");
+    Pang pang = new PangMqttV1("your username", "your userkey");
     
     Random r = new Random();   
     
@@ -31,7 +31,7 @@ public class PangMqttTests {
   
   @Test
   public void sendLargeData() throws Exception {
-	  Pang pang = new PangMqtt();
+	  Pang pang = new PangMqttV1();
 	  Random r = new Random();
 //	  String values = "23434343szdfasdfasdfadsfadsfasdfadsfadfasdfa";
 	  String values = "javaw#2=cpu:15.16,mem:106248,tcount:28   "+
@@ -52,7 +52,7 @@ public class PangMqttTests {
   public void multipleDevicesByTimer() throws Exception {
 	  final Random random = new Random();      
 	  
-	  Pang pang = new PangMqtt();
+	  Pang pang = new PangMqttV1();
 	  
 	  long period = PangProperties.getPeriod(); //Milliseconds
 	  
@@ -86,7 +86,7 @@ public class PangMqttTests {
   public void singleDeviceByTimer() throws Exception {
     final Random random = new Random();      
     
-    Pang pang = new PangMqtt();
+    Pang pang = new PangMqttV1();
     
     long period = PangProperties.getPeriod(); //Milliseconds
     pang.startTimerTask("test-device", new DataCallback<String>() {

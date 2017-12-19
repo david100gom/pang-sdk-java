@@ -82,7 +82,7 @@ public class FailoverHttpClientTests {
   }
   
   @Test
-  public void sendFor() throws Exception {
+  public void sendByV2() throws Exception {
 	  final Random r = new Random();
 	  
 	  Pang httpClient = PangFactory.createReassignableMqttClientV2("josh", "o5w_Cx", "http://localhost");

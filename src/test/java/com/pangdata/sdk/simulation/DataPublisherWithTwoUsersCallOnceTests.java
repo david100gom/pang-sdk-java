@@ -7,6 +7,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.StopConditionCallback;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class DataPublisherWithTwoUsersCallOnceTests {
 
@@ -17,7 +18,7 @@ public class DataPublisherWithTwoUsersCallOnceTests {
   static CountDownLatch latch2 = new CountDownLatch(1);
 
   public static void init() {
-    client = new PangMqttClient("leon0517", "leon0517-key1");
+    client = new PangMqttClientV1("leon0517", "leon0517-key1");
     client.setConnectionCallback(new ConnectionCallback() {
 
       public void onConnectionSuccess() {
@@ -28,7 +29,7 @@ public class DataPublisherWithTwoUsersCallOnceTests {
 
       public void onConnectionFailure(Throwable cause) {}
     });
-    client2 = new PangMqttClient("leon0517", "leon0517-key2");
+    client2 = new PangMqttClientV1("leon0517", "leon0517-key2");
     client2.setConnectionCallback(new ConnectionCallback() {
 
       public void onConnectionSuccess() {

@@ -47,13 +47,15 @@ abstract class MqttDelegatedAbstractHttpClient extends AbstractHttp {
   }
 
   protected void createConnector(BrokerConnector connector) {
-    pang = new PangMqttClient(username, connector);
+    pang = createClient(username, connector);
     if (connectionCallback != null) {
       pang.setConnectionCallback(connectionCallback);
     }
   }
 
-  public boolean isConnected() {
+  protected abstract Pang createClient(String username, BrokerConnector connector);
+
+public boolean isConnected() {
     return pang.isConnected();
   }
 

@@ -12,6 +12,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.SingleDataCallback;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class MqttClientConnectionTests {
 
@@ -21,7 +22,7 @@ public class MqttClientConnectionTests {
   
   @Before
   public void init() {
-    client = new PangMqttClient("leon0517", "ThingA");
+    client = new PangMqttClientV1("leon0517", "ThingA");
     client.setConnectionCallback(new ConnectionCallback() {
       public void onConnectionSuccess() {
         System.out.println("connectionSuccess");

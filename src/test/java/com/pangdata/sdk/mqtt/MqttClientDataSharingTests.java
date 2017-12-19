@@ -22,6 +22,7 @@ import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.domain.Sensor;
 import com.pangdata.sdk.mqtt.MqttTopics;
 import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttClientDataSharingTests {
@@ -78,7 +79,7 @@ public class MqttClientDataSharingTests {
     CountDownLatch countDownLatch = new CountDownLatch(1);
 
     Pang receivingClient =
-        new PangMqttClient("derek", "userkey");
+        new PangMqttClientV1("derek", "userkey");
     MqttClient sendingClient = null;
 
     try {

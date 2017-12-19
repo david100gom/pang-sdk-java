@@ -10,7 +10,7 @@ import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.ConnectionCallback;
 import com.pangdata.sdk.callback.StopConditionCallback;
 import com.pangdata.sdk.callback.TestInfiniteDataSendingCallback;
-import com.pangdata.sdk.mqtt.client.PangMqttClient;
+import com.pangdata.sdk.mqtt.client.PangMqttClientV1;
 
 public class MqttClientStateTests {
 
@@ -19,7 +19,7 @@ public class MqttClientStateTests {
 
   @Before
   public void init() throws InterruptedException {
-    client = new PangMqttClient("leon0517", "ThingA");
+    client = new PangMqttClientV1("leon0517", "ThingA");
     latch = new CountDownLatch(1);
 
     client.setConnectionCallback(new ConnectionCallback() {
