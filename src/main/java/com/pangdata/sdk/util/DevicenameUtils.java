@@ -12,24 +12,29 @@ public class DevicenameUtils {
   private static final Map<String, Boolean> ok = new HashMap<String, Boolean>();
   private static final Map<String, Boolean> error = new HashMap<String, Boolean>();
   
-  public static boolean isInvalid(String devicename) {
+  public static void validate(String devicename) {
     if(devicename == null) {
-    	return true;
+      throw new IllegalArgumentException("Devicename is null");
     }
     if(ok.containsKey(devicename)) {
-    	return false;
+    	return;
     }
     
     if(error.containsKey(devicename)) {
-    	return true;
+      throw new IllegalArgumentException("Devicename("+devicename+") is invalid");
     }
     
 	if(devicename.trim().isEmpty() || devicename.length() > devicenameMaxSize || !devicenameValidPattern.matcher(devicename).matches()) {
 		error.put(devicename, true);
-		return true;
+		throw new IllegalArgumentException("Devicename("+devicename+") is invalid");
 	}
 	//For performance
 	ok.put(devicename, true);
-	return false;
+  }
+  
+  public static void checkDeviceNames(Map<String, Object> map) {
+    for (String devicename : map.keySet()) {
+      DevicenameUtils.validate(devicename);
+    }
   }
 }

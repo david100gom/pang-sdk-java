@@ -17,8 +17,8 @@ import com.pangdata.sdk.callback.DataCallback;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.callback.MultipleDataCallback;
 import com.pangdata.sdk.http.AbstractHttp;
-import com.pangdata.sdk.mqtt.client.PangMqttClient;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
+import com.pangdata.sdk.util.DevicenameUtils;
 import com.pangdata.sdk.util.JsonUtils;
 import com.pangdata.sdk.util.PangProperties;
 import com.pangdata.sdk.util.SdkUtils;
@@ -63,6 +63,16 @@ public boolean isConnected() {
     return pang.sendData(devicename, data);
   }
 
+  public boolean sendData(List<Map<String, Object>> rows) {
+    try {
+      registerDevices(rows);
+      return pang.sendData(rows);
+    } catch (Exception e) {
+      logger.error("Error", e);
+      return false;
+    }
+  }
+  
   public boolean sendData(Map<String, Object> data) {
     try {
       registerDevices(data);
@@ -158,6 +168,10 @@ public boolean isConnected() {
       public boolean sendData(Map<String, Object> data) {
         return true;
       }
+      
+      public boolean sendData(List<Map<String, Object>> rows) {
+        return true;
+      }
 
       public boolean isConnected() {
         return true;
@@ -182,15 +196,15 @@ public boolean isConnected() {
   private void registerDevices(Object data) throws Exception {
     String prefix = PangProperties.getPrefix();
     
-    if(prefix == null || prefix.length() == 0) {
-      return;
-    }
-    
     Map<String, Map<String, Object>> toRegister = new HashMap<String, Map<String, Object>>();
     if(data instanceof Map) {
+      Map<String, Object> map = (Map<String, Object>)data;
       
-      Map<String, Object> map = (Map<String, Object>)data; 
+      DevicenameUtils.checkDeviceNames(map);
       
+      if(prefix == null || prefix.length() == 0) {
+        return;
+      }
       Iterator<Entry<String, Object>> devices = map.entrySet().iterator();
       while(devices.hasNext()) {
         // Register
@@ -199,6 +213,10 @@ public boolean isConnected() {
     } else {
       List<Map<String, Object>> list = (List<Map<String, Object>>)data;
       for(Map<String, Object> map : list) {
+        DevicenameUtils.checkDeviceNames(map);
+        if(prefix == null || prefix.length() == 0) {
+          continue;
+        }
         Iterator<Entry<String, Object>> devices = map.entrySet().iterator();
         while(devices.hasNext()) {
           Entry<String, Object> next = devices.next();

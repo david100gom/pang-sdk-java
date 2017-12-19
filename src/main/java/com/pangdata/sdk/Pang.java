@@ -1,5 +1,6 @@
 package com.pangdata.sdk;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -17,8 +18,8 @@ public interface Pang {
   
   public boolean isConnected();
 
-//  public boolean sendData(String devicename, String data);
-  
+  public boolean sendData(List<Map<String, Object>> rows);
+
   public boolean sendData(Map<String, Object> data);
 
   public boolean sendData(String devicename, Object value);

@@ -1,7 +1,10 @@
 package com.pangdata.sdk.http;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -60,24 +63,25 @@ public class PangHttp extends AbstractHttp {
     return sendData(dataMap);
   }
 
-  public boolean sendData(Map<String, Object> dataMap) {
+  public boolean sendData(Map<String, Object> map) {
     if(!isValidLicense()) {
       return false;
     }
-    for(String devicename:dataMap.keySet()) {
-      if(DevicenameUtils.isInvalid(devicename)) {
-        throw new IllegalArgumentException("Devicename({}) is invalid"); 
-      }
-    }
+    DevicenameUtils.checkDeviceNames(map);
     
-    HttpPost httpPost =
-        new HttpPost(getUrl());
-    String data = JsonUtils.convertObjToJsonStr(dataMap);
-    StringEntity params = new StringEntity(data, "UTF-8");
-    httpPost.setEntity(params);
-    httpPost.addHeader("content-type", "application/json");
-
-    return sendData(httpPost);
+    return request(map);
+  }
+  
+  public boolean sendData(List<Map<String, Object>> rows) {
+	  if(!isValidLicense()) {
+		  return false;
+	  }
+	  
+	  for(Map<String, Object> map : rows) {
+        DevicenameUtils.checkDeviceNames(map);
+      }
+	  
+	 return request(rows);
   }
 
   public boolean isValidLicense() {
@@ -88,4 +92,13 @@ public class PangHttp extends AbstractHttp {
     this.sendable  = sendable;
   }
 
+  private boolean request(Object data) {
+	  HttpPost httpPost =
+			  new HttpPost(getUrl());
+	  StringEntity params = new StringEntity(JsonUtils.convertObjToJsonStr(data), "UTF-8");
+	  httpPost.setEntity(params);
+	  httpPost.addHeader("content-type", "application/json");
+	  
+	  return sendData(httpPost);
+  }
 }

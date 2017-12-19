@@ -2,6 +2,7 @@ package com.pangdata.sdk.mqtt.client;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -130,9 +131,8 @@ public abstract class PangMqttClient extends AbstractPang{
       return false;
     }
 
-    if(DevicenameUtils.isInvalid(devicename)) {
-      throw new IllegalArgumentException("Devicename({}) is invalid"); 
-    }
+    DevicenameUtils.validate(devicename);
+    
     registerDevices(devicename);
     
     MqttMessage message = new MqttMessage();
@@ -158,15 +158,17 @@ public abstract class PangMqttClient extends AbstractPang{
     return sendData(devicename, String.valueOf(data));
   }
   
-  public boolean sendData(Map<String, Object> obj) {
-    if(!isValidLicense()) {
-      return false;
-    }
+  public boolean sendData(Map<String, Object> map) {
+    return sendCommon(map);
+  }
+  
+  public boolean sendData(List<Map<String, Object>> rows) {
+    return sendCommon(rows);
+  }
 
-    for(String devicename:obj.keySet()) {
-      if(DevicenameUtils.isInvalid(devicename)) {
-        throw new IllegalArgumentException("Devicename("+devicename+") is invalid"); 
-      }
+  private boolean sendCommon(Object obj) {
+    if (!isValidLicense()) {
+      return false;
     }
     String strValues = JsonUtils.convertObjToJsonStr(obj);
     
