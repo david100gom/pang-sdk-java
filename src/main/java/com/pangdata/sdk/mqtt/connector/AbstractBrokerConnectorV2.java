@@ -12,7 +12,6 @@ public abstract class AbstractBrokerConnectorV2 extends AbstractBrokerConnector 
   private final static Logger logger = LoggerFactory.getLogger(AbstractBrokerConnectorV2.class);
 
   protected boolean buffer;
-  protected MqttConnectOptions opt = null;
   
   public AbstractBrokerConnectorV2(String threadName, String clientId) {
     this(threadName, null, null, clientId);
@@ -28,19 +27,13 @@ public abstract class AbstractBrokerConnectorV2 extends AbstractBrokerConnector 
   }
 
   protected MqttConnectOptions getOption() {
-    if (opt == null) {
-      opt = new MqttConnectOptions();
-      opt.setCleanSession(false);
-      // Only high speed
-      opt.setMaxInflight(1024);
-      // This can not set be true. Because our client has fail over option. So can not use the same
-      // address of mqtt server.
-      opt.setAutomaticReconnect(false);
-      if (isAuth()) {
-        opt.setUserName(username);
-        opt.setPassword(passwd.toCharArray());
-      }
-    }
+    MqttConnectOptions option = super.getOption();
+    opt.setCleanSession(false);
+    // Only high speed
+    opt.setMaxInflight(1024);
+    // This can not set be true. Because our client has fail over option. So can not use the same
+    // address of mqtt server.
+    opt.setAutomaticReconnect(false);
     return opt;
   }
 

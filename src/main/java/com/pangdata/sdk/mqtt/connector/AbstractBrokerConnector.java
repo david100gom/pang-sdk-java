@@ -28,6 +28,8 @@ public abstract class AbstractBrokerConnector extends Thread implements BrokerCo
 
   protected MqttCallback mqttCallback;
 
+  protected MqttConnectOptions opt;
+  
   public AbstractBrokerConnector(String threadName, String clientId) {
     this(threadName, null, null, clientId);
   }
@@ -44,12 +46,14 @@ public abstract class AbstractBrokerConnector extends Thread implements BrokerCo
   }
 
   protected MqttConnectOptions getOption() {
-	  MqttConnectOptions opt = new MqttConnectOptions();
-	  if(isAuth()) {
-		  opt.setUserName(username);
-	      opt.setPassword(passwd.toCharArray());
-	  } 
-	  return opt;
+    if (opt == null) {
+      opt = new MqttConnectOptions();
+      if (isAuth()) {
+        opt.setUserName(username);
+        opt.setPassword(passwd.toCharArray());
+      }
+    }
+    return opt;
   }
 
   public boolean isAuth() {

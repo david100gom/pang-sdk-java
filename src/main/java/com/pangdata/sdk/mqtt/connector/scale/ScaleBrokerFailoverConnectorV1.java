@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
@@ -48,16 +49,18 @@ public class ScaleBrokerFailoverConnectorV1 extends AbstractBrokerConnectorV1{
     boolean first = true;
     while (alive) {
       try {        
+        MqttConnectOptions mconn = getOption();
         if(!first) {
           PangOption option = provier.getAddress();
           logger.info("Reassigned new address: {}", option.getAddresss());
+          mconn.setServerURIs(new String[]{option.getAddresss()});
           init(option.getAddresss());
         }
         
         first = false;
         logConnecting(client);
         
-        client.connect(getOption());
+        client.connect(mconn);
         
         logConnected(client);
         subscribe();
@@ -105,29 +108,29 @@ public class ScaleBrokerFailoverConnectorV1 extends AbstractBrokerConnectorV1{
       if(client != null && client.isConnected()) {
         client.disconnect();
         client.close();
-      }
-      
-      client = new MqttClient(address, clientId, new MemoryPersistence());
-      
-      client.setCallback(new MqttCallback() {
-
-        public void messageArrived(String topic, MqttMessage message) throws Exception {
-          mqttCallback.messageArrived(topic, message);
-        }
-
-        public void deliveryComplete(IMqttDeliveryToken token) {
-          mqttCallback.deliveryComplete(token);
-        }
-
-        public void connectionLost(Throwable cause) {
-          logger.error("Connection lost from broker(id: {}, address: {})",
-              client.getClientId(), client.getServerURI(), cause);
-          synchronized (waitor) {
-            waitor.notifyAll();
+      } else if(client == null){
+        client = new MqttClient(address, clientId, new MemoryPersistence());
+        
+        client.setCallback(new MqttCallback() {
+  
+          public void messageArrived(String topic, MqttMessage message) throws Exception {
+            mqttCallback.messageArrived(topic, message);
           }
-          mqttCallback.connectionLost(cause);
-        }
-      });      
+  
+          public void deliveryComplete(IMqttDeliveryToken token) {
+            mqttCallback.deliveryComplete(token);
+          }
+  
+          public void connectionLost(Throwable cause) {
+            logger.error("Connection lost from broker(id: {}, address: {})",
+                client.getClientId(), client.getServerURI(), cause);
+            synchronized (waitor) {
+              waitor.notifyAll();
+            }
+            mqttCallback.connectionLost(cause);
+          }
+        });
+      }
       
     } catch (MqttException e) {
       logger.error("Could not create mqtt client(id: {}, uri: {})", client.getClientId(), client.getServerURI(), e);

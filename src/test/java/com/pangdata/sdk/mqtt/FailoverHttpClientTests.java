@@ -58,7 +58,7 @@ public class FailoverHttpClientTests {
   public void sendByTimerTask() throws Exception {
     final Random r = new Random();
     
-    Pang httpClient = PangFactory.createReassignableMqttClientV2("josh", "o5w_Cx", "http://vic.prever.io:81");
+    Pang httpClient = PangFactory.createReassignableMqttClient("josh", "o5w_Cx", "http://vic.prever.io:81");
     
     httpClient.startTimerTask("temperature", new SingleDataCallback() {
       
