@@ -8,11 +8,11 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClientPersistence;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +20,7 @@ import com.pangdata.sdk.mqtt.PangOption;
 import com.pangdata.sdk.mqtt.ReassignableBrokerProvider;
 import com.pangdata.sdk.mqtt.SubscriberListener;
 import com.pangdata.sdk.mqtt.connector.AbstractBrokerConnectorV2;
+import com.pangdata.sdk.mqtt.persist.PangMqttFilePersistence;
 import com.pangdata.sdk.util.PangProperties;
 
 public class ScaleBrokerFailoverConnectorV2 extends AbstractBrokerConnectorV2 {
@@ -55,17 +56,19 @@ public class ScaleBrokerFailoverConnectorV2 extends AbstractBrokerConnectorV2 {
   public void run() {
     boolean first = true;
     while (alive) {
-      try {        
+      try {
+        MqttConnectOptions mconn = getOption();
         if(!first) {
           PangOption option = provier.getAddress();
           logger.info("Reassigned new address: {}", option.getAddresss());
+          mconn.setServerURIs(new String[]{option.getAddresss()});
           init(option.getAddresss());
         }
         
         first = false;
         logConnecting(client);
         
-        IMqttToken connect = client.connect(getOption());
+        IMqttToken connect = client.connect(mconn);
         connect.waitForCompletion();
         
         logConnected(client);
@@ -111,10 +114,6 @@ public class ScaleBrokerFailoverConnectorV2 extends AbstractBrokerConnectorV2 {
   
   private void init(String address) {    
     try {
-      if(client != null && client.isConnected()) {
-        client.disconnect();
-        client.close();
-      }
       
       String persist = (String) PangProperties.getProperty("pang.persist");
 
@@ -122,50 +121,54 @@ public class ScaleBrokerFailoverConnectorV2 extends AbstractBrokerConnectorV2 {
       // pang.persist only use with pang.buffer = true
       if(persist != null && persist.trim().equalsIgnoreCase("true")) {
     	  if(buffer) {
-    		  persistence = new MqttDefaultFilePersistence();
+    		  persistence = new PangMqttFilePersistence();
     	  }
       }
       
-      client = new MqttAsyncClient(address, clientId, persistence);
-      
-      if(buffer) {
-	      DisconnectedBufferOptions disconnectedOpts = new DisconnectedBufferOptions();
-	      disconnectedOpts.setBufferEnabled(true);
-	      
-	      String bufferSize = (String) PangProperties.getProperty("pang.buffersize");
-	      if(bufferSize != null && bufferSize.trim().length() > 0) {
-	    	  disconnectedOpts.setBufferSize(Integer.valueOf(bufferSize));
-	      }
-	      
-	      if(persist != null && persist.trim().equalsIgnoreCase("true")) {
-	    	  disconnectedOpts.setPersistBuffer(true);
-	      } else {
-	    	  disconnectedOpts.setPersistBuffer(false);
-	      }
-	      
-	      // Below line must be true because our client not want to shutdown of memory leak.
-	      disconnectedOpts.setDeleteOldestMessages(true);
-	      client.setBufferOpts(disconnectedOpts);
-      }
-      client.setCallback(new MqttCallback() {
+      if (client != null && client.isConnected()) {
+        client.disconnect();
+        client.close();
+      } else if(client == null){
+        client = new MqttAsyncClient(address, clientId, persistence);
+        if (buffer) {
+          DisconnectedBufferOptions disconnectedOpts = new DisconnectedBufferOptions();
+          disconnectedOpts.setBufferEnabled(true);
 
-        public void messageArrived(String topic, MqttMessage message) throws Exception {
-          mqttCallback.messageArrived(topic, message);
-        }
-
-        public void deliveryComplete(IMqttDeliveryToken token) {
-          mqttCallback.deliveryComplete(token);
-        }
-
-        public void connectionLost(Throwable cause) {
-          logger.error("Connection lost from broker(id: {}, address: {})",
-              client.getClientId(), client.getServerURI(), cause);
-          synchronized (waitor) {
-            waitor.notifyAll();
+          String bufferSize = (String) PangProperties.getProperty("pang.buffersize");
+          if (bufferSize != null && bufferSize.trim().length() > 0) {
+            disconnectedOpts.setBufferSize(Integer.valueOf(bufferSize));
           }
-          mqttCallback.connectionLost(cause);
+
+          if (persist != null && persist.trim().equalsIgnoreCase("true")) {
+            disconnectedOpts.setPersistBuffer(true);
+          } else {
+            disconnectedOpts.setPersistBuffer(false);
+          }
+
+          // Below line must be true because our client not want to shutdown of memory leak.
+          disconnectedOpts.setDeleteOldestMessages(true);
+          client.setBufferOpts(disconnectedOpts);
         }
-      });      
+        client.setCallback(new MqttCallback() {
+
+          public void messageArrived(String topic, MqttMessage message) throws Exception {
+            mqttCallback.messageArrived(topic, message);
+          }
+
+          public void deliveryComplete(IMqttDeliveryToken token) {
+            mqttCallback.deliveryComplete(token);
+          }
+
+          public void connectionLost(Throwable cause) {
+            logger.error("Connection lost from broker(id: {}, address: {})", client.getClientId(),
+                client.getServerURI(), cause);
+            synchronized (waitor) {
+              waitor.notifyAll();
+            }
+            mqttCallback.connectionLost(cause);
+          }
+        });
+      }
       
     } catch (MqttException e) {
       logger.error("Could not create mqtt client(id: {}, uri: {})", client.getClientId(), client.getServerURI(), e);

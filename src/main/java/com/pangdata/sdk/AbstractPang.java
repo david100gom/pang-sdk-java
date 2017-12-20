@@ -73,7 +73,7 @@ public abstract class AbstractPang implements Pang {
     }
     
     long convert = TimeUnit.SECONDS.convert(period, unit);
-    if(convert < 4) {
+    if(convert < 1) {
       throw new IllegalArgumentException("the period argument must be greater than 4");
     }    
   }
