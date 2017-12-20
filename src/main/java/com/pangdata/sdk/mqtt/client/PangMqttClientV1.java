@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.PangException;
 import com.pangdata.sdk.mqtt.SubscriberListener;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
-import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnector1;
+import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnectorV1;
 
 public class PangMqttClientV1 extends PangMqttClient{
 
@@ -28,11 +28,11 @@ public class PangMqttClientV1 extends PangMqttClient{
 
     
   public PangMqttClientV1(String username, String threadName, String clientId) throws PangException {
-    this(username, new BrokerFailoverConnector1(threadName, clientId));
+    this(username, new BrokerFailoverConnectorV1(threadName, clientId));
   }
   
   public PangMqttClientV1(String username, String passwd, String threadName, String clientId) throws PangException {
-    this(username, new BrokerFailoverConnector1(threadName, username, passwd, clientId));
+    this(username, new BrokerFailoverConnectorV1(threadName, username, passwd, clientId));
   }
   
   public PangMqttClientV1(String username, BrokerConnector failoverConnector) throws PangException {

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.pangdata.sdk.Pang;
 import com.pangdata.sdk.callback.DataSharingCallback;
 import com.pangdata.sdk.mqtt.connector.BrokerConnector;
-import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnector1;
+import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnectorV1;
 import com.pangdata.sdk.util.JsonUtils;
 
 public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
@@ -29,7 +29,7 @@ public class MqttFailoverHttpClient extends MqttDelegatedAbstractHttpClient {
 
   public MqttFailoverHttpClient(String username, String userkey, String uri, DataSharingCallback dataSharingCallback) {
     super(username, userkey, uri, dataSharingCallback);
-    createConnector(new BrokerFailoverConnector1("fo-connector", username + "-" + userkey));
+    createConnector(new BrokerFailoverConnectorV1("fo-connector", username + "-" + userkey));
   }
 
   @Override

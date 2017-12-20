@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pangdata.sdk.mqtt.SubscriberListener;
-import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnector1;
+import com.pangdata.sdk.mqtt.connector.failover.BrokerFailoverConnectorV1;
 
-public class BrokerDualConnector extends BrokerFailoverConnector1 {
+public class BrokerDualConnector extends BrokerFailoverConnectorV1 {
   private final static Logger logger = LoggerFactory.getLogger(BrokerDualConnector.class);
 
   public BrokerDualConnector(String threadName, String clientId, MqttCallback callback) {
