@@ -51,7 +51,7 @@ dependencies {
 	// Prever maven repository
 	//compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
 	// Maven repository
-	compile group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.0'
+	compile group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.1.0'
 	compile 'org.apache.httpcomponents:httpclient:4.3.6'	
 	
 	testCompile 'junit:junit:4.11'

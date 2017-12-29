@@ -28,8 +28,6 @@ import org.eclipse.paho.client.mqttv3.MqttPersistable;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.internal.FileLock;
 import org.eclipse.paho.client.mqttv3.internal.MqttPersistentData;
-import org.eclipse.paho.client.mqttv3.persist.PersistanceFileFilter;
-import org.eclipse.paho.client.mqttv3.persist.PersistanceFileNameFilter;
 
 /**
  * An implementation of the {@link MqttClientPersistence} interface that provides
