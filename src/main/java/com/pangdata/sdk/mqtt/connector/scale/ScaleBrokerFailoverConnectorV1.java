@@ -21,9 +21,9 @@ import com.pangdata.sdk.mqtt.connector.AbstractBrokerConnectorV1;
 public class ScaleBrokerFailoverConnectorV1 extends AbstractBrokerConnectorV1{
   private final static Logger logger = LoggerFactory.getLogger(ScaleBrokerFailoverConnectorV1.class);
 
-  protected MqttClient client;
+  private MqttClient client;
 
-  protected boolean alive;
+  private boolean alive;
 
   private Object waitor = new Object();
   

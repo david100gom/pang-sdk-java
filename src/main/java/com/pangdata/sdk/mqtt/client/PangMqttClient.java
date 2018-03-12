@@ -200,7 +200,7 @@ public abstract class PangMqttClient extends AbstractPang{
     if (failoverConnector != null) {
       failoverConnector.close();
     }
-    logger.info("Ioter client is disconnected.");
+    logger.info("Pang client is disconnected.");
   }
 
   private void subscribe(String topic) {
